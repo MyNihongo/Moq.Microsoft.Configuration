@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 {
-	public sealed class SetupEnumerableShould : MockTestsBase
+	public sealed class SetupChildrenShould : MockTestsBase
 	{
 		[Fact]
 		public void ReturnStringEnumerable()
@@ -21,7 +21,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<string>(key)
+				.SetupChildren<string>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -45,7 +45,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<string>(key)
+				.SetupChildren<string>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -69,7 +69,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<string>(key)
+				.SetupChildren<string>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -90,7 +90,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<bool>(key)
+				.SetupChildren<bool>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -111,7 +111,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<bool>(key)
+				.SetupChildren<bool>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -132,7 +132,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<bool>(key)
+				.SetupChildren<bool>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -153,7 +153,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<char>(key)
+				.SetupChildren<char>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -174,7 +174,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<char>(key)
+				.SetupChildren<char>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -195,7 +195,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<char>(key)
+				.SetupChildren<char>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -219,7 +219,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<byte>(key)
+				.SetupChildren<byte>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -243,7 +243,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<byte>(key)
+				.SetupChildren<byte>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -267,7 +267,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<byte>(key)
+				.SetupChildren<byte>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -291,7 +291,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<sbyte>(key)
+				.SetupChildren<sbyte>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -315,7 +315,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<sbyte>(key)
+				.SetupChildren<sbyte>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -339,7 +339,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<sbyte>(key)
+				.SetupChildren<sbyte>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -362,7 +362,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<int>(key)
+				.SetupChildren<int>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -385,7 +385,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<int>(key)
+				.SetupChildren<int>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -408,7 +408,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<int>(key)
+				.SetupChildren<int>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -432,7 +432,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<uint>(key)
+				.SetupChildren<uint>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -456,7 +456,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<uint>(key)
+				.SetupChildren<uint>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -480,7 +480,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<uint>(key)
+				.SetupChildren<uint>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -504,7 +504,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<long>(key)
+				.SetupChildren<long>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -528,7 +528,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<long>(key)
+				.SetupChildren<long>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -552,7 +552,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<long>(key)
+				.SetupChildren<long>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -576,7 +576,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<ulong>(key)
+				.SetupChildren<ulong>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -600,7 +600,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<ulong>(key)
+				.SetupChildren<ulong>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -624,7 +624,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<ulong>(key)
+				.SetupChildren<ulong>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -648,7 +648,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<short>(key)
+				.SetupChildren<short>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -672,7 +672,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<short>(key)
+				.SetupChildren<short>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -696,7 +696,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<short>(key)
+				.SetupChildren<short>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -720,7 +720,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<ushort>(key)
+				.SetupChildren<ushort>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -744,7 +744,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<ushort>(key)
+				.SetupChildren<ushort>(key)
 				.Returns(input);
 
 			var result = fixture.Object
@@ -768,7 +768,7 @@ namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupEnumerable<ushort>(key)
+				.SetupChildren<ushort>(key)
 				.Returns(input);
 
 			var result = fixture.Object
