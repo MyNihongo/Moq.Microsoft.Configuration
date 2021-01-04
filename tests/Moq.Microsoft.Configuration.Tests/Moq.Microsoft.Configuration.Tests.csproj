@@ -3,7 +3,6 @@
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 		<IsPackable>false</IsPackable>
-		<PackageId>MoqMicrosoftConfiguration</PackageId>
 		<ApplicationIcon>favico.ico</ApplicationIcon>
 		<Version>1.0.0.1</Version>
 		<Authors>Moq contributors</Authors>
