@@ -11,7 +11,7 @@
 		<PackageProjectUrl>https://github.com/moq</PackageProjectUrl>
 		<PackageIcon>favico.png</PackageIcon>
 		<PackageTags>moq, tdd, mocking, mocks, unittesting, agile, unittest, microsoft, configuration</PackageTags>
-		<Description>Extension methods for setuping mock values of Microsoft.Extensions.Configuration.IConfiguration.</Description>
+		<Description>Extension methods for setupping mock values of Microsoft.Extensions.Configuration.IConfiguration.</Description>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Product>Moq</Product>
 		<Copyright>© 2021 Moq contributors</Copyright>
