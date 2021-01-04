@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+		<PackageId>MoqMicrosoftConfiguration</PackageId>
+		<ApplicationIcon>favico.ico</ApplicationIcon>
+		<Version>1.0.0.0</Version>
+		<Authors>Moq contributors</Authors>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/moq</PackageProjectUrl>
+		<PackageIcon>favico.png</PackageIcon>
+		<PackageTags>moq, tdd, mocking, mocks, unittesting, agile, unittest, microsoft, configuration</PackageTags>
+		<Description>Extension methods for setuping mock values of Microsoft.Extensions.Configuration.IConfiguration.</Description>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Product>Moq</Product>
+		<Copyright>© 2021 Moq contributors</Copyright>
+		<RepositoryUrl>https://github.com/MihailsKuzmins/Moq.Microsoft.Configuration</RepositoryUrl>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
+	  <PackageReference Include="Moq" Version="4.15.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\images\favico.png">
+	    <Pack>True</Pack>
+	    <PackagePath />
+	  </None>
+	</ItemGroup>
+
+</Project>
