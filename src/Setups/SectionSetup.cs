@@ -31,11 +31,20 @@ namespace Moq.Microsoft.Configuration
 			}
 		}
 
-		private void SetupPropsReturns(IEnumerable<PropertyInfo> props, T param)
+		private void SetupPropsReturns(IReadOnlyList<PropertyInfo> props, T param)
 		{
-			foreach (var prop in props)
+			var children = new IConfigurationSection[props.Count];
+
+			MockConfigurationSection
+				.Setup(x => x.GetChildren())
+				.Returns(children);
+
+			for (var i = 0; i < props.Count; i++)
 			{
 				var mockSection = new Mock<IConfigurationSection>();
+				children[i] = mockSection.Object;
+
+				var prop = props[i];
 				var value = prop.GetValue(param)!;
 
 				mockSection
@@ -55,7 +64,7 @@ namespace Moq.Microsoft.Configuration
 				.Returns(param.SerialiseValue());
 		}
 
-		private static IReadOnlyCollection<PropertyInfo> GetProperties(Type type)
+		private static IReadOnlyList<PropertyInfo> GetProperties(Type type)
 		{
 			if (type == typeof(string))
 				return Array.Empty<PropertyInfo>();
