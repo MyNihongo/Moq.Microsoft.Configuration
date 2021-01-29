@@ -4,9 +4,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace Moq.Microsoft.Configuration
 {
-	internal sealed class SetupChildren<T> : SetupBase, ISetup<IEnumerable<T>>
+	internal sealed class ChildrenSetup<T> : SetupBase, ISetup<IEnumerable<T>>
 	{
-		public SetupChildren(Mock<IConfiguration> mock, string path)
+		public ChildrenSetup(Mock<IConfiguration> mock, string path)
 			: base(mock, path)
 		{
 		}
