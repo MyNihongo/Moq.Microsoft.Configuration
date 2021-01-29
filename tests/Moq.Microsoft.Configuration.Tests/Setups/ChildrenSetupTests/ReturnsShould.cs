@@ -5,7 +5,7 @@ using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Xunit;
 
-namespace Moq.Microsoft.Configuration.Tests.Setups.SetupChildrenTests
+namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 {
 	public sealed class ReturnsShould : MockTestsBase
 	{
