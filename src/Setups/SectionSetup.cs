@@ -17,6 +17,19 @@ namespace Moq.Microsoft.Configuration
 		{
 			var props = GetProperties();
 
+			switch (props.Count)
+			{
+				case > 0:
+					SetupPropsReturns(props, param);
+					break;
+				default:
+					SetupValueReturns(param);
+					break;
+			}
+		}
+
+		private void SetupPropsReturns(IEnumerable<PropertyInfo> props, T param)
+		{
 			var configs = props
 				.Select(x =>
 				{
@@ -35,18 +48,24 @@ namespace Moq.Microsoft.Configuration
 				.Returns(configs);
 		}
 
-		private static IEnumerable<PropertyInfo> GetProperties()
+		private void SetupValueReturns(T param)
 		{
-			var props = typeof(T)
-				.GetProperties();
+			MockConfigurationSection
+				.SetupGet(x => x.Value)
+				.Returns(param.SerialiseValue());
+		}
 
-			for (var i = 0; i < props.Length; i++)
-			{
-				if (!IsPrimitive(props[i].PropertyType))
-					continue;
+		private static IReadOnlyCollection<PropertyInfo> GetProperties()
+		{
+			var type = typeof(T);
 
-				yield return props[i];
-			}
+			if (type == typeof(string))
+				return Array.Empty<PropertyInfo>();
+			
+			return typeof(T)
+				.GetProperties()
+				.Where(x => IsPrimitive(x.PropertyType))
+				.ToArray();
 		}
 
 		private static bool IsPrimitive(Type type)

@@ -779,5 +779,221 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 				.Should()
 				.BeEquivalentTo(input);
 		}
+
+		[Fact]
+		public void ReturnDecimalEnumerable()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(Convert.ToDecimal)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<decimal>(key)
+				.Returns(input);
+
+			var result = fixture.Object
+				.GetSection(key)
+				.Get<IEnumerable<decimal>>();
+
+			result
+				.Should()
+				.BeEquivalentTo(input);
+		}
+
+		[Fact]
+		public void ReturnDecimalArray()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(Convert.ToDecimal)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<decimal>(key)
+				.Returns(input);
+
+			var result = fixture.Object
+				.GetSection(key)
+				.Get<decimal[]>();
+
+			result
+				.Should()
+				.BeEquivalentTo(input);
+		}
+
+		[Fact]
+		public void ReturnDecimalList()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(Convert.ToDecimal)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<decimal>(key)
+				.Returns(input);
+
+			var result = fixture.Object
+				.GetSection(key)
+				.Get<List<decimal>>();
+
+			result
+				.Should()
+				.BeEquivalentTo(input);
+		}
+
+		[Fact]
+		public void ReturnDoubleEnumerable()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(Convert.ToDouble)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<double>(key)
+				.Returns(input);
+
+			var result = fixture.Object
+				.GetSection(key)
+				.Get<IEnumerable<double>>();
+
+			result
+				.Should()
+				.BeEquivalentTo(input);
+		}
+
+		[Fact]
+		public void ReturnDoubleArray()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(Convert.ToDouble)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<double>(key)
+				.Returns(input);
+
+			var result = fixture.Object
+				.GetSection(key)
+				.Get<double[]>();
+
+			result
+				.Should()
+				.BeEquivalentTo(input);
+		}
+
+		[Fact]
+		public void ReturnDoubleList()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(Convert.ToDouble)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<double>(key)
+				.Returns(input);
+
+			var result = fixture.Object
+				.GetSection(key)
+				.Get<List<double>>();
+
+			result
+				.Should()
+				.BeEquivalentTo(input);
+		}
+
+		[Fact]
+		public void ReturnFloatEnumerable()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(Convert.ToSingle)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<float>(key)
+				.Returns(input);
+
+			var result = fixture.Object
+				.GetSection(key)
+				.Get<IEnumerable<float>>();
+
+			result
+				.Should()
+				.BeEquivalentTo(input);
+		}
+
+		[Fact]
+		public void ReturnFloatArray()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(Convert.ToSingle)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<float>(key)
+				.Returns(input);
+
+			var result = fixture.Object
+				.GetSection(key)
+				.Get<float[]>();
+
+			result
+				.Should()
+				.BeEquivalentTo(input);
+		}
+
+		[Fact]
+		public void ReturnFloatList()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(Convert.ToSingle)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<float>(key)
+				.Returns(input);
+
+			var result = fixture.Object
+				.GetSection(key)
+				.Get<List<float>>();
+
+			result
+				.Should()
+				.BeEquivalentTo(input);
+		}
 	}
 }

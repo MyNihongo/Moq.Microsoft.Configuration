@@ -2,120 +2,20 @@
 using Microsoft.Extensions.Configuration;
 using Xunit;
 
-namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
+namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 {
 	public sealed class ReturnsShould : MockTestsBase
 	{
 		[Fact]
-		public void ReturnString()
-		{
-			const string key = nameof(key), value = nameof(value);
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupValue<string>(key)
-				.Returns(value);
-
-			var result = fixture.Object
-				.GetValue<string>(key);
-
-			result
-				.Should()
-				.Be(value);
-		}
-
-		[Theory]
-		[InlineData(true)]
-		[InlineData(false)]
-		public void ReturnBool(bool value)
+		public void SetupInt()
 		{
 			const string key = nameof(key);
+			const int value = 123;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<bool>(key)
-				.Returns(value);
-
-			var result = fixture.Object
-				.GetValue<bool>(key);
-
-			result
-				.Should()
-				.Be(value);
-		}
-
-		[Fact]
-		public void ReturnChar()
-		{
-			const string key = nameof(key);
-			const char value = 'q';
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupValue<char>(key)
-				.Returns(value);
-
-			var result = fixture.Object
-				.GetValue<char>(key);
-
-			result
-				.Should()
-				.Be(value);
-		}
-
-		[Fact]
-		public void ReturnByte()
-		{
-			const string key = nameof(key);
-			const byte value = 1;
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupValue<byte>(key)
-				.Returns(value);
-
-			var result = fixture.Object
-				.GetValue<byte>(key);
-
-			result
-				.Should()
-				.Be(value);
-		}
-
-		[Fact]
-		public void ReturnSbyte()
-		{
-			const string key = nameof(key);
-			const sbyte value = -1;
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupValue<sbyte>(key)
-				.Returns(value);
-
-			var result = fixture.Object
-				.GetValue<sbyte>(key);
-
-			result
-				.Should()
-				.Be(value);
-		}
-
-		[Fact]
-		public void ReturnInt()
-		{
-			const string key = nameof(key);
-			const int value = 1_235;
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupValue<int>(key)
+				.SetupSection<int>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -127,15 +27,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnUint()
+		public void SetupUint()
 		{
 			const string key = nameof(key);
-			const uint value = 3_000_000_000;
+			const int value = 123;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<uint>(key)
+				.SetupSection<uint>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -147,19 +47,19 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnLong()
+		public void SetupByte()
 		{
 			const string key = nameof(key);
-			const long value = 6_000_000_000L;
+			const byte value = 123;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<long>(key)
+				.SetupSection<byte>(key)
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetValue<long>(key);
+				.GetValue<byte>(key);
 
 			result
 				.Should()
@@ -167,19 +67,19 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnUlong()
+		public void SetupSbyte()
 		{
 			const string key = nameof(key);
-			const ulong value = 18_000_000_000_000_000_000L;
+			const sbyte value = 123;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<ulong>(key)
+				.SetupSection<sbyte>(key)
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetValue<ulong>(key);
+				.GetValue<sbyte>(key);
 
 			result
 				.Should()
@@ -187,15 +87,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnShort()
+		public void SetupShort()
 		{
 			const string key = nameof(key);
-			const short value = 30_000;
+			const short value = 123;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<short>(key)
+				.SetupSection<short>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -207,15 +107,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnUshort()
+		public void SetupUshort()
 		{
 			const string key = nameof(key);
-			const ushort value = 60_000;
+			const ushort value = 123;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<ushort>(key)
+				.SetupSection<ushort>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -227,15 +127,55 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnDecimal()
+		public void SetupLong()
 		{
 			const string key = nameof(key);
-			const decimal value = 12.345m;
+			const long value = 123;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<decimal>(key)
+				.SetupSection<long>(key)
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetValue<long>(key);
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Fact]
+		public void SetupUlong()
+		{
+			const string key = nameof(key);
+			const int value = 123;
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<ulong>(key)
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetValue<ulong>(key);
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Fact]
+		public void SetupDecimal()
+		{
+			const string key = nameof(key);
+			const decimal value = 123m;
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<decimal>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -247,15 +187,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnDouble()
+		public void SetupDouble()
 		{
 			const string key = nameof(key);
-			const double value = 12.345d;
+			const double value = 123d;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<double>(key)
+				.SetupSection<double>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -267,19 +207,38 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnFloat()
+		public void SetupFloat()
 		{
 			const string key = nameof(key);
-			const float value = 12.345f;
+			const float value = 123f;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<float>(key)
+				.SetupSection<float>(key)
 				.Returns(value);
 
 			var result = fixture.Object
 				.GetValue<float>(key);
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Fact]
+		public void SetupString()
+		{
+			const string key = nameof(key), value = nameof(value);
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<string>(key)
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetValue<string>(key);
 
 			result
 				.Should()
