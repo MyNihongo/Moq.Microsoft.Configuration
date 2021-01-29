@@ -40,5 +40,22 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 				.Should()
 				.BeEmpty();
 		}
+
+		[Fact]
+		public void NotExist()
+		{
+			const string key = nameof(key);
+
+			var fixture = CreateClass();
+			fixture.SetupChildren<int>(key);
+
+			var result = fixture.Object
+				.GetSection(key)
+				.Exists();
+
+			result
+				.Should()
+				.BeFalse();
+		}
 	}
 }

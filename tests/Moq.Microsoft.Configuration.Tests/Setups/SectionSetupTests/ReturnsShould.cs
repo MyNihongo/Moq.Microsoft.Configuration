@@ -7,6 +7,52 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 	public sealed class ReturnsShould : MockTestsBase
 	{
 		[Fact]
+		public void ExistWithValue()
+		{
+			const string key = nameof(key), value = nameof(value);
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<string>(key)
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetSection(key)
+				.Exists();
+
+			result
+				.Should()
+				.BeTrue();
+		}
+
+		[Fact]
+		public void ExistWithProperties()
+		{
+			const string key = nameof(key);
+			var value = new
+			{
+				StringValue = "string",
+				IntValue = 123,
+				BoolValue = true
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<dynamic>(key)
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetSection(key)
+				.Exists();
+
+			result
+				.Should()
+				.BeTrue();
+		}
+
+		[Fact]
 		public void SetupInt()
 		{
 			const string key = nameof(key);

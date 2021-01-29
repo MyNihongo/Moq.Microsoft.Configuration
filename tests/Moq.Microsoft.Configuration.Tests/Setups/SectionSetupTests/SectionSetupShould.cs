@@ -23,5 +23,22 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 				.And
 				.BeAssignableTo<IConfigurationSection>();
 		}
+
+		[Fact]
+		public void NotExist()
+		{
+			const string key = nameof(key);
+
+			var fixture = CreateClass();
+			fixture.SetupSection<int>(key);
+
+			var result = fixture.Object
+				.GetSection(key)
+				.Exists();
+
+			result
+				.Should()
+				.BeFalse();
+		}
 	}
 }

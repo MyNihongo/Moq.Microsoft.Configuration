@@ -7,6 +7,27 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 	public sealed class ReturnsShould : MockTestsBase
 	{
 		[Fact]
+		public void Exist()
+		{
+
+			const string key = nameof(key), value = nameof(value);
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupValue<string>(key)
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetSection(key)
+				.Exists();
+
+			result
+				.Should()
+				.BeTrue();
+		}
+
+		[Fact]
 		public void ReturnString()
 		{
 			const string key = nameof(key), value = nameof(value);

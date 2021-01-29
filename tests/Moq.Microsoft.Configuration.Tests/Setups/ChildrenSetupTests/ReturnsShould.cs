@@ -10,6 +10,30 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 	public sealed class ReturnsShould : MockTestsBase
 	{
 		[Fact]
+		public void Exist()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(x => $"string {x}")
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<string>(key)
+				.Returns(input);
+
+			var result = fixture.Object
+				.GetSection(key)
+				.Exists();
+
+			result
+				.Should()
+				.BeTrue();
+		}
+
+		[Fact]
 		public void ReturnStringEnumerable()
 		{
 			const string key = nameof(key);
