@@ -57,7 +57,8 @@ public void Class()
         {
             MyString = "string",
             MyInt = 123,
-            MyDecimal = 123.456m
+            MyDecimal = 123.456m,
+            MyArray = new [] { "value1", "value2", "value3" }
         });
 
     var section = mockConfiguration.Object
@@ -66,5 +67,6 @@ public void Class()
     var stringResult = section.GetValue<string>("MyString");
     var intResult = section.GetValue<int>("MyInt");
     var decimalResult = section.GetValue<decimal>("MyDecimal");
+    var arrayResult = section.GetSection("MyArray").Get<string[]>();
 }
 ```
