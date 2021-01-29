@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 {
-	public sealed class SetupValueShould : MockTestsBase
+	public sealed class SetupValueReturnsShould : MockTestsBase
 	{
 		[Fact]
 		public void ReturnString()

@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
 {
-	public sealed class SetupChildrenShould : MockTestsBase
+	public sealed class SetupChildrenReturnsShould : MockTestsBase
 	{
 		[Fact]
 		public void ReturnStringEnumerable()
