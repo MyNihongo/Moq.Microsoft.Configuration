@@ -23,5 +23,22 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SetupChildrenTests
 				.And
 				.BeAssignableTo<IConfigurationSection>();
 		}
+
+		[Fact]
+		public void ReturnEmptyArray()
+		{
+			const string key = nameof(key);
+
+			var fixture = CreateClass();
+			fixture.SetupChildren<int>(key);
+
+			var result = fixture.Object
+				.GetSection(key)
+				.GetChildren();
+
+			result
+				.Should()
+				.BeEmpty();
+		}
 	}
 }
