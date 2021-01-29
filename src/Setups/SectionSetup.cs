@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 namespace Moq.Microsoft.Configuration
 {
 	internal sealed class SectionSetup<T> : SetupBase, ISetup<T>
-		where T : class
 	{
 		public SectionSetup(Mock<IConfiguration> mock, string path)
 			: base(mock, path)
