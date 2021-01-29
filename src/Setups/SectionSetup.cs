@@ -15,7 +15,10 @@ namespace Moq.Microsoft.Configuration
 
 		public void Returns(T param)
 		{
-			var props = GetProperties();
+			if (param == null)
+				return;
+
+			var props = GetProperties(param.GetType());
 
 			switch (props.Count)
 			{
@@ -30,22 +33,19 @@ namespace Moq.Microsoft.Configuration
 
 		private void SetupPropsReturns(IEnumerable<PropertyInfo> props, T param)
 		{
-			var configs = props
-				.Select(x =>
-				{
-					var mockSection = new Mock<IConfigurationSection>();
-					var value = x.GetValue(param)!;
+			foreach (var prop in props)
+			{
+				var mockSection = new Mock<IConfigurationSection>();
+				var value = prop.GetValue(param)!;
 
-					mockSection
-						.SetupGet(y => y.Value)
-						.Returns(value.SerialiseValue());
+				mockSection
+					.SetupGet(y => y.Value)
+					.Returns(value.SerialiseValue());
 
-					return mockSection.Object;
-				});
-
-			MockConfigurationSection
-				.Setup(x => x.GetChildren())
-				.Returns(configs);
+				MockConfigurationSection
+					.Setup(x => x.GetSection(prop.Name))
+					.Returns(mockSection.Object);
+			}
 		}
 
 		private void SetupValueReturns(T param)
@@ -55,14 +55,12 @@ namespace Moq.Microsoft.Configuration
 				.Returns(param.SerialiseValue());
 		}
 
-		private static IReadOnlyCollection<PropertyInfo> GetProperties()
+		private static IReadOnlyCollection<PropertyInfo> GetProperties(Type type)
 		{
-			var type = typeof(T);
-
 			if (type == typeof(string))
 				return Array.Empty<PropertyInfo>();
-			
-			return typeof(T)
+
+			return type
 				.GetProperties()
 				.Where(x => IsPrimitive(x.PropertyType))
 				.ToArray();
@@ -73,11 +71,7 @@ namespace Moq.Microsoft.Configuration
 			if (type.IsPrimitive)
 				return true;
 
-			return Convert.GetTypeCode(type) switch
-			{
-				TypeCode.String => true,
-				_ => false
-			};
+			return Convert.GetTypeCode(type) == TypeCode.Object;
 		}
 	}
 }

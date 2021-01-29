@@ -244,5 +244,41 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 				.Should()
 				.Be(value);
 		}
+
+		[Fact]
+		public void SetupClass()
+		{
+			const string key = nameof(key);
+			var value = new
+			{
+				StringValue = "string",
+				IntValue = 123,
+				BoolValue = true
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<dynamic>(key)
+				.Returns(value);
+
+			var section = fixture.Object
+				.GetSection(key);
+
+			section
+				.GetValue<string>(nameof(value.StringValue))
+				.Should()
+				.Be(value.StringValue);
+
+			section
+				.GetValue<int>(nameof(value.IntValue))
+				.Should()
+				.Be(value.IntValue);
+
+			section
+				.GetValue<bool>(nameof(value.BoolValue))
+				.Should()
+				.Be(value.BoolValue);
+		}
 	}
 }
