@@ -5,9 +5,9 @@ using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Xunit;
 
-namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
+namespace Moq.Microsoft.Configuration.Tests.Setups.SetupChildrenTests
 {
-	public sealed class SetupChildrenShould : MockTestsBase
+	public sealed class ReturnsShould : MockTestsBase
 	{
 		[Fact]
 		public void ReturnStringEnumerable()

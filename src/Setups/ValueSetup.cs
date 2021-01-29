@@ -7,19 +7,20 @@ namespace Moq.Microsoft.Configuration
 		public ValueSetup(Mock<IConfiguration> mock, string path)
 			: base(mock, path)
 		{
+			SetupReturns(default);
 		}
 
-		public void Returns(T param)
+		public void Returns(T param) =>
+			SetupReturns(param);
+
+		private void SetupReturns(T? value)
 		{
-			var mockConfigurationSection = new Mock<IConfigurationSection>();
+			if (value == null)
+				return;
 
-			MockConfiguration
-				.Setup(x => x.GetSection(Path))
-				.Returns(mockConfigurationSection.Object);
-
-			mockConfigurationSection
+			MockConfigurationSection
 				.SetupGet(x => x.Value)
-				.Returns(param.SerialiseValue());
+				.Returns(value.SerialiseValue());
 		}
 	}
 }
