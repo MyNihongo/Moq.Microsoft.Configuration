@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Extensions.Configuration;
 
 namespace Moq.Microsoft.Configuration
@@ -11,23 +10,7 @@ namespace Moq.Microsoft.Configuration
 		{
 		}
 
-		public void Returns(IEnumerable<T> param)
-		{
-			var configs = param
-				.Select(x =>
-				{
-					var mockSection = new Mock<IConfigurationSection>();
-
-					mockSection
-						.SetupGet(y => y.Value)
-						.Returns(x.SerialiseValue());
-
-					return mockSection.Object;
-				});
-
-			MockConfigurationSection
-				.Setup(x => x.GetChildren())
-				.Returns(configs);
-		}
+		public void Returns(IEnumerable<T> param) =>
+			MockConfigurationSection.SetupChildren(param);
 	}
 }

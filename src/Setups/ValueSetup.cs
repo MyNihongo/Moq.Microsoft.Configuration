@@ -18,9 +18,7 @@ namespace Moq.Microsoft.Configuration
 			if (value == null)
 				return;
 
-			MockConfigurationSection
-				.SetupGet(x => x.Value)
-				.Returns(value.SerialiseValue());
+			MockConfigurationSection.SetupValue(value);
 		}
 	}
 }

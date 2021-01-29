@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
 
@@ -20,19 +20,12 @@ namespace Moq.Microsoft.Configuration
 
 			var props = GetProperties(param.GetType());
 
-			switch (props.Count)
+			if (props.Count == 0)
 			{
-				case > 0:
-					SetupPropsReturns(props, param);
-					break;
-				default:
-					SetupValueReturns(param);
-					break;
+				MockConfigurationSection.SetupValue(param);
+				return;
 			}
-		}
 
-		private void SetupPropsReturns(IReadOnlyList<PropertyInfo> props, T param)
-		{
 			var children = new IConfigurationSection[props.Count];
 
 			MockConfigurationSection
@@ -41,15 +34,18 @@ namespace Moq.Microsoft.Configuration
 
 			for (var i = 0; i < props.Count; i++)
 			{
+				var prop = props[i];
+				var value = prop.GetValue(param);
+
 				var mockSection = new Mock<IConfigurationSection>();
 				children[i] = mockSection.Object;
 
-				var prop = props[i];
-				var value = prop.GetValue(param)!;
-
-				mockSection
-					.SetupGet(y => y.Value)
-					.Returns(value.SerialiseValue());
+				if (IsPrimitive(prop.PropertyType))
+					mockSection.SetupValue(value);
+				else if (typeof(IEnumerable).IsAssignableFrom(prop.PropertyType))
+					mockSection.SetupChildren((IEnumerable) value);
+				else
+					continue;
 
 				MockConfigurationSection
 					.Setup(x => x.GetSection(prop.Name))
@@ -57,30 +53,23 @@ namespace Moq.Microsoft.Configuration
 			}
 		}
 
-		private void SetupValueReturns(T param)
-		{
-			MockConfigurationSection
-				.SetupGet(x => x.Value)
-				.Returns(param.SerialiseValue());
-		}
-
-		private static IReadOnlyList<PropertyInfo> GetProperties(Type type)
-		{
-			if (type == typeof(string))
-				return Array.Empty<PropertyInfo>();
-
-			return type
-				.GetProperties()
-				.Where(x => IsPrimitive(x.PropertyType))
-				.ToArray();
-		}
+		private static IReadOnlyList<PropertyInfo> GetProperties(Type type) =>
+			type == typeof(string)
+				? Array.Empty<PropertyInfo>()
+				: type.GetProperties();
 
 		private static bool IsPrimitive(Type type)
 		{
-			if (type.IsPrimitive)
-				return true;
+			static bool IsPrimitiveType(Type type) =>
+				type.IsPrimitive
+				|| type.IsEnum
+				|| type == typeof(string)
+				|| type == typeof(decimal);
 
-			return Convert.GetTypeCode(type) == TypeCode.Object;
+			if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+				return IsPrimitiveType(type.GetGenericArguments()[0]);
+
+			return IsPrimitiveType(type);
 		}
 	}
 }
