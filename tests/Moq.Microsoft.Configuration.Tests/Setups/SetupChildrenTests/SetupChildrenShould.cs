@@ -7,7 +7,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SetupChildrenTests
 	public sealed class SetupChildrenShould : MockTestsBase
 	{
 		[Fact]
-		public void ReturnEmptySection()
+		public void ReturnConfigurationSection()
 		{
 			const string key = nameof(key);
 
