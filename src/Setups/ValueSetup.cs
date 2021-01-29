@@ -11,13 +11,7 @@ namespace Moq.Microsoft.Configuration
 
 		public void Returns(T param)
 		{
-			var mockConfigurationSection = new Mock<IConfigurationSection>();
-
-			MockConfiguration
-				.Setup(x => x.GetSection(Path))
-				.Returns(mockConfigurationSection.Object);
-
-			mockConfigurationSection
+			MockConfigurationSection
 				.SetupGet(x => x.Value)
 				.Returns(param.SerialiseValue());
 		}

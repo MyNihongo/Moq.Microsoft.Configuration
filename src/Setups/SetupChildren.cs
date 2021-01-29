@@ -25,13 +25,7 @@ namespace Moq.Microsoft.Configuration
 					return mockSection.Object;
 				});
 
-			var mockConfigurationSection = new Mock<IConfigurationSection>();
-
-			MockConfiguration
-				.Setup(x => x.GetSection(Path))
-				.Returns(mockConfigurationSection.Object);
-
-			mockConfigurationSection
+			MockConfigurationSection
 				.Setup(x => x.GetChildren())
 				.Returns(configs);
 		}

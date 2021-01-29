@@ -2,9 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using Xunit;
 
-namespace Moq.Microsoft.Configuration.Tests.MoqConfigurationExtensionsTests
+namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 {
-	public sealed class SetupValueReturnsShould : MockTestsBase
+	public sealed class ReturnsShould : MockTestsBase
 	{
 		[Fact]
 		public void ReturnString()

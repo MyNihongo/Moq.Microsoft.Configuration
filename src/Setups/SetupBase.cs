@@ -8,10 +8,16 @@ namespace Moq.Microsoft.Configuration
 		{
 			MockConfiguration = mock;
 			Path = path;
+
+			MockConfiguration
+				.Setup(x => x.GetSection(Path))
+				.Returns(MockConfigurationSection.Object);
 		}
 
 		protected Mock<IConfiguration> MockConfiguration { get; }
-		
+
+		protected Mock<IConfigurationSection> MockConfigurationSection { get; } = new();
+
 		public string Path { get; }
 	}
 }
