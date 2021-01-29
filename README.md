@@ -13,7 +13,7 @@ public void SetupValues()
         .Returns(123);
 
     var result = mockConfiguration.Object
-        .Get<int>("my_key");
+        .GetValue<int>("my_key");
 }
 ```
 Setup an enumerable of primitive values. Later the values can be retrieved as `IEnumerable<T>`, `T[]`, `List<T>`, etc.
@@ -28,6 +28,43 @@ public void SetupEnumerable()
         .Returns(new [] { 1, 2, 3, 4 });
 
     var result = mockConfiguration.Object
-        .Get<int[]>("my_key");
+        .GetValue<int[]>("my_key");
+}
+```
+Setup a section with a class or a primitive value. Currently recursive section are **not supported**.
+```cs
+[Fact(DisplayName = "Setup with a primitive value")]
+public void PrimitiveValue()
+{
+    var mockConfiguration = new Mock<IConfiguration>();
+
+    mockConfiguration
+        .SetupSection<string>("my_key")
+        .Returns("my_value");
+
+     var result = mockConfiguration.Object
+        .GetValue<string>("my_key");
+}
+
+[Fact(DisplayName = "Setup with a class")]
+public void Class()
+{
+     var mockConfiguration = new Mock<IConfiguration>();
+
+    mockConfiguration
+        .SetupSection<dynamic>("my_key")
+        .Returns(new
+        {
+            MyString = "string",
+            MyInt = 123,
+            MyDecimal = 123.456m
+        });
+
+    var section = mockConfiguration.Object
+        .GetSection("my_key");
+
+    var stringResult = section.GetValue<string>("MyString");
+    var intResult = section.GetValue<int>("MyInt");
+    var decimalResult = section.GetValue<decimal>("MyDecimal");
 }
 ```

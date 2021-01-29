@@ -199,5 +199,22 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 				.Should()
 				.Be(0);
 		}
+
+		[Fact]
+		public void NotExist()
+		{
+			const string key = nameof(key);
+
+			var fixture = CreateClass();
+			fixture.SetupValue<string>(key);
+
+			var result = fixture.Object
+				.GetSection(key)
+				.Exists();
+
+			result
+				.Should()
+				.BeFalse();
+		}
 	}
 }
