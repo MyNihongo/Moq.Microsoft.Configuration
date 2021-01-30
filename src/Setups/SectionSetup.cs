@@ -13,6 +13,8 @@ namespace Moq.Microsoft.Configuration
 		{
 		}
 
+		// TODO: maybe it will be better after recursion is implemented
+		// TODO: if not, do something about these checks for NULL (i.e. `MockConfigurationSection == null`)
 		public void Returns(object? param)
 		{
 			if (param == null)
