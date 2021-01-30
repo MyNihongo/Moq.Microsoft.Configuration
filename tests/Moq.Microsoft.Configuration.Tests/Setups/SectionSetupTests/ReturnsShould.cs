@@ -93,6 +93,25 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 				.Be(value);
 		}
 
+		[Fact]
+		public void SetupCharBrackets()
+		{
+			const string key = nameof(key);
+			const char value = '日';
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<char>(key)
+				.Returns(value);
+
+			var result = fixture.Object[key][0];
+
+			result
+				.Should()
+				.Be(value);
+		}
+
 		[Theory]
 		[InlineData(null)]
 		[InlineData('日')]
@@ -108,6 +127,30 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 
 			var result = fixture.Object
 				.GetValue<char?>(key);
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Theory]
+		[InlineData(null)]
+		[InlineData('日')]
+		public void SetupNullableCharBrackets(char? value)
+		{
+			const string key = nameof(key);
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<char?>(key)
+				.Returns(value);
+
+			var result = value switch
+			{
+				null => fixture.Object[key] == null ? (char?)null : throw new Exception(),
+				_ => fixture.Object[key][0]
+			};
 
 			result
 				.Should()
@@ -134,6 +177,25 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 				.Be(value);
 		}
 
+		[Fact]
+		public void SetupIntBrackets()
+		{
+			const string key = nameof(key);
+			const int value = 123;
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<int>(key)
+				.Returns(value);
+
+			var result = int.Parse(fixture.Object[key]);
+
+			result
+				.Should()
+				.Be(value);
+		}
+
 		[Theory]
 		[InlineData(null)]
 		[InlineData(123)]
@@ -149,6 +211,30 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 
 			var result = fixture.Object
 				.GetValue<int?>(key);
+
+			result
+				.Should()
+				.Be(value);
+		}
+		
+		[Theory]
+		[InlineData(null)]
+		[InlineData(123)]
+		public void SetupNullableIntBrackets(int? value)
+		{
+			const string key = nameof(key);
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<int?>(key)
+				.Returns(value);
+
+			var result = value switch
+			{
+				null => fixture.Object[key] == null ? (int?)null : throw new Exception(),
+				_ => int.Parse(fixture.Object[key])
+			};
 
 			result
 				.Should()

@@ -13,11 +13,11 @@ namespace Moq.Microsoft.Configuration
 				.Setup(x => x.GetSection(Path))
 				.Returns(MockConfigurationSection.Object);
 		}
-
-		protected Mock<IConfiguration> MockConfiguration { get; }
-
-		protected Mock<IConfigurationSection> MockConfigurationSection { get; } = new();
-
+		
 		public string Path { get; }
+
+		internal Mock<IConfiguration> MockConfiguration { get; }
+
+		internal Mock<IConfigurationSection> MockConfigurationSection { get; } = new();
 	}
 }

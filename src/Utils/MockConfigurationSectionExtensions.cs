@@ -6,16 +6,20 @@ namespace Moq.Microsoft.Configuration
 {
 	internal static class MockConfigurationSectionExtensions
 	{
-		public static void SetupChildren(this Mock<IConfigurationSection> @this, IEnumerable props)
+		public static void SetupChildren(this Mock<IConfigurationSection> @this, IEnumerable props, string path)
 		{
 			IEnumerable<IConfigurationSection> CreateConfigurationSections()
 			{
+				var i = 0;
 				foreach (var prop in props)
 				{
 					var mockSection = new Mock<IConfigurationSection>();
-					mockSection.SetupValue(prop);
+
+					var returnsValue = mockSection.SetupValue(prop);
+					@this.SetupValueForPath(returnsValue, i.ToString(), path);
 
 					yield return mockSection.Object;
+					i++;
 				}
 			}
 
@@ -24,9 +28,15 @@ namespace Moq.Microsoft.Configuration
 				.Returns(CreateConfigurationSections);
 		}
 
-		public static void SetupValue<T>(this Mock<IConfigurationSection> @this, T prop) =>
+		public static string SetupValue<T>(this Mock<IConfigurationSection> @this, T prop)
+		{
+			var returnsValue = prop.SerialiseValue()!;
+
 			@this
 				.SetupGet(x => x.Value)
-				.Returns(prop.SerialiseValue()!);
+				.Returns(returnsValue);
+
+			return returnsValue;
+		}
 	}
 }

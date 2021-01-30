@@ -11,6 +11,6 @@ namespace Moq.Microsoft.Configuration
 		}
 
 		public void Returns(IEnumerable<T> param) =>
-			MockConfigurationSection.SetupChildren(param);
+			MockConfigurationSection.SetupChildren(param, Path);
 	}
 }
