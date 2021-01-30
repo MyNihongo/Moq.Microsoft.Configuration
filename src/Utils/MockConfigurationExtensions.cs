@@ -8,17 +8,17 @@ namespace Moq.Microsoft.Configuration
 	internal static class MockConfigurationExtensions
 	{
 		public static void SetValue<T>(this Mock<IConfiguration> @this, Mock<IConfigurationSection> mockConfigurationSection, T value) =>
-			@this.SetValue(mockConfigurationSection, value, string.Empty);
+			@this.SetSectionValue(mockConfigurationSection, value);
 
 		public static void SetValue<T>(this Mock<IConfigurationSection> @this, Mock<IConfigurationSection> mockConfigurationSection, T value) =>
-			@this.SetValue(mockConfigurationSection, value, @this.Object.Path);
+			@this.SetSectionValue(mockConfigurationSection, value);
 
 		public static void SetChildren(this Mock<IConfiguration> @this, Mock<IConfigurationSection> mockConfigurationSection, IEnumerable props) =>
 			@this.SetChildren<IConfiguration>(mockConfigurationSection, props);
 
 		public static void SetChildren(this Mock<IConfigurationSection> @this, Mock<IConfigurationSection> mockConfigurationSection, IEnumerable props) =>
 			@this.SetChildren<IConfigurationSection>(mockConfigurationSection, props);
-		
+
 		private static void SetPathValue<T>(this Mock<T> @this, string path, string value)
 			where T : class, IConfiguration
 		{
@@ -27,7 +27,7 @@ namespace Moq.Microsoft.Configuration
 				.Returns(value);
 		}
 
-		private static string SetValue<T, TValue>(this Mock<T> @this, Mock<IConfigurationSection> mockConfigurationSection, TValue value, string pathSegment)
+		private static string SetSectionValue<T, TValue>(this Mock<T> @this, Mock<IConfigurationSection> mockConfigurationSection, TValue value)
 			where T : class, IConfiguration
 		{
 			var returnsValue = value.SerialiseValue()!;
@@ -36,7 +36,7 @@ namespace Moq.Microsoft.Configuration
 				.SetupGet(x => x.Value)
 				.Returns(returnsValue);
 
-			@this.SetPathValue(pathSegment, returnsValue);
+			@this.SetPathValue(mockConfigurationSection.Object.Path, returnsValue);
 			return returnsValue;
 		}
 
@@ -50,9 +50,14 @@ namespace Moq.Microsoft.Configuration
 				{
 					var mockSection = new Mock<IConfigurationSection>();
 					var pathSegment = i.ToString();
+
+					mockSection
+						.SetupGet(x => x.Path)
+						.Returns(pathSegment);
+
+					var value = mockConfigurationSection.SetSectionValue(mockSection, prop);
 					var fullPath = PathUtils.Append(mockConfigurationSection.Object.Path, pathSegment);
 
-					var value = mockConfigurationSection.SetValue(mockSection, prop, pathSegment);
 					@this.SetPathValue(fullPath, value);
 
 					yield return mockSection.Object;

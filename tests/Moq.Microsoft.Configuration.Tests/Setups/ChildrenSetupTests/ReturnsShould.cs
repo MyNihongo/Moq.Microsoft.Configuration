@@ -109,6 +109,32 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 		}
 
 		[Fact]
+		public void ReturnStringBrackets()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(x => $"string {x}")
+				.Append(null)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<string>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var result = fixture.Object[$"{key}:{i}"];
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
+
+		[Fact]
 		public void ReturnBoolEnumerable()
 		{
 			const string key = nameof(key);
@@ -170,7 +196,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 				.Should()
 				.BeEquivalentTo(input);
 		}
-		
+
 		[Fact]
 		public void ReturnBoolBrackets()
 		{
@@ -258,6 +284,34 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 		//}
 
 		[Fact]
+		public void ReturnNullableBoolBrackets()
+		{
+			const string key = nameof(key);
+			var input = new bool?[] { true, false, null };
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<bool?>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var stringValue = fixture.Object[$"{key}:{i}"];
+
+				var result = input[i] switch
+				{
+					null => stringValue == null ? (bool?)null : throw new Exception(),
+					_ => bool.Parse(stringValue)
+				};
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
+
+		[Fact]
 		public void ReturnCharEnumerable()
 		{
 			const string key = nameof(key);
@@ -318,6 +372,29 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 			result
 				.Should()
 				.BeEquivalentTo(input);
+		}
+
+		[Fact]
+		public void ReturnCharBrackets()
+		{
+			const string key = nameof(key);
+			var input = new[] { 'A', 'b', '3' };
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<char>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var result = char.Parse(
+					fixture.Object[$"{key}:{i}"]);
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
 		}
 
 		//[Fact]
@@ -382,6 +459,34 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 		//		.Should()
 		//		.BeEquivalentTo(input);
 		//}
+
+		[Fact]
+		public void ReturnNullableCharBrackets()
+		{
+			const string key = nameof(key);
+			var input = new char?[] { 'A', 'b', null };
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<char?>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var stringValue = fixture.Object[$"{key}:{i}"];
+
+				var result = input[i] switch
+				{
+					null => stringValue == null ? (char?)null : throw new Exception(),
+					_ => char.Parse(stringValue)
+				};
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
 
 		[Fact]
 		public void ReturnByteEnumerable()
@@ -455,6 +560,32 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 				.BeEquivalentTo(input);
 		}
 
+		[Fact]
+		public void ReturnByteBrackets()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(Convert.ToByte)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<byte>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var result = byte.Parse(
+					fixture.Object[$"{key}:{i}"]);
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
+
 		//[Fact]
 		//public void ReturnNullableByteEnumerable()
 		//{
@@ -517,6 +648,34 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 		//		.Should()
 		//		.BeEquivalentTo(input);
 		//}
+
+		[Fact]
+		public void ReturnNullableByteBrackets()
+		{
+			const string key = nameof(key);
+			var input = new byte?[] { 1, 2, null };
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<byte?>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var stringValue = fixture.Object[$"{key}:{i}"];
+
+				var result = input[i] switch
+				{
+					null => stringValue == null ? (byte?)null : throw new Exception(),
+					_ => byte.Parse(stringValue)
+				};
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
 
 		[Fact]
 		public void ReturnSbyteEnumerable()
@@ -590,6 +749,32 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 				.BeEquivalentTo(input);
 		}
 
+		[Fact]
+		public void ReturnSbyteBrackets()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(Convert.ToSByte)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<sbyte>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var result = sbyte.Parse(
+					fixture.Object[$"{key}:{i}"]);
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
+
 		//[Fact]
 		//public void ReturnNullableSbyteEnumerable()
 		//{
@@ -652,6 +837,34 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 		//		.Should()
 		//		.BeEquivalentTo(input);
 		//}
+
+		[Fact]
+		public void ReturnNullableSbyteBrackets()
+		{
+			const string key = nameof(key);
+			var input = new sbyte?[] { 1, 2, null };
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<sbyte?>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var stringValue = fixture.Object[$"{key}:{i}"];
+
+				var result = input[i] switch
+				{
+					null => stringValue == null ? (sbyte?)null : throw new Exception(),
+					_ => sbyte.Parse(stringValue)
+				};
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
 
 		[Fact]
 		public void ReturnIntEnumerable()
@@ -722,6 +935,31 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 				.BeEquivalentTo(input);
 		}
 
+		[Fact]
+		public void ReturnIntBrackets()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<int>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var result = int.Parse(
+					fixture.Object[$"{key}:{i}"]);
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
+
 		//[Fact]
 		//public void ReturnNullableIntEnumerable()
 		//{
@@ -784,6 +1022,34 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 		//		.Should()
 		//		.BeEquivalentTo(input);
 		//}
+
+		[Fact]
+		public void ReturnNullableIntBrackets()
+		{
+			const string key = nameof(key);
+			var input = new int?[] { 1, 2, null };
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<int?>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var stringValue = fixture.Object[$"{key}:{i}"];
+
+				var result = input[i] switch
+				{
+					null => stringValue == null ? (int?)null : throw new Exception(),
+					_ => int.Parse(stringValue)
+				};
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
 
 		[Fact]
 		public void ReturnUintEnumerable()
@@ -857,6 +1123,32 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 				.BeEquivalentTo(input);
 		}
 
+		[Fact]
+		public void ReturnUintBrackets()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(Convert.ToUInt32)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<uint>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var result = uint.Parse(
+					fixture.Object[$"{key}:{i}"]);
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
+
 		//[Fact]
 		//public void ReturnNullableUintEnumerable()
 		//{
@@ -919,6 +1211,34 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 		//		.Should()
 		//		.BeEquivalentTo(input);
 		//}
+
+		[Fact]
+		public void ReturnNullableUintBrackets()
+		{
+			const string key = nameof(key);
+			var input = new uint?[] { 1u, 2u, null };
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<uint?>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var stringValue = fixture.Object[$"{key}:{i}"];
+
+				var result = input[i] switch
+				{
+					null => stringValue == null ? (uint?)null : throw new Exception(),
+					_ => uint.Parse(stringValue)
+				};
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
 
 		[Fact]
 		public void ReturnLongEnumerable()
@@ -992,6 +1312,32 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 				.BeEquivalentTo(input);
 		}
 
+		[Fact]
+		public void ReturnLongBrackets()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(Convert.ToInt64)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<long>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var result = long.Parse(
+					fixture.Object[$"{key}:{i}"]);
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
+
 		//[Fact]
 		//public void ReturnNullableLongEnumerable()
 		//{
@@ -1054,6 +1400,34 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 		//		.Should()
 		//		.BeEquivalentTo(input);
 		//}
+
+		[Fact]
+		public void ReturnNullableLongBrackets()
+		{
+			const string key = nameof(key);
+			var input = new long?[] { 1L, 2L, null };
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<long?>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var stringValue = fixture.Object[$"{key}:{i}"];
+
+				var result = input[i] switch
+				{
+					null => stringValue == null ? (long?)null : throw new Exception(),
+					_ => long.Parse(stringValue)
+				};
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
 
 		[Fact]
 		public void ReturnUlongEnumerable()
@@ -1127,6 +1501,32 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 				.BeEquivalentTo(input);
 		}
 
+		[Fact]
+		public void ReturnUlongBrackets()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(Convert.ToUInt64)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<ulong>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var result = ulong.Parse(
+					fixture.Object[$"{key}:{i}"]);
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
+
 		//[Fact]
 		//public void ReturnNullableUlongEnumerable()
 		//{
@@ -1189,6 +1589,34 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 		//		.Should()
 		//		.BeEquivalentTo(input);
 		//}
+
+		[Fact]
+		public void ReturnNullableUlongBrackets()
+		{
+			const string key = nameof(key);
+			var input = new ulong?[] { 1UL, 2UL, null };
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<ulong?>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var stringValue = fixture.Object[$"{key}:{i}"];
+
+				var result = input[i] switch
+				{
+					null => stringValue == null ? (ulong?)null : throw new Exception(),
+					_ => ulong.Parse(stringValue)
+				};
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
 
 		[Fact]
 		public void ReturnShortEnumerable()
@@ -1262,6 +1690,32 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 				.BeEquivalentTo(input);
 		}
 
+		[Fact]
+		public void ReturnShortBrackets()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(Convert.ToInt16)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<short>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var result = short.Parse(
+					fixture.Object[$"{key}:{i}"]);
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
+
 		//[Fact]
 		//public void ReturnNullableShortEnumerable()
 		//{
@@ -1324,6 +1778,34 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 		//		.Should()
 		//		.BeEquivalentTo(input);
 		//}
+
+		[Fact]
+		public void ReturnNullableShortBrackets()
+		{
+			const string key = nameof(key);
+			var input = new short?[] { 1, 2, null };
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<short?>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var stringValue = fixture.Object[$"{key}:{i}"];
+
+				var result = input[i] switch
+				{
+					null => stringValue == null ? (short?)null : throw new Exception(),
+					_ => short.Parse(stringValue)
+				};
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
 
 		[Fact]
 		public void ReturnUshortEnumerable()
@@ -1397,6 +1879,32 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 				.BeEquivalentTo(input);
 		}
 
+		[Fact]
+		public void ReturnUshortBrackets()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(Convert.ToUInt16)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<ushort>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var result = ushort.Parse(
+					fixture.Object[$"{key}:{i}"]);
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
+
 		//[Fact]
 		//public void ReturnNullableUshortEnumerable()
 		//{
@@ -1459,6 +1967,34 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 		//		.Should()
 		//		.BeEquivalentTo(input);
 		//}
+
+		[Fact]
+		public void ReturnNullableUshortBrackets()
+		{
+			const string key = nameof(key);
+			var input = new ushort?[] { 1, 2, null };
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<ushort?>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var stringValue = fixture.Object[$"{key}:{i}"];
+
+				var result = input[i] switch
+				{
+					null => stringValue == null ? (ushort?)null : throw new Exception(),
+					_ => ushort.Parse(stringValue)
+				};
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
 
 		[Fact]
 		public void ReturnDecimalEnumerable()
@@ -1532,6 +2068,32 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 				.BeEquivalentTo(input);
 		}
 
+		[Fact]
+		public void ReturnDecimalBrackets()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(Convert.ToDecimal)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<decimal>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var result = decimal.Parse(
+					fixture.Object[$"{key}:{i}"]);
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
+
 		//[Fact]
 		//public void ReturnNullableDecimalEnumerable()
 		//{
@@ -1594,6 +2156,34 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 		//		.Should()
 		//		.BeEquivalentTo(input);
 		//}
+
+		[Fact]
+		public void ReturnNullableDecimalBrackets()
+		{
+			const string key = nameof(key);
+			var input = new decimal?[] { 1m, 2m, null };
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<decimal?>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var stringValue = fixture.Object[$"{key}:{i}"];
+
+				var result = input[i] switch
+				{
+					null => stringValue == null ? (decimal?)null : throw new Exception(),
+					_ => decimal.Parse(stringValue)
+				};
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
 
 		[Fact]
 		public void ReturnDoubleEnumerable()
@@ -1667,6 +2257,32 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 				.BeEquivalentTo(input);
 		}
 
+		[Fact]
+		public void ReturnDoubleBrackets()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(Convert.ToDouble)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<double>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var result = double.Parse(
+					fixture.Object[$"{key}:{i}"]);
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
+
 		//[Fact]
 		//public void ReturnNullableDoubleEnumerable()
 		//{
@@ -1729,6 +2345,34 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 		//		.Should()
 		//		.BeEquivalentTo(input);
 		//}
+
+		[Fact]
+		public void ReturnNullableDoubleBrackets()
+		{
+			const string key = nameof(key);
+			var input = new double?[] { 1d, 2d, null };
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<double?>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var stringValue = fixture.Object[$"{key}:{i}"];
+
+				var result = input[i] switch
+				{
+					null => stringValue == null ? (double?)null : throw new Exception(),
+					_ => double.Parse(stringValue)
+				};
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
 
 		[Fact]
 		public void ReturnFloatEnumerable()
@@ -1802,6 +2446,32 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 				.BeEquivalentTo(input);
 		}
 
+		[Fact]
+		public void ReturnFloatBrackets()
+		{
+			const string key = nameof(key);
+
+			var input = Enumerable.Range(1, 5)
+				.Select(Convert.ToSingle)
+				.ToArray();
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<float>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var result = float.Parse(
+					fixture.Object[$"{key}:{i}"]);
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
+
 		//[Fact]
 		//public void ReturnNullableFloatEnumerable()
 		//{
@@ -1864,5 +2534,33 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 		//		.Should()
 		//		.BeEquivalentTo(input);
 		//}
+
+		[Fact]
+		public void ReturnNullableFloatBrackets()
+		{
+			const string key = nameof(key);
+			var input = new float?[] { 1f, 2f, null };
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<float?>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var stringValue = fixture.Object[$"{key}:{i}"];
+
+				var result = input[i] switch
+				{
+					null => stringValue == null ? (float?)null : throw new Exception(),
+					_ => float.Parse(stringValue)
+				};
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
+		}
 	}
 }

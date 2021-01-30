@@ -42,7 +42,7 @@ namespace Moq.Microsoft.Configuration
 
 				mockSection
 					.SetupGet(x => x.Path)
-					.Returns(PathUtils.Append(MockConfigurationSection.Object.Path, prop.Name));
+					.Returns(prop.Name);
 
 				if (IsPrimitive(prop.PropertyType))
 					MockConfigurationSection.SetValue(mockSection, value);
