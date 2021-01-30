@@ -11,7 +11,7 @@ namespace Moq.Microsoft.Configuration
 		public static ISetup<T> SetupValue<T>(this Mock<IConfiguration> @this, string path) =>
 			new ValueSetup<T>(@this, path);
 
-		public static ISetup<T> SetupSection<T>(this Mock<IConfiguration> @this, string path) =>
-			new SectionSetup<T>(@this, path);
+		public static ISetup<object> SetupSection(this Mock<IConfiguration> @this, string path) =>
+			new SectionSetup(@this, path);
 	}
 }

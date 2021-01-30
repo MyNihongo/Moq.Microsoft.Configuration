@@ -6,14 +6,14 @@ using Microsoft.Extensions.Configuration;
 
 namespace Moq.Microsoft.Configuration
 {
-	internal sealed class SectionSetup<T> : SetupBase, ISetup<T>
+	internal sealed class SectionSetup : SetupBase, ISetup<object>
 	{
 		public SectionSetup(Mock<IConfiguration> mock, string path)
 			: base(mock, path)
 		{
 		}
 
-		public void Returns(T param)
+		public void Returns(object? param)
 		{
 			if (param == null)
 				return;
