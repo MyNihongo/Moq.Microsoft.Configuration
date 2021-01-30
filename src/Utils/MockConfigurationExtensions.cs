@@ -4,7 +4,7 @@ namespace Moq.Microsoft.Configuration
 {
 	internal static class MockConfigurationExtensions
 	{
-		public static void SetupValue<T, TValue>(this Mock<T> @this, Mock<IConfigurationSection> mockConfigurationSection, TValue value, string path, string basePath = "")
+		public static void SetupValue<T, TValue>(this Mock<T> @this, Mock<IConfigurationSection> mockConfigurationSection, TValue value, string path)
 			where T : class, IConfiguration
 		{
 			var returnsValue = value.SerialiseValue()!;
@@ -12,9 +12,6 @@ namespace Moq.Microsoft.Configuration
 			mockConfigurationSection
 				.SetupGet(x => x.Value)
 				.Returns(returnsValue);
-
-			if (!string.IsNullOrEmpty(basePath))
-				path = $"{basePath}:{path}";
 
 			@this
 				.Setup(x => x[path])

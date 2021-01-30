@@ -41,7 +41,7 @@ namespace Moq.Microsoft.Configuration
 				children[i] = mockSection.Object;
 
 				if (IsPrimitive(prop.PropertyType))
-					MockConfigurationSection.SetupValue(mockSection, value, Path);
+					MockConfigurationSection.SetupValue(mockSection, value, prop.Name);
 				else if (typeof(IEnumerable).IsAssignableFrom(prop.PropertyType))
 					mockSection.SetupChildren((IEnumerable) value, Path);
 				else

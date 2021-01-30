@@ -15,7 +15,7 @@ namespace Moq.Microsoft.Configuration
 				{
 					var mockSection = new Mock<IConfigurationSection>();
 
-					@this.SetupValue(mockSection, prop, i.ToString(), path);
+					@this.SetupValue(mockSection, prop, i.ToString());
 
 					yield return mockSection.Object;
 					i++;
