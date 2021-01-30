@@ -3,20 +3,19 @@ using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Xunit;
 
-namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
+namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 {
-	public sealed class ReturnsShould : MockTestsBase
+	public sealed class ReturnsValueShould : MockTestsBase
 	{
 		[Fact]
-		public void Exist()
+		public void ExistWithValue()
 		{
-
 			const string key = nameof(key), value = nameof(value);
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<string>(key)
+				.SetupSection<string>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -29,128 +28,53 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnString()
-		{
-			const string key = nameof(key), value = nameof(value);
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupValue<string>(key)
-				.Returns(value);
-
-			var result = fixture.Object
-				.GetValue<string>(key);
-
-			result
-				.Should()
-				.Be(value);
-		}
-
-		[Fact]
-		public void ReturnStringBrackets()
-		{
-			const string key = nameof(key), value = nameof(value);
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupValue<string>(key)
-				.Returns(value);
-
-			var result = fixture.Object[key];
-
-			result
-				.Should()
-				.Be(value);
-		}
-
-		[Fact]
-		public void ReturnBool()
+		public void ExistWithProperties()
 		{
 			const string key = nameof(key);
-			const bool value = true;
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupValue<bool>(key)
-				.Returns(value);
-
-			var result = fixture.Object
-				.GetValue<bool>(key);
-
-			result
-				.Should()
-				.Be(value);
-		}
-
-		[Fact]
-		public void ReturnBoolBrackets()
-		{
-			const string key = nameof(key);
-			const bool value = true;
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupValue<bool>(key)
-				.Returns(value);
-
-			var result = bool.Parse(fixture.Object[key]);
-
-			result
-				.Should()
-				.Be(value);
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData(true)]
-		public void ReturnNullableBool(bool? value)
-		{
-			const string key = nameof(key);
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupValue<bool?>(key)
-				.Returns(value);
-
-			var result = fixture.Object
-				.GetValue<bool?>(key);
-
-			result
-				.Should()
-				.Be(value);
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData(true)]
-		public void ReturnNullableBoolBrackets(bool? value)
-		{
-			const string key = nameof(key);
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupValue<bool?>(key)
-				.Returns(value);
-
-			var result = value switch
+			var value = new
 			{
-				null => fixture.Object[key] == null ? (bool?)null : throw new Exception(),
-				_ => bool.Parse(fixture.Object[key])
+				StringValue = "string",
+				IntValue = 123,
+				BoolValue = true
 			};
 
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<dynamic>(key)
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetSection(key)
+				.Exists();
+
 			result
 				.Should()
-				.Be(value);
+				.BeTrue();
 		}
 
 		[Fact]
-		public void ReturnChar()
+		public void NotSetupIfObjectNull()
+		{
+			const string key = nameof(key);
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<dynamic>(key)
+				.Returns(null);
+
+			var result = fixture.Object
+				.GetSection(key)
+				.Exists();
+
+			result
+				.Should()
+				.BeFalse();
+		}
+
+		[Fact]
+		public void SetupChar()
 		{
 			const string key = nameof(key);
 			const char value = '日';
@@ -158,7 +82,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<char>(key)
+				.SetupSection<char>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -170,7 +94,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnCharBrackets()
+		public void SetupCharBrackets()
 		{
 			const string key = nameof(key);
 			const char value = '日';
@@ -178,7 +102,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<char>(key)
+				.SetupSection<char>(key)
 				.Returns(value);
 
 			var result = fixture.Object[key][0];
@@ -191,14 +115,14 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		[Theory]
 		[InlineData(null)]
 		[InlineData('日')]
-		public void ReturnNullableChar(char? value)
+		public void SetupNullableChar(char? value)
 		{
 			const string key = nameof(key);
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<char?>(key)
+				.SetupSection<char?>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -212,14 +136,14 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		[Theory]
 		[InlineData(null)]
 		[InlineData('日')]
-		public void ReturnNullableCharBrackets(char? value)
+		public void SetupNullableCharBrackets(char? value)
 		{
 			const string key = nameof(key);
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<char?>(key)
+				.SetupSection<char?>(key)
 				.Returns(value);
 
 			var result = value switch
@@ -234,183 +158,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnByte()
+		public void SetupInt()
 		{
 			const string key = nameof(key);
-			const byte value = 1;
+			const int value = 123;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<byte>(key)
-				.Returns(value);
-
-			var result = fixture.Object
-				.GetValue<byte>(key);
-
-			result
-				.Should()
-				.Be(value);
-		}
-
-		[Fact]
-		public void ReturnByteBrackets()
-		{
-			const string key = nameof(key);
-			const byte value = 1;
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupValue<byte>(key)
-				.Returns(value);
-
-			var result = byte.Parse(fixture.Object[key]);
-
-			result
-				.Should()
-				.Be(value);
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData((byte)1)]
-		public void ReturnNullableByte(byte? value)
-		{
-			const string key = nameof(key);
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupValue<byte?>(key)
-				.Returns(value);
-
-			var result = fixture.Object
-				.GetValue<byte?>(key);
-
-			result
-				.Should()
-				.Be(value);
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData((byte)1)]
-		public void ReturnNullableByteBrackets(byte? value)
-		{
-			const string key = nameof(key);
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupValue<byte?>(key)
-				.Returns(value);
-
-			var result = value switch
-			{
-				null => fixture.Object[key] == null ? (byte?)null : throw new Exception(),
-				_ => byte.Parse(fixture.Object[key])
-			};
-
-			result
-				.Should()
-				.Be(value);
-		}
-
-		[Fact]
-		public void ReturnSbyte()
-		{
-			const string key = nameof(key);
-			const sbyte value = -1;
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupValue<sbyte>(key)
-				.Returns(value);
-
-			var result = fixture.Object
-				.GetValue<sbyte>(key);
-
-			result
-				.Should()
-				.Be(value);
-		}
-
-		[Fact]
-		public void ReturnSbyteBrackets()
-		{
-			const string key = nameof(key);
-			const sbyte value = -1;
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupValue<sbyte>(key)
-				.Returns(value);
-
-			var result = sbyte.Parse(fixture.Object[key]);
-
-			result
-				.Should()
-				.Be(value);
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData((sbyte)-1)]
-		public void ReturnNullableSbyte(sbyte? value)
-		{
-			const string key = nameof(key);
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupValue<sbyte?>(key)
-				.Returns(value);
-
-			var result = fixture.Object
-				.GetValue<sbyte?>(key);
-
-			result
-				.Should()
-				.Be(value);
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData((sbyte)-1)]
-		public void ReturnNullableSbyteBrackets(sbyte? value)
-		{
-			const string key = nameof(key);
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupValue<sbyte?>(key)
-				.Returns(value);
-
-			var result = value switch
-			{
-				null => fixture.Object[key] == null ? (sbyte?)null : throw new Exception(),
-				_ => sbyte.Parse(fixture.Object[key])
-			};
-
-			result
-				.Should()
-				.Be(value);
-		}
-
-		[Fact]
-		public void ReturnInt()
-		{
-			const string key = nameof(key);
-			const int value = 1_235;
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupValue<int>(key)
+				.SetupSection<int>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -422,15 +178,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnIntBrackets()
+		public void SetupIntBrackets()
 		{
 			const string key = nameof(key);
-			const int value = 1_235;
+			const int value = 123;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<int>(key)
+				.SetupSection<int>(key)
 				.Returns(value);
 
 			var result = int.Parse(fixture.Object[key]);
@@ -442,15 +198,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 
 		[Theory]
 		[InlineData(null)]
-		[InlineData(1_235)]
-		public void ReturnNullableInt(int? value)
+		[InlineData(123)]
+		public void SetupNullableInt(int? value)
 		{
 			const string key = nameof(key);
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<int?>(key)
+				.SetupSection<int?>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -460,18 +216,18 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 				.Should()
 				.Be(value);
 		}
-
+		
 		[Theory]
 		[InlineData(null)]
-		[InlineData(1_235)]
-		public void ReturnNullableIntBrackets(int? value)
+		[InlineData(123)]
+		public void SetupNullableIntBrackets(int? value)
 		{
 			const string key = nameof(key);
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<int?>(key)
+				.SetupSection<int?>(key)
 				.Returns(value);
 
 			var result = value switch
@@ -486,15 +242,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnUint()
+		public void SetupUint()
 		{
 			const string key = nameof(key);
-			const uint value = 3_000_000_000u;
+			const uint value = 123;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<uint>(key)
+				.SetupSection<uint>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -506,19 +262,19 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnUintBrackets()
+		public void SetupUintBrackets()
 		{
 			const string key = nameof(key);
-			const uint value = 3_000_000_000u;
+			const uint value = 123;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<uint>(key)
+				.SetupSection<uint>(key)
 				.Returns(value);
 
 			var result = uint.Parse(fixture.Object[key]);
-					
+
 			result
 				.Should()
 				.Be(value);
@@ -526,15 +282,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 
 		[Theory]
 		[InlineData(null)]
-		[InlineData(3_000_000_000u)]
-		public void ReturnNullableUint(uint? value)
+		[InlineData(123u)]
+		public void SetupNullableUint(uint? value)
 		{
 			const string key = nameof(key);
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<uint?>(key)
+				.SetupSection<uint?>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -547,15 +303,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 
 		[Theory]
 		[InlineData(null)]
-		[InlineData(3_000_000_000u)]
-		public void ReturnNullableUintBrackets(uint? value)
+		[InlineData(123u)]
+		public void SetupNullableUintBrackets(uint? value)
 		{
 			const string key = nameof(key);
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<uint?>(key)
+				.SetupSection<uint?>(key)
 				.Returns(value);
 
 			var result = value switch
@@ -570,19 +326,19 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnLong()
+		public void SetupByte()
 		{
 			const string key = nameof(key);
-			const long value = 6_000_000_000L;
+			const byte value = 123;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<long>(key)
+				.SetupSection<byte>(key)
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetValue<long>(key);
+				.GetValue<byte>(key);
 
 			result
 				.Should()
@@ -590,18 +346,18 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnLongBrackets()
+		public void SetupByteBrackets()
 		{
 			const string key = nameof(key);
-			const long value = 6_000_000_000L;
+			const byte value = 123;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<long>(key)
+				.SetupSection<byte>(key)
 				.Returns(value);
 
-			var result = long.Parse(fixture.Object[key]);
+			var result = byte.Parse(fixture.Object[key]);
 
 			result
 				.Should()
@@ -610,19 +366,19 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 
 		[Theory]
 		[InlineData(null)]
-		[InlineData(6_000_000_000L)]
-		public void ReturnNullableLong(long? value)
+		[InlineData((byte)123)]
+		public void SetupNullableByte(byte? value)
 		{
 			const string key = nameof(key);
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<long?>(key)
+				.SetupSection<byte?>(key)
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetValue<long?>(key);
+				.GetValue<byte?>(key);
 
 			result
 				.Should()
@@ -631,21 +387,21 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 
 		[Theory]
 		[InlineData(null)]
-		[InlineData(6_000_000_000L)]
-		public void ReturnNullableLongBrackets(long? value)
+		[InlineData((byte)123)]
+		public void SetupNullableByteBrackets(byte? value)
 		{
 			const string key = nameof(key);
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<long?>(key)
+				.SetupSection<byte?>(key)
 				.Returns(value);
 
 			var result = value switch
 			{
-				null => fixture.Object[key] == null ? (long?)null : throw new Exception(),
-				_ => long.Parse(fixture.Object[key])
+				null => fixture.Object[key] == null ? (byte?)null : throw new Exception(),
+				_ => byte.Parse(fixture.Object[key])
 			};
 
 			result
@@ -654,19 +410,19 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnUlong()
+		public void SetupSbyte()
 		{
 			const string key = nameof(key);
-			const ulong value = 18_000_000_000_000_000_000UL;
+			const sbyte value = 123;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<ulong>(key)
+				.SetupSection<sbyte>(key)
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetValue<ulong>(key);
+				.GetValue<sbyte>(key);
 
 			result
 				.Should()
@@ -674,18 +430,18 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnUlongBrackets()
+		public void SetupSbyteBrackets()
 		{
 			const string key = nameof(key);
-			const ulong value = 18_000_000_000_000_000_000UL;
+			const sbyte value = 123;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<ulong>(key)
+				.SetupSection<sbyte>(key)
 				.Returns(value);
 
-			var result = ulong.Parse(fixture.Object[key]);
+			var result = sbyte.Parse(fixture.Object[key]);
 
 			result
 				.Should()
@@ -694,19 +450,19 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 
 		[Theory]
 		[InlineData(null)]
-		[InlineData(18_000_000_000_000_000_000UL)]
-		public void ReturnNullableUlong(ulong? value)
+		[InlineData((sbyte)123)]
+		public void SetupNullableSbyte(sbyte? value)
 		{
 			const string key = nameof(key);
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<ulong?>(key)
+				.SetupSection<sbyte?>(key)
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetValue<ulong?>(key);
+				.GetValue<sbyte?>(key);
 
 			result
 				.Should()
@@ -715,21 +471,21 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 
 		[Theory]
 		[InlineData(null)]
-		[InlineData(18_000_000_000_000_000_000UL)]
-		public void ReturnNullableUlongBrackets(ulong? value)
+		[InlineData((sbyte)123)]
+		public void SetupNullableSbyteBrackets(sbyte? value)
 		{
 			const string key = nameof(key);
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<ulong?>(key)
+				.SetupSection<sbyte?>(key)
 				.Returns(value);
 
 			var result = value switch
 			{
-				null => fixture.Object[key] == null ? (ulong?)null : throw new Exception(),
-				_ => ulong.Parse(fixture.Object[key])
+				null => fixture.Object[key] == null ? (sbyte?)null : throw new Exception(),
+				_ => sbyte.Parse(fixture.Object[key])
 			};
 
 			result
@@ -738,15 +494,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnShort()
+		public void SetupShort()
 		{
 			const string key = nameof(key);
-			const short value = 30_000;
+			const short value = 123;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<short>(key)
+				.SetupSection<short>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -758,15 +514,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnShortBrackets()
+		public void SetupShortBrackets()
 		{
 			const string key = nameof(key);
-			const short value = 30_000;
+			const short value = 123;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<short>(key)
+				.SetupSection<short>(key)
 				.Returns(value);
 
 			var result = short.Parse(fixture.Object[key]);
@@ -778,15 +534,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 
 		[Theory]
 		[InlineData(null)]
-		[InlineData((short)30_000)]
-		public void ReturnNullableShort(short? value)
+		[InlineData((short)123)]
+		public void SetupNullableShort(short? value)
 		{
 			const string key = nameof(key);
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<short?>(key)
+				.SetupSection<short?>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -799,15 +555,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 
 		[Theory]
 		[InlineData(null)]
-		[InlineData((short)30_000)]
-		public void ReturnNullableShortBrackets(short? value)
+		[InlineData((short)123)]
+		public void SetupNullableShortBrackets(short? value)
 		{
 			const string key = nameof(key);
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<short?>(key)
+				.SetupSection<short?>(key)
 				.Returns(value);
 
 			var result = value switch
@@ -822,15 +578,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnUshort()
+		public void SetupUshort()
 		{
 			const string key = nameof(key);
-			const ushort value = 60_000;
+			const ushort value = 123;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<ushort>(key)
+				.SetupSection<ushort>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -842,15 +598,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnUshortBrackets()
+		public void SetupUshortBrackets()
 		{
 			const string key = nameof(key);
-			const ushort value = 60_000;
+			const ushort value = 123;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<ushort>(key)
+				.SetupSection<ushort>(key)
 				.Returns(value);
 
 			var result = ushort.Parse(fixture.Object[key]);
@@ -862,15 +618,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 
 		[Theory]
 		[InlineData(null)]
-		[InlineData((ushort)60_000)]
-		public void ReturnNullableUshort(ushort? value)
+		[InlineData((ushort)123)]
+		public void SetupNullableUshort(ushort? value)
 		{
 			const string key = nameof(key);
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<ushort?>(key)
+				.SetupSection<ushort?>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -883,15 +639,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 
 		[Theory]
 		[InlineData(null)]
-		[InlineData((ushort)60_000)]
-		public void ReturnNullableUshortBrackets(ushort? value)
+		[InlineData((ushort)123)]
+		public void SetupNullableUshortBrackets(ushort? value)
 		{
 			const string key = nameof(key);
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<ushort?>(key)
+				.SetupSection<ushort?>(key)
 				.Returns(value);
 
 			var result = value switch
@@ -906,15 +662,183 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnDecimal()
+		public void SetupLong()
 		{
 			const string key = nameof(key);
-			const decimal value = 12.345m;
+			const long value = 123L;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<decimal>(key)
+				.SetupSection<long>(key)
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetValue<long>(key);
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Fact]
+		public void SetupLongBrackets()
+		{
+			const string key = nameof(key);
+			const long value = 123L;
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<long>(key)
+				.Returns(value);
+
+			var result = long.Parse(fixture.Object[key]);
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Theory]
+		[InlineData(null)]
+		[InlineData(123L)]
+		public void SetupNullableLong(long? value)
+		{
+			const string key = nameof(key);
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<long?>(key)
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetValue<long?>(key);
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Theory]
+		[InlineData(null)]
+		[InlineData(123L)]
+		public void SetupNullableLongBrackets(long? value)
+		{
+			const string key = nameof(key);
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<long?>(key)
+				.Returns(value);
+
+			var result = value switch
+			{
+				null => fixture.Object[key] == null ? (long?)null : throw new Exception(),
+				_ => long.Parse(fixture.Object[key])
+			};
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Fact]
+		public void SetupUlong()
+		{
+			const string key = nameof(key);
+			const ulong value = 123UL;
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<ulong>(key)
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetValue<ulong>(key);
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Fact]
+		public void SetupUlongBrackets()
+		{
+			const string key = nameof(key);
+			const ulong value = 123UL;
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<ulong>(key)
+				.Returns(value);
+
+			var result = ulong.Parse(fixture.Object[key]);
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Theory]
+		[InlineData(null)]
+		[InlineData(123UL)]
+		public void SetupNullableUlong(ulong? value)
+		{
+			const string key = nameof(key);
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<ulong?>(key)
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetValue<ulong?>(key);
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Theory]
+		[InlineData(null)]
+		[InlineData(123UL)]
+		public void SetupNullableUlongBrackets(ulong? value)
+		{
+			const string key = nameof(key);
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<ulong?>(key)
+				.Returns(value);
+
+			var result = value switch
+			{
+				null => fixture.Object[key] == null ? (ulong?)null : throw new Exception(),
+				_ => ulong.Parse(fixture.Object[key])
+			};
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Fact]
+		public void SetupDecimal()
+		{
+			const string key = nameof(key);
+			const decimal value = 123m;
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<decimal>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -926,15 +850,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnDecimalBrackets()
+		public void SetupDecimalBrackets()
 		{
 			const string key = nameof(key);
-			const decimal value = 12.345m;
+			const decimal value = 123m;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<decimal>(key)
+				.SetupSection<decimal>(key)
 				.Returns(value);
 
 			var result = decimal.Parse(fixture.Object[key]);
@@ -946,20 +870,20 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 
 		[Theory]
 		[InlineData(null)]
-		[InlineData(12.345d)]
-		public void ReturnNullableDecimal(double? doubleValue)
+		[InlineData(123)]
+		public void SetupNullableDecimal(int? intValue)
 		{
 			const string key = nameof(key);
-			decimal? value = doubleValue switch
+			decimal? value = intValue switch
 			{
 				null => null,
-				not null => Convert.ToDecimal(doubleValue)
+				not null => Convert.ToDecimal(intValue)
 			};
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<decimal?>(key)
+				.SetupSection<decimal?>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -972,20 +896,20 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 
 		[Theory]
 		[InlineData(null)]
-		[InlineData(12.345d)]
-		public void ReturnNullableDecimalBrackets(double? doubleValue)
+		[InlineData(123)]
+		public void SetupNullableDecimalBrackets(int? intValue)
 		{
 			const string key = nameof(key);
-			decimal? value = doubleValue switch
+			decimal? value = intValue switch
 			{
 				null => null,
-				not null => Convert.ToDecimal(doubleValue)
+				not null => Convert.ToDecimal(intValue)
 			};
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<decimal?>(key)
+				.SetupSection<decimal?>(key)
 				.Returns(value);
 
 			var result = value switch
@@ -1000,15 +924,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnDouble()
+		public void SetupDouble()
 		{
 			const string key = nameof(key);
-			const double value = 12.345d;
+			const double value = 123d;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<double>(key)
+				.SetupSection<double>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1020,15 +944,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnDoubleBrackets()
+		public void SetupDoubleBrackets()
 		{
 			const string key = nameof(key);
-			const double value = 12.345d;
+			const double value = 123d;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<double>(key)
+				.SetupSection<double>(key)
 				.Returns(value);
 
 			var result = double.Parse(fixture.Object[key]);
@@ -1040,15 +964,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 
 		[Theory]
 		[InlineData(null)]
-		[InlineData(12.345d)]
-		public void ReturnNullableDouble(double? value)
+		[InlineData(123d)]
+		public void SetupNullableDouble(double? value)
 		{
 			const string key = nameof(key);
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<double?>(key)
+				.SetupSection<double?>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1061,15 +985,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 
 		[Theory]
 		[InlineData(null)]
-		[InlineData(12.345d)]
-		public void ReturnNullableDoubleBrackets(double? value)
+		[InlineData(123d)]
+		public void SetupNullableDoubleBrackets(double? value)
 		{
 			const string key = nameof(key);
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<double?>(key)
+				.SetupSection<double?>(key)
 				.Returns(value);
 
 			var result = value switch
@@ -1084,15 +1008,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnFloat()
+		public void SetupFloat()
 		{
 			const string key = nameof(key);
-			const float value = 12.345f;
+			const float value = 123f;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<float>(key)
+				.SetupSection<float>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1104,15 +1028,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 		}
 
 		[Fact]
-		public void ReturnFloatBrackets()
+		public void SetupFloatBrackets()
 		{
 			const string key = nameof(key);
-			const float value = 12.345f;
+			const float value = 123f;
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<float>(key)
+				.SetupSection<float>(key)
 				.Returns(value);
 
 			var result = float.Parse(fixture.Object[key]);
@@ -1124,15 +1048,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 
 		[Theory]
 		[InlineData(null)]
-		[InlineData(12.345f)]
-		public void ReturnNullableFloat(float? value)
+		[InlineData(123f)]
+		public void SetupNullableFloat(float? value)
 		{
 			const string key = nameof(key);
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<float?>(key)
+				.SetupSection<float?>(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1145,15 +1069,15 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 
 		[Theory]
 		[InlineData(null)]
-		[InlineData(12.345f)]
-		public void ReturnNullableFloatBrackets(float? value)
+		[InlineData(123f)]
+		public void SetupNullableFloatBrackets(float? value)
 		{
 			const string key = nameof(key);
 
 			var fixture = CreateClass();
 
 			fixture
-				.SetupValue<float?>(key)
+				.SetupSection<float?>(key)
 				.Returns(value);
 
 			var result = value switch
@@ -1161,6 +1085,47 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ValueSetupTests
 				null => fixture.Object[key] == null ? (float?)null : throw new Exception(),
 				_ => float.Parse(fixture.Object[key])
 			};
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Theory]
+		[InlineData(null)]
+		[InlineData("value")]
+		public void SetupString(string value)
+		{
+			const string key = nameof(key);
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<string>(key)
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetValue<string>(key);
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Theory]
+		[InlineData(null)]
+		[InlineData("value")]
+		public void SetupStringBrackets(string value)
+		{
+			const string key = nameof(key);
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<string>(key)
+				.Returns(value);
+
+			var result = fixture.Object[key];
 
 			result
 				.Should()

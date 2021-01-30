@@ -5,9 +5,10 @@ namespace Moq.Microsoft.Configuration
 {
 	internal static class ObjectExtensions
 	{
-		public static string SerialiseValue<T>(this T @this) =>
+		public static string? SerialiseValue<T>(this T @this) =>
 			@this switch
 			{
+				null => null,
 				string x => x,
 				bool x => x ? "true" : "false",
 				char or byte or sbyte or int or uint or long or ulong or short or ushort => @this.ToString(),

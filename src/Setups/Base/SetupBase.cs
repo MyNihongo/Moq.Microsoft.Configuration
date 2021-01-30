@@ -7,17 +7,18 @@ namespace Moq.Microsoft.Configuration
 		protected SetupBase(Mock<IConfiguration> mock, string path)
 		{
 			MockConfiguration = mock;
-			Path = path;
 
 			MockConfiguration
-				.Setup(x => x.GetSection(Path))
+				.Setup(x => x.GetSection(path))
 				.Returns(MockConfigurationSection.Object);
+
+			MockConfigurationSection
+				.SetupGet(x => x.Path)
+				.Returns(path);
 		}
 
-		protected Mock<IConfiguration> MockConfiguration { get; }
+		internal Mock<IConfiguration> MockConfiguration { get; }
 
-		protected Mock<IConfigurationSection> MockConfigurationSection { get; } = new();
-
-		public string Path { get; }
+		internal Mock<IConfigurationSection> MockConfigurationSection { get; } = new();
 	}
 }

@@ -22,7 +22,7 @@ namespace Moq.Microsoft.Configuration
 
 			if (props.Count == 0)
 			{
-				MockConfigurationSection.SetupValue(param);
+				MockConfiguration.SetValue(MockConfigurationSection, param);
 				return;
 			}
 
@@ -40,12 +40,24 @@ namespace Moq.Microsoft.Configuration
 				var mockSection = new Mock<IConfigurationSection>();
 				children[i] = mockSection.Object;
 
+				mockSection
+					.SetupGet(x => x.Path)
+					.Returns(prop.Name);
+
 				if (IsPrimitive(prop.PropertyType))
-					mockSection.SetupValue(value);
+				{
+					MockConfigurationSection.SetValue(mockSection, value)
+						.BindTo(MockConfiguration);
+				}
 				else if (typeof(IEnumerable).IsAssignableFrom(prop.PropertyType))
-					mockSection.SetupChildren((IEnumerable) value);
+				{
+					MockConfigurationSection.SetChildren(mockSection, (IEnumerable) value)
+						.BindTo(MockConfiguration);
+				}
 				else
+				{
 					continue;
+				}
 
 				MockConfigurationSection
 					.Setup(x => x.GetSection(prop.Name))
