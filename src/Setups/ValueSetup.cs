@@ -13,12 +13,15 @@ namespace Moq.Microsoft.Configuration
 		public void Returns(T param) =>
 			SetupReturns(param);
 
-		private void SetupReturns(T? value)
+		private void SetupReturns(T? param)
 		{
-			if (value == null)
+			if (param == null)
 				return;
 
-			MockConfiguration.SetValue(RequireMockConfigurationSection, value);
+			var rootNode = new ConfigurationNode(Path, param);
+			this.SetupConfigurationTree(rootNode);
+
+			//MockConfiguration.SetValue(RequireMockConfigurationSection, value);
 		}
 	}
 }

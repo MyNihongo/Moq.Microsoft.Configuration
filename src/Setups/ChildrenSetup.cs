@@ -10,7 +10,10 @@ namespace Moq.Microsoft.Configuration
 		{
 		}
 
-		public void Returns(IEnumerable<T> param) =>
-			MockConfiguration.SetChildren(RequireMockConfigurationSection, param);
+		public void Returns(IEnumerable<T> param)
+		{
+			var rootNode = new ConfigurationNode(Path, param);
+			this.SetupConfigurationTree(rootNode);
+		}
 	}
 }

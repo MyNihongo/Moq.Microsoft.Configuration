@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace Moq.Microsoft.Configuration
 {
@@ -7,27 +6,14 @@ namespace Moq.Microsoft.Configuration
 	{
 		protected SetupBase(Mock<IConfiguration> mock, string path)
 		{
+			split by :
+			
 			MockConfiguration = mock;
-
-			if (string.IsNullOrEmpty(path))
-				return;
-
-			MockConfigurationSection = new Mock<IConfigurationSection>();
-
-			MockConfiguration
-				.Setup(x => x.GetSection(path))
-				.Returns(MockConfigurationSection.Object);
-
-			MockConfigurationSection
-				.SetupGet(x => x.Path)
-				.Returns(path);
+			Path = path;
 		}
 
 		internal Mock<IConfiguration> MockConfiguration { get; }
-
-		internal Mock<IConfigurationSection>? MockConfigurationSection { get; }
-
-		protected Mock<IConfigurationSection> RequireMockConfigurationSection =>
-			MockConfigurationSection ?? throw new NullReferenceException($"{nameof(MockConfigurationSection)} is NULL");
+		
+		protected string Path { get; }
 	}
 }
