@@ -12,7 +12,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			const string key = nameof(key);
 
 			var fixture = CreateClass();
-			fixture.SetupSection<int>(key);
+			fixture.SetupSection(key);
 
 			var result = fixture.Object
 				.GetSection(key);
@@ -30,7 +30,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			const string key = nameof(key);
 
 			var fixture = CreateClass();
-			fixture.SetupSection<int>(key);
+			fixture.SetupSection(key);
 
 			var result = fixture.Object
 				.GetSection(key)

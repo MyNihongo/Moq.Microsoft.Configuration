@@ -18,7 +18,7 @@ namespace Moq.Microsoft.Configuration
 			if (value == null)
 				return;
 
-			MockConfiguration.SetValue(MockConfigurationSection, value);
+			MockConfiguration.SetValue(RequireMockConfigurationSection, value);
 		}
 	}
 }

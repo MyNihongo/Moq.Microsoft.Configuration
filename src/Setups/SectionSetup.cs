@@ -6,14 +6,16 @@ using Microsoft.Extensions.Configuration;
 
 namespace Moq.Microsoft.Configuration
 {
-	internal sealed class SectionSetup<T> : SetupBase, ISetup<T>
+	internal sealed class SectionSetup : SetupBase, ISetup<object>
 	{
 		public SectionSetup(Mock<IConfiguration> mock, string path)
 			: base(mock, path)
 		{
 		}
 
-		public void Returns(T param)
+		// TODO: maybe it will be better after recursion is implemented
+		// TODO: if not, do something about these checks for NULL (i.e. `MockConfigurationSection == null`)
+		public void Returns(object? param)
 		{
 			if (param == null)
 				return;
@@ -22,15 +24,27 @@ namespace Moq.Microsoft.Configuration
 
 			if (props.Count == 0)
 			{
+				if (MockConfigurationSection == null)
+					throw new InvalidOperationException("Cannot setup a primitive value as the root element");
+				
 				MockConfiguration.SetValue(MockConfigurationSection, param);
 				return;
 			}
 
 			var children = new IConfigurationSection[props.Count];
 
-			MockConfigurationSection
-				.Setup(x => x.GetChildren())
-				.Returns(children);
+			if (MockConfigurationSection == null)
+			{
+				MockConfiguration
+					.Setup(x => x.GetChildren())
+					.Returns(children);
+			}
+			else
+			{
+				MockConfigurationSection
+					.Setup(x => x.GetChildren())
+					.Returns(children);
+			}
 
 			for (var i = 0; i < props.Count; i++)
 			{
@@ -46,22 +60,47 @@ namespace Moq.Microsoft.Configuration
 
 				if (IsPrimitive(prop.PropertyType))
 				{
-					MockConfigurationSection.SetValue(mockSection, value)
-						.BindTo(MockConfiguration);
+					if (MockConfigurationSection == null)
+					{
+						MockConfiguration.SetValue(mockSection, value);
+					}
+					else
+					{
+						MockConfigurationSection
+							.SetValue(mockSection, value)
+							.BindTo(MockConfiguration);
+					}
 				}
 				else if (typeof(IEnumerable).IsAssignableFrom(prop.PropertyType))
 				{
-					MockConfigurationSection.SetChildren(mockSection, (IEnumerable) value)
-						.BindTo(MockConfiguration);
+					if (MockConfigurationSection == null)
+					{
+						MockConfiguration.SetChildren(mockSection, (IEnumerable) value);
+					}
+					else
+					{
+						MockConfigurationSection
+							.SetChildren(mockSection, (IEnumerable)value)
+							.BindTo(MockConfiguration);
+					}
 				}
 				else
 				{
 					continue;
 				}
 
-				MockConfigurationSection
-					.Setup(x => x.GetSection(prop.Name))
-					.Returns(mockSection.Object);
+				if (MockConfigurationSection == null)
+				{
+					MockConfiguration
+						.Setup(x => x.GetSection(prop.Name))
+						.Returns(mockSection.Object);
+				}
+				else
+				{
+					MockConfigurationSection
+						.Setup(x => x.GetSection(prop.Name))
+						.Returns(mockSection.Object);
+				}
 			}
 		}
 

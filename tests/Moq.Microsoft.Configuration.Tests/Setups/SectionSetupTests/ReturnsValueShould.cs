@@ -15,7 +15,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<string>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -41,7 +41,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -61,7 +61,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(null);
 
 			var result = fixture.Object
@@ -74,6 +74,90 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 		}
 
 		[Fact]
+		public void SetupBool()
+		{
+			const string key = nameof(key);
+			const bool value = true;
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection(key)
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetValue<bool>(key);
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Fact]
+		public void SetupBoolBrackets()
+		{
+			const string key = nameof(key);
+			const bool value = true;
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection(key)
+				.Returns(value);
+
+			var result = bool.Parse(fixture.Object[key]);
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Theory]
+		[InlineData(null)]
+		[InlineData(true)]
+		public void SetupNullableBool(bool? value)
+		{
+			const string key = nameof(key);
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection(key)
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetValue<bool?>(key);
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Theory]
+		[InlineData(null)]
+		[InlineData(true)]
+		public void SetupNullableBoolBrackets(bool? value)
+		{
+			const string key = nameof(key);
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection(key)
+				.Returns(value);
+
+			var result = value switch
+			{
+				null => fixture.Object[key] == null ? (bool?)null : throw new Exception(),
+				_ => bool.Parse(fixture.Object[key])
+			};
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Fact]
 		public void SetupChar()
 		{
 			const string key = nameof(key);
@@ -82,7 +166,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<char>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -102,7 +186,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<char>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object[key][0];
@@ -122,7 +206,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<char?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -143,7 +227,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<char?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = value switch
@@ -166,7 +250,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<int>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -186,7 +270,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<int>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = int.Parse(fixture.Object[key]);
@@ -206,7 +290,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<int?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -227,7 +311,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<int?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = value switch
@@ -250,7 +334,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<uint>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -270,7 +354,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<uint>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = uint.Parse(fixture.Object[key]);
@@ -290,7 +374,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<uint?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -311,7 +395,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<uint?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = value switch
@@ -334,7 +418,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<byte>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -354,7 +438,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<byte>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = byte.Parse(fixture.Object[key]);
@@ -374,7 +458,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<byte?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -395,7 +479,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<byte?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = value switch
@@ -418,7 +502,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<sbyte>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -438,7 +522,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<sbyte>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = sbyte.Parse(fixture.Object[key]);
@@ -458,7 +542,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<sbyte?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -479,7 +563,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<sbyte?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = value switch
@@ -502,7 +586,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<short>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -522,7 +606,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<short>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = short.Parse(fixture.Object[key]);
@@ -542,7 +626,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<short?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -563,7 +647,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<short?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = value switch
@@ -586,7 +670,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<ushort>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -606,7 +690,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<ushort>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = ushort.Parse(fixture.Object[key]);
@@ -626,7 +710,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<ushort?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -647,7 +731,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<ushort?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = value switch
@@ -670,7 +754,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<long>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -690,7 +774,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<long>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = long.Parse(fixture.Object[key]);
@@ -710,7 +794,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<long?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -731,7 +815,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<long?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = value switch
@@ -754,7 +838,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<ulong>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -774,7 +858,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<ulong>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = ulong.Parse(fixture.Object[key]);
@@ -794,7 +878,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<ulong?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -815,7 +899,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<ulong?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = value switch
@@ -838,7 +922,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<decimal>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -858,7 +942,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<decimal>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = decimal.Parse(fixture.Object[key]);
@@ -883,7 +967,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<decimal?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -909,7 +993,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<decimal?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = value switch
@@ -932,7 +1016,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<double>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -952,7 +1036,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<double>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = double.Parse(fixture.Object[key]);
@@ -972,7 +1056,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<double?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -993,7 +1077,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<double?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = value switch
@@ -1016,7 +1100,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<float>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1036,7 +1120,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<float>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = float.Parse(fixture.Object[key]);
@@ -1056,7 +1140,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<float?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1077,7 +1161,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<float?>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = value switch
@@ -1101,7 +1185,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<string>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1122,7 +1206,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<string>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object[key];

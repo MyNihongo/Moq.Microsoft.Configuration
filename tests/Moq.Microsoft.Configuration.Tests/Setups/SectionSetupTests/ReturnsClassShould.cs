@@ -21,7 +21,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -47,7 +47,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -72,7 +72,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object[$"{key}:{nameof(value.Value)}"];
@@ -94,7 +94,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -118,7 +118,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = bool.Parse(
@@ -141,7 +141,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = bool.Parse(
@@ -166,7 +166,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -192,7 +192,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object
@@ -223,7 +223,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object[$"{key}:{nameof(value.Value)}"];
@@ -251,7 +251,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -275,7 +275,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = byte.Parse(
@@ -298,7 +298,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = byte.Parse(
@@ -323,7 +323,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -349,7 +349,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object
@@ -380,7 +380,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object[$"{key}:{nameof(value.Value)}"];
@@ -408,7 +408,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -432,7 +432,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = sbyte.Parse(
@@ -455,7 +455,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = sbyte.Parse(
@@ -480,7 +480,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -506,7 +506,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object
@@ -537,7 +537,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object[$"{key}:{nameof(value.Value)}"];
@@ -565,7 +565,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -589,7 +589,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = char.Parse(
@@ -612,7 +612,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = char.Parse(
@@ -637,7 +637,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -663,7 +663,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object
@@ -694,7 +694,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object[$"{key}:{nameof(value.Value)}"];
@@ -722,7 +722,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -746,7 +746,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = decimal.Parse(
@@ -769,7 +769,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = decimal.Parse(
@@ -798,7 +798,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -828,7 +828,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object
@@ -863,7 +863,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object[$"{key}:{nameof(value.Value)}"];
@@ -891,7 +891,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -915,7 +915,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = double.Parse(
@@ -938,7 +938,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = double.Parse(
@@ -963,7 +963,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -989,7 +989,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object
@@ -1020,7 +1020,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object[$"{key}:{nameof(value.Value)}"];
@@ -1048,7 +1048,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1072,7 +1072,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = float.Parse(
@@ -1095,7 +1095,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = float.Parse(
@@ -1120,7 +1120,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1146,7 +1146,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object
@@ -1177,7 +1177,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object[$"{key}:{nameof(value.Value)}"];
@@ -1205,7 +1205,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1229,7 +1229,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = int.Parse(
@@ -1252,7 +1252,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = int.Parse(
@@ -1277,7 +1277,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1303,7 +1303,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object
@@ -1334,7 +1334,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object[$"{key}:{nameof(value.Value)}"];
@@ -1362,7 +1362,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1386,7 +1386,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = uint.Parse(
@@ -1409,7 +1409,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = uint.Parse(
@@ -1434,7 +1434,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1460,7 +1460,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object
@@ -1491,7 +1491,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object[$"{key}:{nameof(value.Value)}"];
@@ -1519,7 +1519,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1543,7 +1543,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = long.Parse(
@@ -1566,7 +1566,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = long.Parse(
@@ -1591,7 +1591,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1617,7 +1617,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object
@@ -1648,7 +1648,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object[$"{key}:{nameof(value.Value)}"];
@@ -1676,7 +1676,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1700,7 +1700,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = ulong.Parse(
@@ -1723,7 +1723,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = ulong.Parse(
@@ -1748,7 +1748,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1774,7 +1774,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object
@@ -1805,7 +1805,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object[$"{key}:{nameof(value.Value)}"];
@@ -1833,7 +1833,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1857,7 +1857,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = short.Parse(
@@ -1880,7 +1880,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = short.Parse(
@@ -1905,7 +1905,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1931,7 +1931,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object
@@ -1962,7 +1962,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object[$"{key}:{nameof(value.Value)}"];
@@ -1990,7 +1990,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -2014,7 +2014,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = ushort.Parse(
@@ -2037,7 +2037,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = ushort.Parse(
@@ -2062,7 +2062,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var result = fixture.Object
@@ -2088,7 +2088,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object
@@ -2119,7 +2119,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupSection<dynamic>(key)
+				.SetupSection(key)
 				.Returns(value);
 
 			var stringResult = fixture.Object[$"{key}:{nameof(value.Value)}"];
