@@ -1629,6 +1629,32 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 		}
 
 		[Fact]
+		public void SetupClassWithLongArraysBracketsFull()
+		{
+			const string key = nameof(key);
+			var value = new
+			{
+				Values = new[] { 1L, 2L }
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<dynamic>(key)
+				.Returns(value);
+
+			for (var i = 0; i < value.Values.Length; i++)
+			{
+				var result = long.Parse(
+					fixture.Object[$"{key}:{nameof(value.Values)}:{i}"]);
+
+				result
+					.Should()
+					.Be(value.Values[i]);
+			}
+		}
+
+		[Fact]
 		public void SetupClassWithNullableLongArrays()
 		{
 			const string key = nameof(key);
@@ -1653,6 +1679,71 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			result
 				.Should()
 				.BeEquivalentTo(value.Values);
+		}
+
+		[Fact]
+		public void SetupClassWithNullableLongArraysBrackets()
+		{
+			const string key = nameof(key);
+			var value = new
+			{
+				Values = new long?[] { 1L, 2L, null }
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<dynamic>(key)
+				.Returns(value);
+
+			var section = fixture.Object
+				.GetSection(key);
+
+			for (var i = 0; i < value.Values.Length; i++)
+			{
+				var stringResult = section[$"{nameof(value.Values)}:{i}"];
+
+				var result = value.Values[i] switch
+				{
+					null => string.IsNullOrEmpty(stringResult) ? (long?)null : throw new Exception(),
+					_ => long.Parse(stringResult)
+				};
+
+				result
+					.Should()
+					.Be(value.Values[i]);
+			}
+		}
+
+		[Fact]
+		public void SetupClassWithNullableLongArraysBracketsFull()
+		{
+			const string key = nameof(key);
+			var value = new
+			{
+				Values = new long?[] { 1L, 2L, null }
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<dynamic>(key)
+				.Returns(value);
+
+			for (var i = 0; i < value.Values.Length; i++)
+			{
+				var stringResult = fixture.Object[$"{key}:{nameof(value.Values)}:{i}"];
+
+				var result = value.Values[i] switch
+				{
+					null => string.IsNullOrEmpty(stringResult) ? (long?)null : throw new Exception(),
+					_ => long.Parse(stringResult)
+				};
+
+				result
+					.Should()
+					.Be(value.Values[i]);
+			}
 		}
 
 		[Fact]
@@ -1683,6 +1774,61 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 		}
 
 		[Fact]
+		public void SetupClassWithUlongArraysBrackets()
+		{
+			const string key = nameof(key);
+			var value = new
+			{
+				Values = new[] { 1UL, 2UL }
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<dynamic>(key)
+				.Returns(value);
+
+			var section = fixture.Object
+				.GetSection(key);
+
+			for (var i = 0; i < value.Values.Length; i++)
+			{
+				var result = ulong.Parse(
+					section[$"{nameof(value.Values)}:{i}"]);
+
+				result
+					.Should()
+					.Be(value.Values[i]);
+			}
+		}
+
+		[Fact]
+		public void SetupClassWithUlongArraysBracketsFull()
+		{
+			const string key = nameof(key);
+			var value = new
+			{
+				Values = new[] { 1UL, 2UL }
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<dynamic>(key)
+				.Returns(value);
+
+			for (var i = 0; i < value.Values.Length; i++)
+			{
+				var result = ulong.Parse(
+					fixture.Object[$"{key}:{nameof(value.Values)}:{i}"]);
+
+				result
+					.Should()
+					.Be(value.Values[i]);
+			}
+		}
+
+		[Fact]
 		public void SetupClassWithNullableUlongArrays()
 		{
 			const string key = nameof(key);
@@ -1707,6 +1853,71 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			result
 				.Should()
 				.BeEquivalentTo(value.Values);
+		}
+
+		[Fact]
+		public void SetupClassWithNullableUlongArraysBrackets()
+		{
+			const string key = nameof(key);
+			var value = new
+			{
+				Values = new ulong?[] { 1UL, 2UL, null }
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<dynamic>(key)
+				.Returns(value);
+
+			var section = fixture.Object
+				.GetSection(key);
+
+			for (var i = 0; i < value.Values.Length; i++)
+			{
+				var stringResult = section[$"{nameof(value.Values)}:{i}"];
+
+				var result = value.Values[i] switch
+				{
+					null => string.IsNullOrEmpty(stringResult) ? (ulong?)null : throw new Exception(),
+					_ => ulong.Parse(stringResult)
+				};
+
+				result
+					.Should()
+					.Be(value.Values[i]);
+			}
+		}
+
+		[Fact]
+		public void SetupClassWithNullableUlongArraysBracketsFull()
+		{
+			const string key = nameof(key);
+			var value = new
+			{
+				Values = new ulong?[] { 1UL, 2UL, null }
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<dynamic>(key)
+				.Returns(value);
+
+			for (var i = 0; i < value.Values.Length; i++)
+			{
+				var stringResult = fixture.Object[$"{key}:{nameof(value.Values)}:{i}"];
+
+				var result = value.Values[i] switch
+				{
+					null => string.IsNullOrEmpty(stringResult) ? (ulong?)null : throw new Exception(),
+					_ => ulong.Parse(stringResult)
+				};
+
+				result
+					.Should()
+					.Be(value.Values[i]);
+			}
 		}
 
 		[Fact]
@@ -1737,6 +1948,61 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 		}
 
 		[Fact]
+		public void SetupClassWithShortArraysBrackets()
+		{
+			const string key = nameof(key);
+			var value = new
+			{
+				Values = new short[] { 1, 2 }
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<dynamic>(key)
+				.Returns(value);
+
+			var section = fixture.Object
+				.GetSection(key);
+
+			for (var i = 0; i < value.Values.Length; i++)
+			{
+				var result = short.Parse(
+					section[$"{nameof(value.Values)}:{i}"]);
+
+				result
+					.Should()
+					.Be(value.Values[i]);
+			}
+		}
+
+		[Fact]
+		public void SetupClassWithShortArraysBracketsFull()
+		{
+			const string key = nameof(key);
+			var value = new
+			{
+				Values = new short[] { 1, 2 }
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<dynamic>(key)
+				.Returns(value);
+
+			for (var i = 0; i < value.Values.Length; i++)
+			{
+				var result = short.Parse(
+					fixture.Object[$"{key}:{nameof(value.Values)}:{i}"]);
+
+				result
+					.Should()
+					.Be(value.Values[i]);
+			}
+		}
+
+		[Fact]
 		public void SetupClassWithNullableShortArrays()
 		{
 			const string key = nameof(key);
@@ -1761,6 +2027,71 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			result
 				.Should()
 				.BeEquivalentTo(value.Values);
+		}
+
+		[Fact]
+		public void SetupClassWithNullableShortArraysBrackets()
+		{
+			const string key = nameof(key);
+			var value = new
+			{
+				Values = new short?[] { 1, 2, null }
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<dynamic>(key)
+				.Returns(value);
+
+			var section = fixture.Object
+				.GetSection(key);
+
+			for (var i = 0; i < value.Values.Length; i++)
+			{
+				var stringResult = section[$"{nameof(value.Values)}:{i}"];
+
+				var result = value.Values[i] switch
+				{
+					null => string.IsNullOrEmpty(stringResult) ? (short?)null : throw new Exception(),
+					_ => short.Parse(stringResult)
+				};
+
+				result
+					.Should()
+					.Be(value.Values[i]);
+			}
+		}
+
+		[Fact]
+		public void SetupClassWithNullableShortArraysBracketsFull()
+		{
+			const string key = nameof(key);
+			var value = new
+			{
+				Values = new short?[] { 1, 2, null }
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<dynamic>(key)
+				.Returns(value);
+
+			for (var i = 0; i < value.Values.Length; i++)
+			{
+				var stringResult = fixture.Object[$"{key}:{nameof(value.Values)}:{i}"];
+
+				var result = value.Values[i] switch
+				{
+					null => string.IsNullOrEmpty(stringResult) ? (short?)null : throw new Exception(),
+					_ => short.Parse(stringResult)
+				};
+
+				result
+					.Should()
+					.Be(value.Values[i]);
+			}
 		}
 
 		[Fact]
@@ -1791,6 +2122,61 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 		}
 
 		[Fact]
+		public void SetupClassWithUshortArraysBrackets()
+		{
+			const string key = nameof(key);
+			var value = new
+			{
+				Values = new ushort[] { 1, 2 }
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<dynamic>(key)
+				.Returns(value);
+
+			var section = fixture.Object
+				.GetSection(key);
+
+			for (var i = 0; i < value.Values.Length; i++)
+			{
+				var result = ushort.Parse(
+					section[$"{nameof(value.Values)}:{i}"]);
+
+				result
+					.Should()
+					.Be(value.Values[i]);
+			}
+		}
+
+		[Fact]
+		public void SetupClassWithUshortArraysBracketsFull()
+		{
+			const string key = nameof(key);
+			var value = new
+			{
+				Values = new ushort[] { 1, 2 }
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<dynamic>(key)
+				.Returns(value);
+
+			for (var i = 0; i < value.Values.Length; i++)
+			{
+				var result = ushort.Parse(
+					fixture.Object[$"{key}:{nameof(value.Values)}:{i}"]);
+
+				result
+					.Should()
+					.Be(value.Values[i]);
+			}
+		}
+
+		[Fact]
 		public void SetupClassWithNullableUshortArrays()
 		{
 			const string key = nameof(key);
@@ -1815,6 +2201,71 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 			result
 				.Should()
 				.BeEquivalentTo(value.Values);
+		}
+
+		[Fact]
+		public void SetupClassWithNullableUshortArraysBrackets()
+		{
+			const string key = nameof(key);
+			var value = new
+			{
+				Values = new ushort?[] { 1, 2, null }
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<dynamic>(key)
+				.Returns(value);
+
+			var section = fixture.Object
+				.GetSection(key);
+
+			for (var i = 0; i < value.Values.Length; i++)
+			{
+				var stringResult = section[$"{nameof(value.Values)}:{i}"];
+
+				var result = value.Values[i] switch
+				{
+					null => string.IsNullOrEmpty(stringResult) ? (ushort?)null : throw new Exception(),
+					_ => ushort.Parse(stringResult)
+				};
+
+				result
+					.Should()
+					.Be(value.Values[i]);
+			}
+		}
+
+		[Fact]
+		public void SetupClassWithNullableUshortArraysBracketsFull()
+		{
+			const string key = nameof(key);
+			var value = new
+			{
+				Values = new ushort?[] { 1, 2, null }
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection<dynamic>(key)
+				.Returns(value);
+
+			for (var i = 0; i < value.Values.Length; i++)
+			{
+				var stringResult = fixture.Object[$"{key}:{nameof(value.Values)}:{i}"];
+
+				var result = value.Values[i] switch
+				{
+					null => string.IsNullOrEmpty(stringResult) ? (ushort?)null : throw new Exception(),
+					_ => ushort.Parse(stringResult)
+				};
+
+				result
+					.Should()
+					.Be(value.Values[i]);
+			}
 		}
 	}
 }
