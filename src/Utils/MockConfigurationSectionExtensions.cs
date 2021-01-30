@@ -15,8 +15,7 @@ namespace Moq.Microsoft.Configuration
 				{
 					var mockSection = new Mock<IConfigurationSection>();
 
-					var returnsValue = mockSection.SetupValue(prop);
-					@this.SetupValueForPath(returnsValue, i.ToString(), path);
+					@this.SetupValue(mockSection, prop, i.ToString(), path);
 
 					yield return mockSection.Object;
 					i++;
@@ -26,17 +25,6 @@ namespace Moq.Microsoft.Configuration
 			@this
 				.Setup(x => x.GetChildren())
 				.Returns(CreateConfigurationSections);
-		}
-
-		public static string SetupValue<T>(this Mock<IConfigurationSection> @this, T prop)
-		{
-			var returnsValue = prop.SerialiseValue()!;
-
-			@this
-				.SetupGet(x => x.Value)
-				.Returns(returnsValue);
-
-			return returnsValue;
 		}
 	}
 }
