@@ -55,6 +55,31 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			}
 		}
 
+		// TODO: fix with recursion
+		//[Fact]
+		//public void SetupClassWithBoolArraysGetValue()
+		//{
+		//	var value = new
+		//	{
+		//		Values = new[] { true, false }
+		//	};
+
+		//	var fixture = CreateClass();
+
+		//	fixture
+		//		.SetupRoot()
+		//		.Returns(value);
+
+		//	for (var i = 0; i < value.Values.Length; i++)
+		//	{
+		//		var result = fixture.Object.GetValue<bool>($"{nameof(value.Values)}:{i}");
+
+		//		result
+		//			.Should()
+		//			.Be(value.Values[i]);
+		//	}
+		//}
+
 		[Fact]
 		public void SetupClassWithNullableBoolArrays()
 		{
