@@ -27,6 +27,6 @@ namespace Moq.Microsoft.Configuration
 		public static void SetupValue<T>(this Mock<IConfigurationSection> @this, T prop) =>
 			@this
 				.SetupGet(x => x.Value)
-				.Returns(prop.SerialiseValue());
+				.Returns(prop.SerialiseValue()!);
 	}
 }
