@@ -13,10 +13,7 @@ namespace Moq.Microsoft.Configuration
 				foreach (var prop in props)
 				{
 					var mockSection = new Mock<IConfigurationSection>();
-
-					mockSection
-						.SetupGet(y => y.Value)
-						.Returns(prop.SerialiseValue());
+					mockSection.SetupValue(prop);
 
 					yield return mockSection.Object;
 				}
