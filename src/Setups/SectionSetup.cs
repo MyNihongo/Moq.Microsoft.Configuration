@@ -51,7 +51,8 @@ namespace Moq.Microsoft.Configuration
 				}
 				else if (typeof(IEnumerable).IsAssignableFrom(prop.PropertyType))
 				{
-					MockConfigurationSection.SetChildren(mockSection, (IEnumerable) value);
+					MockConfigurationSection.SetChildren(mockSection, (IEnumerable) value)
+						.BindTo(MockConfiguration);
 				}
 				else
 				{

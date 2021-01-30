@@ -21,13 +21,34 @@ namespace Moq.Microsoft.Configuration
 		public static void SetChildren(this Mock<IConfiguration> @this, Mock<IConfigurationSection> mockConfigurationSection, IEnumerable props) =>
 			@this.SetChildren<IConfiguration>(mockConfigurationSection, props);
 
-		public static void SetChildren(this Mock<IConfigurationSection> @this, Mock<IConfigurationSection> mockConfigurationSection, IEnumerable props) =>
+		public static ChildrenResult SetChildren(this Mock<IConfigurationSection> @this, Mock<IConfigurationSection> mockConfigurationSection, IEnumerable props)
+		{
 			@this.SetChildren<IConfigurationSection>(mockConfigurationSection, props);
+
+			var path = PathUtils.Append(@this.Object.Path, mockConfigurationSection.Object.Path);
+
+			var values = mockConfigurationSection.Object
+				.GetChildren()
+				.Select((x, i) => new KeyValuePair<int, string>(i, x.Value))
+				.ToDictionary(x => x.Key, x => x.Value);
+
+			return new ChildrenResult(values, path);
+		}
 
 		public static void BindTo<T>(in this ValueResult @this, Mock<T> mockConfiguration)
 			where T : class, IConfiguration
 		{
 			mockConfiguration.SetPathValue(@this.Path, @this.Value);
+		}
+
+		public static void BindTo<T>(in this ChildrenResult @this, Mock<T> mockConfiguration)
+			where T : class, IConfiguration
+		{
+			foreach (var pair in @this.Values)
+			{
+				var path = PathUtils.Append(@this.BasePath, pair.Key.ToString());
+				mockConfiguration.SetPathValue(path, pair.Value);
+			}
 		}
 
 		private static void SetPathValue<T>(this Mock<T> @this, string path, string value)
@@ -78,12 +99,12 @@ namespace Moq.Microsoft.Configuration
 			}
 
 			// Enumeration must already be executed for `configuration[]` access
-			var section = CreateConfigurationSections()
+			var sections = CreateConfigurationSections()
 				.ToArray();
 
 			mockConfigurationSection
 				.Setup(x => x.GetChildren())
-				.Returns(section);
+				.Returns(sections);
 		}
 	}
 }
