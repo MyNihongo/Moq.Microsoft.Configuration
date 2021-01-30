@@ -10,14 +10,25 @@ namespace Moq.Microsoft.Configuration
 		public static void SetValue<T>(this Mock<IConfiguration> @this, Mock<IConfigurationSection> mockConfigurationSection, T value) =>
 			@this.SetSectionValue(mockConfigurationSection, value);
 
-		public static void SetValue<T>(this Mock<IConfigurationSection> @this, Mock<IConfigurationSection> mockConfigurationSection, T value) =>
-			@this.SetSectionValue(mockConfigurationSection, value);
+		public static ValueResult SetValue<T>(this Mock<IConfigurationSection> @this, Mock<IConfigurationSection> mockConfigurationSection, T value)
+		{
+			var (stringValue, path) = @this.SetSectionValue(mockConfigurationSection, value);
+			path = PathUtils.Append(@this.Object.Path, path);
+
+			return new ValueResult(stringValue, path);
+		}
 
 		public static void SetChildren(this Mock<IConfiguration> @this, Mock<IConfigurationSection> mockConfigurationSection, IEnumerable props) =>
 			@this.SetChildren<IConfiguration>(mockConfigurationSection, props);
 
 		public static void SetChildren(this Mock<IConfigurationSection> @this, Mock<IConfigurationSection> mockConfigurationSection, IEnumerable props) =>
 			@this.SetChildren<IConfigurationSection>(mockConfigurationSection, props);
+
+		public static void BindTo<T>(in this ValueResult @this, Mock<T> mockConfiguration)
+			where T : class, IConfiguration
+		{
+			mockConfiguration.SetPathValue(@this.Path, @this.Value);
+		}
 
 		private static void SetPathValue<T>(this Mock<T> @this, string path, string value)
 			where T : class, IConfiguration
@@ -27,17 +38,18 @@ namespace Moq.Microsoft.Configuration
 				.Returns(value);
 		}
 
-		private static string SetSectionValue<T, TValue>(this Mock<T> @this, Mock<IConfigurationSection> mockConfigurationSection, TValue value)
+		private static ValueResult SetSectionValue<T, TValue>(this Mock<T> @this, Mock<IConfigurationSection> mockConfigurationSection, TValue value)
 			where T : class, IConfiguration
 		{
-			var returnsValue = value.SerialiseValue()!;
+			var stringValue = value.SerialiseValue()!;
+			var path = mockConfigurationSection.Object.Path;
 
 			mockConfigurationSection
 				.SetupGet(x => x.Value)
-				.Returns(returnsValue);
+				.Returns(stringValue);
 
-			@this.SetPathValue(mockConfigurationSection.Object.Path, returnsValue);
-			return returnsValue;
+			@this.SetPathValue(path, stringValue);
+			return new ValueResult(stringValue, path);
 		}
 
 		private static void SetChildren<T>(this Mock<T> @this, Mock<IConfigurationSection> mockConfigurationSection, IEnumerable props)
@@ -55,7 +67,7 @@ namespace Moq.Microsoft.Configuration
 						.SetupGet(x => x.Path)
 						.Returns(pathSegment);
 
-					var value = mockConfigurationSection.SetSectionValue(mockSection, prop);
+					var (value, _) = mockConfigurationSection.SetSectionValue(mockSection, prop);
 					var fullPath = PathUtils.Append(mockConfigurationSection.Object.Path, pathSegment);
 
 					@this.SetPathValue(fullPath, value);

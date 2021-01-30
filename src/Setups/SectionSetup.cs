@@ -45,11 +45,18 @@ namespace Moq.Microsoft.Configuration
 					.Returns(prop.Name);
 
 				if (IsPrimitive(prop.PropertyType))
-					MockConfigurationSection.SetValue(mockSection, value);
+				{
+					MockConfigurationSection.SetValue(mockSection, value)
+						.BindTo(MockConfiguration);
+				}
 				else if (typeof(IEnumerable).IsAssignableFrom(prop.PropertyType))
+				{
 					MockConfigurationSection.SetChildren(mockSection, (IEnumerable) value);
+				}
 				else
+				{
 					continue;
+				}
 
 				MockConfigurationSection
 					.Setup(x => x.GetSection(prop.Name))
