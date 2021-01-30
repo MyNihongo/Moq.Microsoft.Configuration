@@ -22,6 +22,9 @@ namespace Moq.Microsoft.Configuration
 
 			if (props.Count == 0)
 			{
+				if (MockConfigurationSection == null)
+					throw new InvalidOperationException("Cannot setup a primitive value as the root element");
+				
 				MockConfiguration.SetValue(MockConfigurationSection, param);
 				return;
 			}

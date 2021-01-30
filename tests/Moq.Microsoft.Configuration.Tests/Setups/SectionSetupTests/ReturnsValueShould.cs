@@ -74,6 +74,90 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.SectionSetupTests
 		}
 
 		[Fact]
+		public void SetupBool()
+		{
+			const string key = nameof(key);
+			const bool value = true;
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection(key)
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetValue<bool>(key);
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Fact]
+		public void SetupBoolBrackets()
+		{
+			const string key = nameof(key);
+			const bool value = true;
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection(key)
+				.Returns(value);
+
+			var result = bool.Parse(fixture.Object[key]);
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Theory]
+		[InlineData(null)]
+		[InlineData(true)]
+		public void SetupNullableBool(bool? value)
+		{
+			const string key = nameof(key);
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection(key)
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetValue<bool?>(key);
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Theory]
+		[InlineData(null)]
+		[InlineData(true)]
+		public void SetupNullableBoolBrackets(bool? value)
+		{
+			const string key = nameof(key);
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupSection(key)
+				.Returns(value);
+
+			var result = value switch
+			{
+				null => fixture.Object[key] == null ? (bool?)null : throw new Exception(),
+				_ => bool.Parse(fixture.Object[key])
+			};
+
+			result
+				.Should()
+				.Be(value);
+		}
+
+		[Fact]
 		public void SetupChar()
 		{
 			const string key = nameof(key);
