@@ -33,30 +33,30 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 				.BeTrue();
 		}
 
-		//[Fact]
-		//public void ReturnStringEnumerable()
-		//{
-		//	const string key = nameof(key);
+		[Fact]
+		public void ReturnStringEnumerable()
+		{
+			const string key = nameof(key);
 
-		//	var input = Enumerable.Range(1, 5)
-		//		.Select(x => $"string {x}")
-		//		.Append(null)
-		//		.ToArray();
+			var input = Enumerable.Range(1, 5)
+				.Select(x => $"string {x}")
+				//.Append(null)
+				.ToArray();
 
-		//	var fixture = CreateClass();
+			var fixture = CreateClass();
 
-		//	fixture
-		//		.SetupChildren<string>(key)
-		//		.Returns(input);
+			fixture
+				.SetupChildren<string>(key)
+				.Returns(input);
 
-		//	var result = fixture.Object
-		//		.GetSection(key)
-		//		.Get<IEnumerable<string>>();
+			var result = fixture.Object
+				.GetSection(key)
+				.Get<IEnumerable<string>>();
 
-		//	result
-		//		.Should()
-		//		.BeEquivalentTo(input);
-		//}
+			result
+				.Should()
+				.BeEquivalentTo(input);
+		}
 
 		[Fact]
 		public void ReturnStringArray()
@@ -83,30 +83,30 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 				.BeEquivalentTo(input);
 		}
 
-		//[Fact]
-		//public void ReturnStringList()
-		//{
-		//	const string key = nameof(key);
+		[Fact]
+		public void ReturnStringList()
+		{
+			const string key = nameof(key);
 
-		//	var input = Enumerable.Range(1, 5)
-		//		.Select(x => $"string {x}")
-		//		.Append(null)
-		//		.ToArray();
+			var input = Enumerable.Range(1, 5)
+				.Select(x => $"string {x}")
+				//.Append(null)
+				.ToArray();
 
-		//	var fixture = CreateClass();
+			var fixture = CreateClass();
 
-		//	fixture
-		//		.SetupChildren<string>(key)
-		//		.Returns(input);
+			fixture
+				.SetupChildren<string>(key)
+				.Returns(input);
 
-		//	var result = fixture.Object
-		//		.GetSection(key)
-		//		.Get<List<string>>();
+			var result = fixture.Object
+				.GetSection(key)
+				.Get<List<string>>();
 
-		//	result
-		//		.Should()
-		//		.BeEquivalentTo(input);
-		//}
+			result
+				.Should()
+				.BeEquivalentTo(input);
+		}
 
 		[Fact]
 		public void ReturnBoolEnumerable()
@@ -169,6 +169,29 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.ChildrenSetupTests
 			result
 				.Should()
 				.BeEquivalentTo(input);
+		}
+		
+		[Fact]
+		public void ReturnBoolBrackets()
+		{
+			const string key = nameof(key);
+			var input = new[] { true, false, true };
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupChildren<bool>(key)
+				.Returns(input);
+
+			for (var i = 0; i < input.Length; i++)
+			{
+				var result = bool.Parse(
+					fixture.Object[$"{key}:{i}"]);
+
+				result
+					.Should()
+					.Be(input[i]);
+			}
 		}
 
 		//[Fact]
