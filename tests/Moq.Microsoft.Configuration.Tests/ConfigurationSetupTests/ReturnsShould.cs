@@ -30,7 +30,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 					{
 						RootObject3 = new
 						{
-
+							RootObject3 = "string"
 						}
 					}
 				}
@@ -63,26 +63,35 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				String = "string",
 				RootObject1 = new
 				{
-					Int = 111,
+					RootObject1 = "string",
 					Object1 = new
 					{
-						Int = 123
+						RootObject1 = "string",
 					}
 				},
 				RootObject2 = new
 				{
-					Int = 321,
-					Double = 12.34d
+					String = "string",
+					RootObject2 = 12.34d
+				},
+				RootObject3 = new
+				{
+					RootObject3 = new
+					{
+						RootObject3 = new
+						{
+							RootObject3 = "string"
+						}
+					}
 				}
 			};
 
 			var expectedResult = new[]
 			{
-				nameof(value.RootObject1.Int),
-				nameof(value.RootObject1.Object1)
+				$"{nameof(value.RootObject1)}:{nameof(value.RootObject1.RootObject1)}",
+				$"{nameof(value.RootObject1)}:{nameof(value.RootObject1.Object1)}"
 			};
 
 			var fixture = CreateClass();

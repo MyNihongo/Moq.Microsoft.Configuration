@@ -66,20 +66,25 @@ namespace Moq.Microsoft.Configuration
 				if (nestedProps.Length == 0)
 					return valueConfigs;
 
-				
-				foreach (var nestedProp in nestedProps)
+				var children = new IConfigurationSection[nestedProps.Length];
+				for (var i = 0; i < nestedProps.Length; i++)
 				{
 					var nestedBasePath = PathUtils.Append(basePath, prop.Name);
 
-					foreach (var nestedValueConfig in SetupSection(nestedProp, value, nestedBasePath))
+					foreach (var nestedValueConfig in SetupSection(nestedProps[i], value, nestedBasePath))
 					{
 						mockSection.SetupPathAccess(nestedValueConfig.Key, nestedValueConfig.Value.Value);
 						mockSection.SetupSection(nestedValueConfig.Value, nestedValueConfig.Key);
 
 						var pathToNestedValue = PathUtils.Append(prop.Name, nestedValueConfig.Key);
 						valueConfigs.Add(pathToNestedValue, nestedValueConfig.Value);
+
+						if (nestedValueConfig.Value.Path == PathUtils.Append(nestedBasePath, nestedValueConfig.Value.Key))
+							children[i] = nestedValueConfig.Value;
 					}
 				}
+
+				mockSection.SetupChildren(children);
 			}
 
 			return valueConfigs;
