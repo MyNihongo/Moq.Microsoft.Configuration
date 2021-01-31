@@ -7,19 +7,13 @@ namespace Moq.Microsoft.Configuration
 {
 	internal static class MockConfigurationExtensions
 	{
-		public static void SetValue<T>(this Mock<IConfiguration> @this, Mock<IConfigurationSection> mockConfigurationSection, T value) =>
-			@this.SetSectionValue(mockConfigurationSection, value);
+		//public static ValueResult SetValue<T>(this Mock<IConfigurationSection> @this, Mock<IConfigurationSection> mockConfigurationSection, T value)
+		//{
+		//	var (stringValue, path) = @this.SetSectionValue(mockConfigurationSection, value);
+		//	path = PathUtils.Append(@this.Object.Path, path);
 
-		public static ValueResult SetValue<T>(this Mock<IConfigurationSection> @this, Mock<IConfigurationSection> mockConfigurationSection, T value)
-		{
-			var (stringValue, path) = @this.SetSectionValue(mockConfigurationSection, value);
-			path = PathUtils.Append(@this.Object.Path, path);
-
-			return new ValueResult(stringValue, path);
-		}
-
-		public static void SetChildren(this Mock<IConfiguration> @this, Mock<IConfigurationSection> mockConfigurationSection, IEnumerable props) =>
-			@this.SetChildren<IConfiguration>(mockConfigurationSection, props);
+		//	return new ValueResult(stringValue, path);
+		//}
 
 		public static ChildrenResult SetChildren(this Mock<IConfigurationSection> @this, Mock<IConfigurationSection> mockConfigurationSection, IEnumerable props)
 		{
@@ -35,21 +29,6 @@ namespace Moq.Microsoft.Configuration
 			return new ChildrenResult(values, path);
 		}
 
-		public static void BindTo<T>(in this ValueResult @this, Mock<T> mockConfiguration)
-			where T : class, IConfiguration
-		{
-			mockConfiguration.SetPathValue(@this.Path, @this.Value);
-		}
-
-		public static void BindTo<T>(in this ChildrenResult @this, Mock<T> mockConfiguration)
-			where T : class, IConfiguration
-		{
-			foreach (var pair in @this.Values)
-			{
-				var path = PathUtils.Append(@this.BasePath, pair.Key.ToString());
-				mockConfiguration.SetPathValue(path, pair.Value);
-			}
-		}
 
 		private static void SetPathValue<T>(this Mock<T> @this, string path, string value)
 			where T : class, IConfiguration
