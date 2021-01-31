@@ -70,7 +70,6 @@ namespace Moq.Microsoft.Configuration
 					var nestedBasePath = PathUtils.Append(basePath, sectionInfo.Name);
 					var nestedSectionInfo = new SectionInfo(itemName, item, item.GetType());
 
-					// TODO: looks like copy-paste?
 					foreach (var nestedValueConfig in SetupSection(nestedSectionInfo, nestedBasePath))
 					{
 						mockSection.SetupSection(nestedValueConfig.Value, nestedValueConfig.Key);
@@ -78,7 +77,7 @@ namespace Moq.Microsoft.Configuration
 						var pathToNestedValue = PathUtils.Append(sectionInfo.Name, nestedValueConfig.Key);
 						valueConfigs.Add(pathToNestedValue, nestedValueConfig.Value);
 
-						if (nestedValueConfig.Value.Path == PathUtils.Append(nestedBasePath, nestedValueConfig.Value.Key))
+						if (nestedValueConfig.IsChild(nestedBasePath))
 							children.Add(nestedValueConfig.Value);
 					}
 
@@ -107,7 +106,7 @@ namespace Moq.Microsoft.Configuration
 						var pathToNestedValue = PathUtils.Append(sectionInfo.Name, nestedValueConfig.Key);
 						valueConfigs.Add(pathToNestedValue, nestedValueConfig.Value);
 
-						if (nestedValueConfig.Value.Path == PathUtils.Append(nestedBasePath, nestedValueConfig.Value.Key))
+						if (nestedValueConfig.IsChild(nestedBasePath))
 							children[i] = nestedValueConfig.Value;
 					}
 				}
@@ -131,5 +130,8 @@ namespace Moq.Microsoft.Configuration
 
 			return IsPrimitiveType(type);
 		}
+		
+		private static bool IsChild(this KeyValuePair<string, IConfigurationSection> nestedValueConfig, string nestedBasePath) =>
+			nestedValueConfig.Value.Path == PathUtils.Append(nestedBasePath, nestedValueConfig.Value.Key);
 	}
 }
