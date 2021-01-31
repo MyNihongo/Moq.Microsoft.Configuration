@@ -21,26 +21,33 @@ namespace Moq.Microsoft.Configuration
 				throw new InvalidOperationException("The root element has no properties");
 
 			foreach (var prop in props)
+			{
 				foreach (var nestedValueConfig in SetupSection(prop, configuration, string.Empty))
 				{
 					@this.MockConfiguration.SetupPathAccess(nestedValueConfig.Key, nestedValueConfig.Value.Value);
-					
-					if (prop.Name == nestedValueConfig.Value.Path)
-						@this.MockConfiguration.SetupSection(prop.Name, nestedValueConfig.Value);
+					@this.MockConfiguration.SetupSection(nestedValueConfig.Value, nestedValueConfig.Value.Path);
+
+					// TODO: add children
 				}
+			}
 		}
 
 		// TODO: cache types in a dictionary
 		private static IReadOnlyDictionary<string, IConfigurationSection> SetupSection(PropertyInfo prop, object configObject, string basePath)
 		{
 			var mockSection = new Mock<IConfigurationSection>();
-			var valueConfigs = new Dictionary<string, IConfigurationSection>();
+			mockSection.SetupKeyAndPath(prop.Name, basePath);
+
+			var valueConfigs = new Dictionary<string, IConfigurationSection>
+			{
+				{prop.Name, mockSection.Object}
+			};
+
 			var value = prop.GetValue(configObject)!;
 
 			if (IsPrimitive(prop.PropertyType))
 			{
-				var valueConfig = mockSection.SetupValue(value, prop.Name, basePath);
-				valueConfigs.Add(prop.Name, valueConfig);
+				mockSection.SetupValue(value, prop.Name, basePath);
 			}
 			else if (typeof(IEnumerable).IsAssignableFrom(prop.PropertyType))
 			{
@@ -55,13 +62,18 @@ namespace Moq.Microsoft.Configuration
 					return valueConfigs;
 
 				foreach (var nestedProp in nestedProps)
-					foreach (var nestedValueConfig in SetupSection(nestedProp, value, prop.Name))
-					{
-						var pathToNestedValue = PathUtils.Append(prop.Name, nestedValueConfig.Key);
-						mockSection.SetupPathAccess(pathToNestedValue, nestedValueConfig.Value.Value);
+				{
+					var nestedBasePath = PathUtils.Append(basePath, prop.Name);
 
+					foreach (var nestedValueConfig in SetupSection(nestedProp, value, nestedBasePath))
+					{
+						mockSection.SetupPathAccess(nestedValueConfig.Key, nestedValueConfig.Value.Value);
+						mockSection.SetupSection(nestedValueConfig.Value, nestedValueConfig.Key);
+
+						var pathToNestedValue = PathUtils.Append(prop.Name, nestedValueConfig.Key);
 						valueConfigs.Add(pathToNestedValue, nestedValueConfig.Value);
 					}
+				}
 			}
 
 			return valueConfigs;

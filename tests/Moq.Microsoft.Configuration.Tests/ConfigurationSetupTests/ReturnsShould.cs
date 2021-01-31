@@ -13,11 +13,12 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.SetupConfiguration()
 				.Returns(new
 				{
-					Int = 123,
 					Obj = new
 					{
-						Int = 1234,
-						Double = 12.4d
+						Obj1 = new
+						{
+							Int = 123
+						}
 					}
 				});
 		}

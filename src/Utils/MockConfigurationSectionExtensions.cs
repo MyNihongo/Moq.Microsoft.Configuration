@@ -4,25 +4,26 @@ namespace Moq.Microsoft.Configuration
 {
 	internal static class MockConfigurationSectionExtensions
 	{
-		public static IConfigurationSection SetupValue(this Mock<IConfigurationSection> @this, object value, string key, string basePath)
+		public static void SetupValue(this Mock<IConfigurationSection> @this, object value, string key, string basePath)
 		{
-			var mockValue = new Mock<IConfigurationSection>();
 			var stringValue = value.SerialiseValue()!;
 
-			mockValue
+			@this
 				.SetupGet(x => x.Value)
 				.Returns(stringValue);
 
-			mockValue
+			@this.SetupPathAccess(key, stringValue);
+		}
+
+		public static void SetupKeyAndPath(this Mock<IConfigurationSection> @this, string key, string basePath)
+		{
+			@this
 				.SetupGet(x => x.Key)
 				.Returns(key);
 
-			mockValue
+			@this
 				.SetupGet(x => x.Path)
 				.Returns(PathUtils.Append(basePath, key));
-
-			@this.SetupPathAccess(key, stringValue);
-			return mockValue.Object;
 		}
 
 		public static void SetupPathAccess<T>(this Mock<T> @this, string path, string value)
@@ -33,7 +34,7 @@ namespace Moq.Microsoft.Configuration
 				.Returns(value);
 		}
 
-		public static void SetupSection<T>(this Mock<T> @this, string name, IConfigurationSection configurationSection)
+		public static void SetupSection<T>(this Mock<T> @this, IConfigurationSection configurationSection, string name)
 			where T : class, IConfiguration
 		{
 			@this
