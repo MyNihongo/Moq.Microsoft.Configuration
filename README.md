@@ -13,7 +13,11 @@ public void SetupConfiguration()
         .Returns(new
         {
             String = "string",
-            DecimalArray = new [] { 12.34m, 56.78m },
+            ObjectArray = new []
+            {
+                new { Float = 1.23f, String = "string1" },
+                new { Float = 4.56f, String = "string2" }
+            },
             Object = new
             {
                 Bool = true,
@@ -32,9 +36,10 @@ public void SetupConfiguration()
 
     // First level
     var @string = mockConfiguration.Object["String"]; // "string"
-    var decimalArray = mockConfiguration.Object.GetSection("DecimalArray").Get<decimal[]>(); // [12.34, 56.78]
-    var decimalItem1 = mockConfiguration.Object.GetValue<decimal>("DecimalArray:0"); // 12.37
-    var decimalItem2 = mockConfiguration.Object.GetValue<decimal>("DecimalArray:1"); // 56.78
+    var objectFloat1 = mockConfiguration.Object.GetValue<float>("ObjectArray:0:Float"); // 1.23
+    var objectString1 = mockConfiguration.Object.GetValue<string>("ObjectArray:0:String"); // "string1"
+    var objectFloat2 = mockConfiguration.Object.GetValue<float>("ObjectArray:1:Float"); // 4.56
+    var objectString2 = mockConfiguration.Object.GetValue<string>("ObjectArray:1:String"); // "string2"
 
     // Second level
     var @bool = mockConfiguration.Object.GetValue<bool>("Object:Bool"); // true
@@ -47,7 +52,7 @@ public void SetupConfiguration()
 
     // Fourth level
     var @uint = mockConfiguration.Object.GetValue<ulong>("Object:NestedObject:DeepObject:Uint"); // 123
-    var doubleArray = mockConfiguration.Object.GetSection("Object:NestedObject:DeepObject:DoubleArray") Get<double[]>(); // [12.3, 45.6]
+    var doubleArray = mockConfiguration.Object.GetSection("Object:NestedObject:DeepObject:DoubleArray").Get<double[]>(); // [12.3, 45.6]
     var doubleItem1 = mockConfiguration.Object.GetValue<double>("Object:NestedObject:DeepObject:DoubleArray:0"); // 12.3
     var doubleItem2 = mockConfiguration.Object.GetValue<double>("Object:NestedObject:DeepObject:DoubleArray:1"); // 45.6
 }
@@ -64,7 +69,11 @@ public void SetupSection()
         .Returns(new
         {
             String = "string",
-            DecimalArray = new [] { 12.34m, 56.78m },
+            ObjectArray = new []
+            {
+                new { Int = 1, String = "string1" },
+                new { Int = 2, String = "string2" }
+            },
             Object = new
             {
                 Bool = true,
@@ -83,9 +92,11 @@ public void SetupSection()
 
     // First level
     var @string = mockConfiguration.Object.GetValue<string>("String"); // "string"
-    var decimalSection = mockConfiguration.Object.GetSection("DecimalArray");
-    var decimalItem1 = decimalSection.GetValue<decimal>("0");
-    var decimalItem2 = decimalSection.GetValue<decimal>("1");
+    var objectSection = mockConfiguration.Object.GetSection("ObjectArray");
+    var objectFloat1 = objectSection.GetValue<float>("0:Float"); // 1.23
+    var objectString1 = objectSection.GetValue<string>("0:String"); // "string1"
+    var objectFloat2 = objectSection.GetValue<float>("1:Float"); // 4.56
+    var objectString2 = objectSection.GetValue<string>("1:String"); // "string2"
 
     // Second level
     var secondSection = mockConfiguration.Object.GetSection("Object");

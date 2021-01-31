@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using FluentAssertions;
+using Microsoft.Extensions.Configuration;
 using Xunit;
 
 namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
@@ -108,6 +109,67 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 			result
 				.Should()
 				.BeEquivalentTo(expectedResult);
+		}
+
+		[Fact]
+		public void SetupEnumerableWithClass()
+		{
+			var value = new
+			{
+				Items = new[]
+				{
+					new {Int = 1, String = "string1"},
+					new {Int = 2, String = "string2"}
+				}
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupConfiguration()
+				.Returns(value);
+
+			var section = fixture.Object
+				.GetSection(nameof(value.Items));
+
+			for (var i = 0; i < value.Items.Length; i++)
+			{
+				var intResult = section.GetValue<int>($"{i}:Int");
+				var stringResult = section.GetValue<string>($"{i}:String");
+
+				new { Int = intResult, String = stringResult }
+					.Should()
+					.BeEquivalentTo(value.Items[i]);
+			}
+		}
+
+		[Fact]
+		public void SetupEnumerableWithClassFull()
+		{
+			var value = new
+			{
+				Items = new[]
+				{
+					new {Int = 1, String = "string1"},
+					new {Int = 2, String = "string2"}
+				}
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupConfiguration()
+				.Returns(value);
+
+			for (var i = 0; i < value.Items.Length; i++)
+			{
+				var intResult = fixture.Object.GetValue<int>($"{nameof(value.Items)}:{i}:Int");
+				var stringResult = fixture.Object.GetValue<string>($"{nameof(value.Items)}:{i}:String");
+
+				new { Int = intResult, String = stringResult }
+					.Should()
+					.BeEquivalentTo(value.Items[i]);
+			}
 		}
 	}
 }
