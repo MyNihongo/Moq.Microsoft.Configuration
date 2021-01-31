@@ -51,7 +51,30 @@ namespace Moq.Microsoft.Configuration
 			}
 			else if (typeof(IEnumerable).IsAssignableFrom(sectionInfo.SectionType))
 			{
-				throw new NotImplementedException();
+				var children = new List<IConfigurationSection>();
+
+				var i = 0;
+				foreach (var item in (IEnumerable)sectionInfo.Value)
+				{
+					var nestedBasePath = PathUtils.Append(basePath, sectionInfo.Name);
+					var nestedSectionInfo = new SectionInfo(i.ToString(), item, item.GetType());
+
+					// TODO: looks like copy-paste?
+					foreach (var nestedValueConfig in SetupSection(nestedSectionInfo, nestedBasePath))
+					{
+						mockSection.SetupSection(nestedValueConfig.Value, nestedValueConfig.Key);
+
+						var pathToNestedValue = PathUtils.Append(sectionInfo.Name, nestedValueConfig.Key);
+						valueConfigs.Add(pathToNestedValue, nestedValueConfig.Value);
+
+						if (nestedValueConfig.Value.Path == PathUtils.Append(nestedBasePath, nestedValueConfig.Value.Key))
+							children.Add(nestedValueConfig.Value);
+					}
+
+					i++;
+				}
+
+				mockSection.SetupChildren(children);
 			}
 			else
 			{

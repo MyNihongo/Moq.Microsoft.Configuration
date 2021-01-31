@@ -19,7 +19,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 			};
 
 			var fixture = CreateClass();
-			
+
 			fixture
 				.SetupConfiguration()
 				.Returns(value);
