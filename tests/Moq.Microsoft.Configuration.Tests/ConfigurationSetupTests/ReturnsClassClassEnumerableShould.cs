@@ -8,15 +8,89 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 	public sealed class ReturnsClassClassEnumerableShould : MockTestsBase
 	{
 		[Fact]
+		public void ExistClassNode()
+		{
+			var value = new
+			{
+				Key = new
+				{
+					Values = new[] { true, false }
+				}
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupConfiguration()
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetSection(nameof(value.Key))
+				.Exists();
+
+			result
+				.Should()
+				.BeTrue();
+		}
+
+		[Fact]
 		public void ExistEnumerableNode()
 		{
-			throw new Exception();
+			var value = new
+			{
+				Key = new
+				{
+					Values = new[] { true, false }
+				}
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupConfiguration()
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetSection(nameof(value.Key))
+				.GetSection(nameof(value.Key.Values))
+				.Exists();
+
+			result
+				.Should()
+				.BeTrue();
 		}
 
 		[Fact]
 		public void ExistItemNodes()
 		{
-			throw new Exception();
+			var value = new
+			{
+				Key = new
+				{
+					Values = new[] { true, false }
+				}
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupConfiguration()
+				.Returns(value);
+
+			var section = fixture.Object
+				.GetSection(nameof(value.Key))
+				.GetSection(nameof(value.Key.Values));
+
+			for (var i = 0; i < value.Key.Values.Length; i++)
+			{
+				var result = section
+					.GetSection(i.ToString())
+					.Exists();
+
+				result
+					.Should()
+					.BeTrue();
+			}
 		}
 
 		[Fact]
@@ -855,7 +929,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key =new
+				Key = new
 				{
 					Values = new decimal?[] { 1.3m, 2.45m, null }
 				}
