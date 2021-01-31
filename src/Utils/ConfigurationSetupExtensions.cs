@@ -14,7 +14,7 @@ namespace Moq.Microsoft.Configuration
 
 			if (IsPrimitive(type) || typeof(IEnumerable).IsAssignableFrom(type))
 				throw new InvalidOperationException($"A {type.FullName} cannot be set as the root because it does not have a root property");
-			
+
 			var props = type.GetProperties();
 
 			if (props.Length == 0)
@@ -22,7 +22,12 @@ namespace Moq.Microsoft.Configuration
 
 			foreach (var prop in props)
 				foreach (var nestedValueConfig in SetupSection(prop, configuration, string.Empty))
+				{
 					@this.MockConfiguration.SetupPathAccess(nestedValueConfig.Key, nestedValueConfig.Value.Value);
+					
+					if (prop.Name == nestedValueConfig.Value.Path)
+						@this.MockConfiguration.SetupSection(prop.Name, nestedValueConfig.Value);
+				}
 		}
 
 		// TODO: cache types in a dictionary
@@ -45,6 +50,9 @@ namespace Moq.Microsoft.Configuration
 			{
 				var nestedProps = prop.PropertyType
 					.GetProperties();
+
+				if (nestedProps.Length == 0)
+					return valueConfigs;
 
 				foreach (var nestedProp in nestedProps)
 					foreach (var nestedValueConfig in SetupSection(nestedProp, value, prop.Name))
