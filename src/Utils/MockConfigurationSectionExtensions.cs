@@ -9,9 +9,7 @@ namespace Moq.Microsoft.Configuration
 			var mockValue = new Mock<IConfigurationSection>();
 			var stringValue = value.SerialiseValue()!;
 
-			@this
-				.Setup(x => x[key])
-				.Returns(stringValue);
+			@this.SetupPathAccess(key, stringValue);
 
 			mockValue
 				.SetupGet(x => x.Value)
@@ -26,6 +24,14 @@ namespace Moq.Microsoft.Configuration
 				.Returns(PathUtils.Append(basePath, key));
 
 			return mockValue.Object;
+		}
+
+		public static void SetupPathAccess<T>(this Mock<T> @this, string path, string value)
+			where T : class, IConfiguration
+		{
+			@this
+				.Setup(x => x[path])
+				.Returns(value);
 		}
 	}
 }
