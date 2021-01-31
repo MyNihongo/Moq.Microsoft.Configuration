@@ -7,6 +7,8 @@ namespace Moq.Microsoft.Configuration
 {
 	internal static class ConfigurationSetupExtensions
 	{
+		private static readonly SectionInfoProvider SectionInfoProvider = new();
+
 		public static void SetupConfigurationTree(this ConfigurationSetup @this, object configuration)
 		{
 			var type = configuration.GetType();
@@ -14,15 +16,15 @@ namespace Moq.Microsoft.Configuration
 			if (IsPrimitive(type) || typeof(IEnumerable).IsAssignableFrom(type))
 				throw new InvalidOperationException($"A {type.FullName} cannot be set as the root because it does not have a root property");
 
-			var props = type.GetProperties();
+			var props = SectionInfoProvider.Resolve(type, configuration);
 
-			if (props.Length == 0)
+			if (props.Count == 0)
 				throw new InvalidOperationException("The root element has no properties");
 
-			var children = new IConfigurationSection[props.Length];
-			for (var i = 0; i < props.Length; i++)
+			var children = new IConfigurationSection[props.Count];
+			for (var i = 0; i < props.Count; i++)
 			{
-				foreach (var nestedValueConfig in SetupSection(props[i].ToSectionInfo(configuration), string.Empty))
+				foreach (var nestedValueConfig in SetupSection(props[i], string.Empty))
 				{
 					@this.MockConfiguration.SetupSection(nestedValueConfig.Value, nestedValueConfig.Key);
 
@@ -34,7 +36,6 @@ namespace Moq.Microsoft.Configuration
 			@this.MockConfiguration.SetupChildren(children);
 		}
 
-		// TODO: cache types in a dictionary
 		private static IReadOnlyDictionary<string, IConfigurationSection> SetupSection(SectionInfo sectionInfo, string basePath)
 		{
 			var mockSection = new Mock<IConfigurationSection>();
@@ -57,15 +58,15 @@ namespace Moq.Microsoft.Configuration
 				foreach (var item in (IEnumerable)sectionInfo.Value)
 				{
 					var itemName = i.ToString();
-					
+
 					if (item == null)
 					{
 						var emptySection = mockSection.SetupEmptySection(itemName);
 						children.Add(emptySection);
-						
+
 						goto Continue;
 					}
-					
+
 					var nestedBasePath = PathUtils.Append(basePath, sectionInfo.Name);
 					var nestedSectionInfo = new SectionInfo(itemName, item, item.GetType());
 
@@ -89,18 +90,17 @@ namespace Moq.Microsoft.Configuration
 			}
 			else
 			{
-				var nestedProps = sectionInfo.SectionType
-					.GetProperties();
+				var nestedProps = SectionInfoProvider.Resolve(sectionInfo.SectionType, sectionInfo.Value);
 
-				if (nestedProps.Length == 0)
+				if (nestedProps.Count == 0)
 					return valueConfigs;
 
-				var children = new IConfigurationSection[nestedProps.Length];
-				for (var i = 0; i < nestedProps.Length; i++)
+				var children = new IConfigurationSection[nestedProps.Count];
+				for (var i = 0; i < nestedProps.Count; i++)
 				{
 					var nestedBasePath = PathUtils.Append(basePath, sectionInfo.Name);
 
-					foreach (var nestedValueConfig in SetupSection(nestedProps[i].ToSectionInfo(sectionInfo.Value), nestedBasePath))
+					foreach (var nestedValueConfig in SetupSection(nestedProps[i], nestedBasePath))
 					{
 						mockSection.SetupSection(nestedValueConfig.Value, nestedValueConfig.Key);
 
