@@ -1,73 +1,55 @@
 [![Version](https://img.shields.io/nuget/v/MoqMicrosoftConfiguration?style=plastic)](https://www.nuget.org/packages/MoqMicrosoftConfiguration/)  
 Moq for Microsoft.Extensions.Configuration
 ***
-## Setup the root section
-Only class types or structs (e.g. instances which have properties) can be used to setup the root section.
+Access values by specifying a path to the value in `[]` and with `:`.
 ```cs
 [Fact]
-public void SetupRoot()
-{
-    var mockConfiguration = new Mock<IConfiguration>();
-
-     mockConfiguration
-        .SetupRoot()
-        .Returns(new
-        {
-            Int = 123,
-            Bool = true,
-            StringArray = new[] { "value1", "value2" }
-        });
-
-    var intResult = mockConfiguration.Object.GetValue<int>("Int"); // 123
-    var boolResult = mockConfiguration.Object.GetValue<bool>("Bool"); // true
-    var stringArrayResult = mockConfiguration.Object.GetSection("StringArray").Get<string[]>(); // ["value1","value2"]
-
-    var stringItem1 = mockConfiguration.Object["StringArray:0"]; // "value1"
-    var stringItem2 = mockConfiguration.Object["StringArray:1"]; // "value2"
-}
-```
-## Setup a section
-Primitive types and classes can be used to setup a section.
-#### Primitive types
-```cs
-[Fact]
-public void SetupSection()
+public void SetupConfiguration()
 {
     var mockConfiguration = new Mock<IConfiguration>();
 
     mockConfiguration
-        .SetupSection("my_key")
-        .Returns(123.456m);
-
-    var result = mockConfiguration.Object.GetValue<decimal>("my_key"); // 123.456
-}
-```
-#### Classes
-Access values by specifying a path to the value in `[]`.
-```cs
-[Fact]
-public void SetupSection()
-{
-    var mockConfiguration = new Mock<IConfiguration>();
-
-    mockConfiguration
-        .SetupSection("my_key")
+        .SetupConfiguration()
         .Returns(new
         {
             String = "string",
-            Int = 123,
-            Decimal = 123.456m,
-            StringArray = new [] { "value1", "value2", "value3" }
+            DecimalArray = new [] { 12.34m, 56.78m },
+            Object = new
+            {
+                Bool = true,
+                IntArray = new [] { 1, 2 },
+                NestedObject = new
+                {
+                    Ulong = 1UL,
+                    DeepObject = new
+                    {
+                        Uint = 123u,
+                        DoubleArray = new [] { 12.3d, 45.6d }
+                    }
+                }
+            }
         });
 
-    var stringResult = mockConfiguration.Object["my_key:String"]; // "string"
-    var intResult = mockConfiguration.Object.GetValue<int>("my_key:Int"); // 123
-    var decimalResult = mockConfiguration.Object.GetValue<decimal>("my_key:Decimal"); // 123.456
-    var arrayResult = mockConfiguration.Object.GetSection("my_key:StringArray").Get<string[]>(); // ["value1","value2","value3"]
+    // First level
+    var @string = mockConfiguration.Object["String"]; // "string"
+    var decimalArray = mockConfiguration.Object.GetSection("DecimalArray").Get<decimal[]>(); // [12.34, 56.78]
+    var decimalItem1 = mockConfiguration.Object.GetValue<decimal>("DecimalArray:0"); // 12.37
+    var decimalItem2 = mockConfiguration.Object.GetValue<decimal>("DecimalArray:1"); // 56.78
 
-    var stringItem1 = mockConfiguration.Object["my_key:StringArray:0"]; // "value1"
-    var stringItem2 = mockConfiguration.Object["my_key:StringArray:1"]; // "value2"
-    var stringItem3 = mockConfiguration.Object["my_key:StringArray:2"]; // "value3"
+    // Second level
+    var @bool = mockConfiguration.Object.GetValue<bool>("Object:Bool"); // true
+    var intArray = mockConfiguration.Object.GetSection("Object:IntArray").Get<int[]>(); // [1, 2]
+    var intItem1 = mockConfiguration.Object.GetValue<int>("Object:IntArray:0"); // 1
+    var intItem2 = mockConfiguration.Object.GetValue<int>("Object:IntArray:1"); // 2
+
+    // Third level
+    var @ulong = mockConfiguration.Object.GetValue<ulong>("Object:NestedObject:Ulong"); // 1
+
+    // Fourth level
+    var @uint = mockConfiguration.Object.GetValue<ulong>("Object:NestedObject:DeepObject:Uint"); // 123
+    var doubleArray = mockConfiguration.Object.GetSection("Object:NestedObject:DeepObject:DoubleArray") Get<double[]>(); // [12.3, 45.6]
+    var doubleItem1 = mockConfiguration.Object.GetValue<double>("Object:NestedObject:DeepObject:DoubleArray:0"); // 12.3
+    var doubleItem2 = mockConfiguration.Object.GetValue<double>("Object:NestedObject:DeepObject:DoubleArray:1"); // 45.6
 }
 ```
 Values can also be accessed from the section by calling `GetSection()`.
@@ -78,60 +60,55 @@ public void SetupSection()
     var mockConfiguration = new Mock<IConfiguration>();
 
     mockConfiguration
-        .SetupSection("my_key")
+        .SetupConfiguration()
         .Returns(new
         {
             String = "string",
-            Int = 123,
-            Decimal = 123.456m,
-            StringArray = new [] { "value1", "value2", "value3" }
+            DecimalArray = new [] { 12.34m, 56.78m },
+            Object = new
+            {
+                Bool = true,
+                IntArray = new [] { 1, 2 },
+                NestedObject = new
+                {
+                    Ulong = 1UL,
+                    DeepObject = new
+                    {
+                        Uint = 123u,
+                        DoubleArray = new [] { 12.3d, 45.6d }
+                    }
+                }
+            }
         });
 
-    var section = mockConfiguration.Object
-        .GetSection("my_key");
+    // First level
+    var @string = mockConfiguration.Object.GetValue<string>("String"); // "string"
+    var decimalSection = mockConfiguration.Object.GetSection("DecimalArray");
+    var decimalItem1 = decimalSection.GetValue<decimal>("0");
+    var decimalItem2 = decimalSection.GetValue<decimal>("1");
 
-    var stringResult = section.GetValue<string>("String"); // "string"
-    var intResult = section.GetValue<int>("Int"); // 123
-    var decimalResult = section.GetValue<decimal>("Decimal"); // 123.456
-    var arrayResult = section.GetSection("StringArray").Get<string[]>(); // ["value1","value2","value3"]
+    // Second level
+    var secondSection = mockConfiguration.Object.GetSection("Object");
 
-    var stringItem1 = section["StringArray:0"]; // "value1"
-    var stringItem2 = section["StringArray:1"]; // "value2"
-    var stringItem3 = section["StringArray:2"]; // "value3"
-}
-```
-## Setup a value
-Setup primitive values like `int`, `string`, `decimal`, etc.
-```cs
-[Fact]
-public void SetupValues()
-{
-    var mockConfiguration = new Mock<IConfiguration>();
+    var @bool = secondSection.GetValue<bool>("Bool"); // true
+    var intSection = secondSection.GetSection("IntArray");
+    var intItem1 = intSection.GetValue<int>("0"); // 1
+    var intItem2 = intSection.GetValue<int>("1"); // 2
 
-    mockConfiguration
-        .SetupValue<int>("Int")
-        .Returns(123);
+    // Third level
+    // or mockConfiguration.Object.GetSection("Object:NestedObject");
+    var thirdSection = secondSection.GetSection("NestedObject");
 
-    mockConfiguration
-        .SetupValue<decimal>("Decimal")
-        .Returns(123.456m);
+    var @ulong = thirdSection.GetValue<ulong>("Ulong"); // 1
 
-    var intResult = mockConfiguration.Object.GetValue<int>("Int"); // 123
-    var decimalResult = mockConfiguration.Object.GetValue<decimal>("Decimal"); // 123.456
-}
-```
-## Setup lists
-Setup an enumerable of primitive values. Later the values can be retrieved as `IEnumerable<T>`, `T[]`, `List<T>`, etc.
-```cs
-[Fact]
-public void SetupEnumerable()
-{
-    var mockConfiguration = new Mock<IConfiguration>();
+    // Fourth level
+    // or mockConfiguration.Object.GetSection("Object:NestedObject:DeepObject");
+    // or secondSection.GetSection("NestedObject:DeepObject");
+    var fourthSection = thirdSection.GetSection("DeepObject");
 
-    mockConfiguration
-        .SetupChildren<int>("my_key")
-        .Returns(new [] { 1, 2, 3, 4 });
-
-    var result = mockConfiguration.Object.GetSection("my_key").Get<int[]>(); // [1,2,3,4]
+    var @uint = fourthSection.GetValue<ulong>("Uint"); // 123
+    var doubleSection = fourthSection.GetSection("DoubleArray"); // [12.3, 45.6]
+    var doubleItem1 = doubleSection.GetValue<double>("0"); // 12.3
+    var doubleItem2 = doubleSection.GetValue<double>("1"); // 45.6
 }
 ```
