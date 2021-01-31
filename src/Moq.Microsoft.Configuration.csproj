@@ -6,7 +6,7 @@
 		<LangVersion>latest</LangVersion>
 		<PackageId>MoqMicrosoftConfiguration</PackageId>
 		<ApplicationIcon>favico.ico</ApplicationIcon>
-		<Version>1.0.1.2</Version>
+		<Version>1.0.2.0</Version>
 		<Authors>Moq contributors</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/moq</PackageProjectUrl>
@@ -17,6 +17,7 @@
 		<Product>Moq</Product>
 		<Copyright>© 2021 Moq contributors</Copyright>
 		<RepositoryUrl>https://github.com/MihailsKuzmins/Moq.Microsoft.Configuration</RepositoryUrl>
+		<PackageReleaseNotes>https://github.com/MihailsKuzmins/Moq.Microsoft.Configuration/releases</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
