@@ -3,10 +3,33 @@ using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Xunit;
 
-namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
+namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 {
-	public sealed class ReturnsClassShould : MockTestsBase
+	public sealed class ReturnsClassValueShould : MockTestsBase
 	{
+		[Fact]
+		public void ExistValueNode()
+		{
+			var value = new
+			{
+				Value = "value"
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupConfiguration()
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetSection(nameof(value.Value))
+				.Exists();
+
+			result
+				.Should()
+				.BeTrue();
+		}
+
 		[Theory]
 		[InlineData(null)]
 		[InlineData("value")]
@@ -20,11 +43,36 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
 				.GetValue<string>(nameof(value.Value));
+
+			result
+				.Should()
+				.Be(value.Value);
+		}
+
+		[Theory]
+		[InlineData(null)]
+		[InlineData("value")]
+		public void SetupClassWithStringGet(string input)
+		{
+			var value = new
+			{
+				Value = input
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupConfiguration()
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetSection(nameof(value.Value))
+				.Get<string>();
 
 			result
 				.Should()
@@ -44,7 +92,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object[nameof(value.Value)];
@@ -65,7 +113,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -87,7 +135,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = bool.Parse(
@@ -111,7 +159,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -135,7 +183,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var stringResult = fixture.Object[nameof(value.Value)];
@@ -162,7 +210,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -184,7 +232,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = byte.Parse(
@@ -208,7 +256,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -232,7 +280,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var stringResult = fixture.Object[nameof(value.Value)];
@@ -259,7 +307,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -281,7 +329,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = sbyte.Parse(
@@ -305,7 +353,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -329,7 +377,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var stringResult = fixture.Object[nameof(value.Value)];
@@ -356,7 +404,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -378,7 +426,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = char.Parse(
@@ -402,7 +450,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -426,7 +474,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var stringResult = fixture.Object[nameof(value.Value)];
@@ -453,7 +501,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -475,7 +523,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = decimal.Parse(
@@ -502,7 +550,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -530,7 +578,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var stringResult = fixture.Object[nameof(value.Value)];
@@ -557,7 +605,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -579,7 +627,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = double.Parse(
@@ -603,7 +651,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -627,7 +675,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var stringResult = fixture.Object[nameof(value.Value)];
@@ -654,7 +702,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -676,7 +724,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = float.Parse(
@@ -700,7 +748,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -724,7 +772,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var stringResult = fixture.Object[nameof(value.Value)];
@@ -751,7 +799,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -773,7 +821,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = int.Parse(
@@ -797,7 +845,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -821,7 +869,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var stringResult = fixture.Object[nameof(value.Value)];
@@ -848,7 +896,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -870,7 +918,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = uint.Parse(
@@ -894,7 +942,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -918,7 +966,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var stringResult = fixture.Object[nameof(value.Value)];
@@ -945,7 +993,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -967,7 +1015,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = long.Parse(
@@ -991,7 +1039,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1015,7 +1063,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var stringResult = fixture.Object[nameof(value.Value)];
@@ -1042,7 +1090,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1064,7 +1112,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = ulong.Parse(
@@ -1088,7 +1136,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1112,7 +1160,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var stringResult = fixture.Object[nameof(value.Value)];
@@ -1139,7 +1187,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1161,7 +1209,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = short.Parse(
@@ -1185,7 +1233,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1209,7 +1257,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var stringResult = fixture.Object[nameof(value.Value)];
@@ -1236,7 +1284,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1258,7 +1306,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = ushort.Parse(
@@ -1282,7 +1330,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var result = fixture.Object
@@ -1306,7 +1354,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			var fixture = CreateClass();
 
 			fixture
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			var stringResult = fixture.Object[nameof(value.Value)];

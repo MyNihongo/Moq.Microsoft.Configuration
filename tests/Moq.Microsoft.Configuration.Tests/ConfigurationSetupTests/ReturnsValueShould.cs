@@ -1,40 +1,19 @@
 ﻿using System;
 using FluentAssertions;
-using Microsoft.Extensions.Configuration;
 using Xunit;
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
 
-namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
+namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 {
 	public sealed class ReturnsValueShould : MockTestsBase
 	{
-		[Fact]
-		public void NotSetupIfObjectNull()
-		{
-			const string key = nameof(key);
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupRoot()
-				.Returns(null);
-
-			var result = fixture.Object
-				.GetSection(key)
-				.Exists();
-
-			result
-				.Should()
-				.BeFalse();
-		}
-
 		[Fact]
 		public void ThrowForBool()
 		{
 			const bool value = true;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -48,7 +27,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			bool? value = true;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -62,7 +41,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			const char value = '日';
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -76,7 +55,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			char? value = '日';
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -90,7 +69,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			const int value = 123;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -104,7 +83,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			int? value = 123;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -118,7 +97,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			const uint value = 123u;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -132,7 +111,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			uint? value = 123u;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -146,7 +125,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			const byte value = 123;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -160,7 +139,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			byte? value = 123;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -174,7 +153,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			const sbyte value = 123;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -188,7 +167,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			sbyte? value = 123;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -202,7 +181,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			const short value = 123;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -216,7 +195,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			short? value = 123;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -230,7 +209,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			const ushort value = 123;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -244,7 +223,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			ushort? value = 123;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -258,7 +237,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			const long value = 123L;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -272,7 +251,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			long? value = 123L;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -286,7 +265,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			const ulong value = 123UL;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -300,7 +279,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			ulong? value = 123UL;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -314,7 +293,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			const decimal value = 123m;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -328,7 +307,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			decimal? value = 123m;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -342,7 +321,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			const double value = 123d;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -356,7 +335,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			double? value = 123d;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -370,7 +349,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			const float value = 123f;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -384,7 +363,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			float? value = 123f;
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action
@@ -398,7 +377,7 @@ namespace Moq.Microsoft.Configuration.Tests.Setups.RootSetupTests
 			const string value = nameof(value);
 
 			Action action = () => CreateClass()
-				.SetupRoot()
+				.SetupConfiguration()
 				.Returns(value);
 
 			action

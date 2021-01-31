@@ -2,9 +2,9 @@
 {
 	internal static class PathUtils
 	{
-		public static string Append(string basePath, string segment) =>
+		public static string Append(string basePath, string key) =>
 			string.IsNullOrEmpty(basePath)
-				? segment
-				: $"{basePath}:{segment}";
+				? key
+				: $"{basePath}:{key}";
 	}
 }
