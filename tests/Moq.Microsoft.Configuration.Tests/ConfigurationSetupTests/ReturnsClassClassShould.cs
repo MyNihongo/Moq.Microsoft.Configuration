@@ -10,21 +10,56 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		[Fact]
 		public void ExistValueNode()
 		{
-			throw new Exception();
+			var value = new
+			{
+				Key = new
+				{
+					Value = "value"
+				}
+			};
+
+			var fixture = CreateClass();
+			
+			fixture
+				.SetupConfiguration()
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetSection(nameof(value.Key))
+				.GetSection(nameof(value.Key.Value))
+				.Exists();
+
+			result
+				.Should()
+				.BeTrue();
 		}
 
 		[Fact]
 		public void ExistClassNode()
 		{
-			throw new Exception();
+			var value = new
+			{
+				Key = new
+				{
+					Value = "value"
+				}
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupConfiguration()
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetSection(nameof(value.Key))
+				.Exists();
+
+			result
+				.Should()
+				.BeTrue();
 		}
 
-		[Fact]
-		public void ExistsRootNode()
-		{
-			throw new Exception();
-		}
-		
 		[Theory]
 		[InlineData(null)]
 		[InlineData("value")]

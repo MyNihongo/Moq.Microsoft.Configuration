@@ -7,6 +7,29 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 {
 	public sealed class ReturnsClassShould : MockTestsBase
 	{
+		[Fact]
+		public void ExistValueNode()
+		{
+			var value = new
+			{
+				Value = "value"
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupConfiguration()
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetSection(nameof(value.Value))
+				.Exists();
+
+			result
+				.Should()
+				.BeTrue();
+		}
+
 		[Theory]
 		[InlineData(null)]
 		[InlineData("value")]
@@ -25,6 +48,31 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 
 			var result = fixture.Object
 				.GetValue<string>(nameof(value.Value));
+
+			result
+				.Should()
+				.Be(value.Value);
+		}
+
+		[Theory]
+		[InlineData(null)]
+		[InlineData("value")]
+		public void SetupClassWithStringGet(string input)
+		{
+			var value = new
+			{
+				Value = input
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupConfiguration()
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetSection(nameof(value.Value))
+				.Get<string>();
 
 			result
 				.Should()

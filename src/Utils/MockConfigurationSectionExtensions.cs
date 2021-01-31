@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 
 namespace Moq.Microsoft.Configuration
 {
@@ -24,6 +25,14 @@ namespace Moq.Microsoft.Configuration
 			@this
 				.SetupGet(x => x.Path)
 				.Returns(PathUtils.Append(basePath, key));
+		}
+
+		public static void SetupChildren<T>(this Mock<T> @this, IReadOnlyList<IConfigurationSection> children)
+			where T : class, IConfiguration
+		{
+			@this
+				.Setup(x => x.GetChildren())
+				.Returns(children);
 		}
 
 		public static void SetupPathAccess<T>(this Mock<T> @this, string path, string value)

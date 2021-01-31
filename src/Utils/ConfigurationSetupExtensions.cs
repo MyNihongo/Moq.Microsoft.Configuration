@@ -20,16 +20,21 @@ namespace Moq.Microsoft.Configuration
 			if (props.Length == 0)
 				throw new InvalidOperationException("The root element has no properties");
 
-			foreach (var prop in props)
+			var children = new IConfigurationSection[props.Length];
+			for (var i = 0; i < props.Length; i++)
 			{
-				foreach (var nestedValueConfig in SetupSection(prop, configuration, string.Empty))
+				foreach (var nestedValueConfig in SetupSection(props[i], configuration, string.Empty))
 				{
+					// TODO: combine
 					@this.MockConfiguration.SetupPathAccess(nestedValueConfig.Key, nestedValueConfig.Value.Value);
 					@this.MockConfiguration.SetupSection(nestedValueConfig.Value, nestedValueConfig.Value.Path);
 
-					// TODO: add children
+					if (nestedValueConfig.Value.Path == props[i].Name)
+						children[i] = nestedValueConfig.Value;
 				}
 			}
+
+			@this.MockConfiguration.SetupChildren(children);
 		}
 
 		// TODO: cache types in a dictionary
@@ -61,6 +66,7 @@ namespace Moq.Microsoft.Configuration
 				if (nestedProps.Length == 0)
 					return valueConfigs;
 
+				
 				foreach (var nestedProp in nestedProps)
 				{
 					var nestedBasePath = PathUtils.Append(basePath, prop.Name);
