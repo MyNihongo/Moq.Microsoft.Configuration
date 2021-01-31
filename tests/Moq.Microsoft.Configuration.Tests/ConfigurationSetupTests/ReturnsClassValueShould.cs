@@ -12,10 +12,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = "value"
-				}
+				Value = "value"
 			};
 
 			var fixture = CreateClass();
@@ -25,34 +22,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetSection(nameof(value.Key.Value))
-				.Exists();
-
-			result
-				.Should()
-				.BeTrue();
-		}
-
-		[Fact]
-		public void ExistClassNode()
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = "value"
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var result = fixture.Object
-				.GetSection(nameof(value.Key))
+				.GetSection(nameof(value.Value))
 				.Exists();
 
 			result
@@ -67,10 +37,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -80,25 +47,21 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<string>(nameof(value.Key.Value));
+				.GetValue<string>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
 		[InlineData(null)]
 		[InlineData("value")]
-		public void SetupClassWithStringSection(string input)
+		public void SetupClassWithStringGet(string input)
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -108,13 +71,12 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetSection(nameof(value.Key.Value))
+				.GetSection(nameof(value.Value))
 				.Get<string>();
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -124,10 +86,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -136,38 +95,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.SetupConfiguration()
 				.Returns(value);
 
-			var result = fixture.Object
-				.GetSection(nameof(value.Key))[nameof(value.Key.Value)];
+			var result = fixture.Object[nameof(value.Value)];
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData("value")]
-		public void SetupClassWithStringBracketsFull(string input)
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = input
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var result = fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"];
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -175,10 +107,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = true
-				}
+				Value = true
 			};
 
 			var fixture = CreateClass();
@@ -188,12 +117,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<bool>(nameof(value.Key.Value));
+				.GetValue<bool>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -201,10 +129,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = true
-				}
+				Value = true
 			};
 
 			var fixture = CreateClass();
@@ -214,36 +139,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = bool.Parse(
-				fixture.Object.GetSection(nameof(value.Key))[nameof(value.Key.Value)]);
+				fixture.Object[nameof(value.Value)]);
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Fact]
-		public void SetupClassWithBoolBracketsFull()
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = true
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var result = bool.Parse(
-				fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"]);
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -253,10 +153,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -266,12 +163,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<bool?>(nameof(value.Key.Value));
+				.GetValue<bool?>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -281,10 +177,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -293,8 +186,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.SetupConfiguration()
 				.Returns(value);
 
-			var stringResult = fixture.Object
-				.GetSection(nameof(value.Key))[nameof(value.Key.Value)];
+			var stringResult = fixture.Object[nameof(value.Value)];
 
 			var result = input switch
 			{
@@ -304,39 +196,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData(true)]
-		public void SetupClassWithNullableBoolBracketsFull(bool? input)
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = input
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var stringResult = fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"];
-
-			var result = input switch
-			{
-				null => string.IsNullOrEmpty(stringResult) ? (bool?)null : throw new Exception(),
-				_ => bool.Parse(stringResult)
-			};
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -344,10 +204,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = (byte)123
-				}
+				Value = (byte)123
 			};
 
 			var fixture = CreateClass();
@@ -357,12 +214,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<byte>(nameof(value.Key.Value));
+				.GetValue<byte>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -370,10 +226,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = (byte)123
-				}
+				Value = (byte)123
 			};
 
 			var fixture = CreateClass();
@@ -383,36 +236,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = byte.Parse(
-				fixture.Object.GetSection(nameof(value.Key))[nameof(value.Key.Value)]);
+				fixture.Object[nameof(value.Value)]);
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Fact]
-		public void SetupClassWithByteBracketsFull()
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = (byte)123
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var result = byte.Parse(
-				fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"]);
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -422,10 +250,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -435,12 +260,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<byte?>(nameof(value.Key.Value));
+				.GetValue<byte?>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -450,10 +274,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -462,8 +283,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.SetupConfiguration()
 				.Returns(value);
 
-			var stringResult = fixture.Object
-				.GetSection(nameof(value.Key))[nameof(value.Key.Value)];
+			var stringResult = fixture.Object[nameof(value.Value)];
 
 			var result = input switch
 			{
@@ -473,39 +293,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData((byte)123)]
-		public void SetupClassWithNullableByteBracketsFull(byte? input)
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = input
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var stringResult = fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"];
-
-			var result = input switch
-			{
-				null => string.IsNullOrEmpty(stringResult) ? (byte?)null : throw new Exception(),
-				_ => byte.Parse(stringResult)
-			};
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -513,10 +301,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = (sbyte)123
-				}
+				Value = (sbyte)123
 			};
 
 			var fixture = CreateClass();
@@ -526,12 +311,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<sbyte>(nameof(value.Key.Value));
+				.GetValue<sbyte>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -539,10 +323,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = (sbyte)123
-				}
+				Value = (sbyte)123
 			};
 
 			var fixture = CreateClass();
@@ -552,36 +333,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = sbyte.Parse(
-				fixture.Object.GetSection(nameof(value.Key))[nameof(value.Key.Value)]);
+				fixture.Object[nameof(value.Value)]);
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Fact]
-		public void SetupClassWithSbyteBracketsFull()
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = (sbyte)123
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var result = sbyte.Parse(
-				fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"]);
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -591,10 +347,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -604,12 +357,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<sbyte?>(nameof(value.Key.Value));
+				.GetValue<sbyte?>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -619,10 +371,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -631,8 +380,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.SetupConfiguration()
 				.Returns(value);
 
-			var stringResult = fixture.Object
-				.GetSection(nameof(value.Key))[nameof(value.Key.Value)];
+			var stringResult = fixture.Object[nameof(value.Value)];
 
 			var result = input switch
 			{
@@ -642,39 +390,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData((sbyte)123)]
-		public void SetupClassWithNullableSbyteBracketsFull(sbyte? input)
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = input
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var stringResult = fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"];
-
-			var result = input switch
-			{
-				null => string.IsNullOrEmpty(stringResult) ? (sbyte?)null : throw new Exception(),
-				_ => sbyte.Parse(stringResult)
-			};
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -682,10 +398,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = '日'
-				}
+				Value = '日'
 			};
 
 			var fixture = CreateClass();
@@ -695,12 +408,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<char>(nameof(value.Key.Value));
+				.GetValue<char>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -708,10 +420,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = '日'
-				}
+				Value = '日'
 			};
 
 			var fixture = CreateClass();
@@ -721,36 +430,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = char.Parse(
-				fixture.Object.GetSection(nameof(value.Key))[nameof(value.Key.Value)]);
+				fixture.Object[nameof(value.Value)]);
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Fact]
-		public void SetupClassWithCharBracketsFull()
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = '日'
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var result = char.Parse(
-				fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"]);
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -760,10 +444,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -773,12 +454,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<char?>(nameof(value.Key.Value));
+				.GetValue<char?>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -788,10 +468,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -800,8 +477,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.SetupConfiguration()
 				.Returns(value);
 
-			var stringResult = fixture.Object
-				.GetSection(nameof(value.Key))[nameof(value.Key.Value)];
+			var stringResult = fixture.Object[nameof(value.Value)];
 
 			var result = input switch
 			{
@@ -811,39 +487,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData('日')]
-		public void SetupClassWithNullableCharBracketsFull(char? input)
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = input
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var stringResult = fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"];
-
-			var result = input switch
-			{
-				null => string.IsNullOrEmpty(stringResult) ? (char?)null : throw new Exception(),
-				_ => char.Parse(stringResult)
-			};
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -851,10 +495,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = 123m
-				}
+				Value = 123m
 			};
 
 			var fixture = CreateClass();
@@ -864,12 +505,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<decimal>(nameof(value.Key.Value));
+				.GetValue<decimal>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -877,10 +517,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = 123m
-				}
+				Value = 123m
 			};
 
 			var fixture = CreateClass();
@@ -890,38 +527,12 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = decimal.Parse(
-				fixture.Object.GetSection(nameof(value.Key))[nameof(value.Key.Value)]);
+				fixture.Object[nameof(value.Value)]);
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
-
-		[Fact]
-		public void SetupClassWithDecimalBracketsFull()
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = 123m
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var result = decimal.Parse(
-				fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"]);
-
-			result
-				.Should()
-				.Be(value.Key.Value);
-		}
-
 		[Theory]
 		[InlineData(null)]
 		[InlineData(123)]
@@ -929,13 +540,10 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
+				Value = intInput switch
 				{
-					Value = intInput switch
-					{
-						null => (decimal?)null,
-						not null => Convert.ToDecimal(intInput)
-					}
+					null => (decimal?)null,
+					not null => Convert.ToDecimal(intInput)
 				}
 			};
 
@@ -946,12 +554,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<decimal?>(nameof(value.Key.Value));
+				.GetValue<decimal?>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -961,13 +568,10 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
+				Value = intInput switch
 				{
-					Value = intInput switch
-					{
-						null => (decimal?)null,
-						not null => Convert.ToDecimal(intInput)
-					}
+					null => (decimal?)null,
+					not null => Convert.ToDecimal(intInput)
 				}
 			};
 
@@ -977,8 +581,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.SetupConfiguration()
 				.Returns(value);
 
-			var stringResult = fixture.Object
-				.GetSection(nameof(value.Key))[nameof(value.Key.Value)];
+			var stringResult = fixture.Object[nameof(value.Value)];
 
 			var result = intInput switch
 			{
@@ -988,43 +591,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData(123)]
-		public void SetupClassWithNullableDecimalBracketsFull(int? intInput)
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = intInput switch
-					{
-						null => (decimal?)null,
-						not null => Convert.ToDecimal(intInput)
-					}
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var stringResult = fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"];
-
-			var result = intInput switch
-			{
-				null => string.IsNullOrEmpty(stringResult) ? (decimal?)null : throw new Exception(),
-				_ => decimal.Parse(stringResult)
-			};
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -1032,10 +599,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = 123d
-				}
+				Value = 123d
 			};
 
 			var fixture = CreateClass();
@@ -1045,12 +609,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<double>(nameof(value.Key.Value));
+				.GetValue<double>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -1058,10 +621,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = 123d
-				}
+				Value = 123d
 			};
 
 			var fixture = CreateClass();
@@ -1071,36 +631,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = double.Parse(
-				fixture.Object.GetSection(nameof(value.Key))[nameof(value.Key.Value)]);
+				fixture.Object[nameof(value.Value)]);
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Fact]
-		public void SetupClassWithDoubleBracketsFull()
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = 123d
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var result = double.Parse(
-				fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"]);
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -1110,10 +645,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -1123,12 +655,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<double?>(nameof(value.Key.Value));
+				.GetValue<double?>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -1138,10 +669,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -1150,8 +678,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.SetupConfiguration()
 				.Returns(value);
 
-			var stringResult = fixture.Object
-				.GetSection(nameof(value.Key))[nameof(value.Key.Value)];
+			var stringResult = fixture.Object[nameof(value.Value)];
 
 			var result = input switch
 			{
@@ -1161,39 +688,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData(123d)]
-		public void SetupClassWithNullableDoubleBracketsFull(double? input)
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = input
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var stringResult = fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"];
-
-			var result = input switch
-			{
-				null => string.IsNullOrEmpty(stringResult) ? (double?)null : throw new Exception(),
-				_ => double.Parse(stringResult)
-			};
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -1201,10 +696,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = 123f
-				}
+				Value = 123f
 			};
 
 			var fixture = CreateClass();
@@ -1214,12 +706,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<float>(nameof(value.Key.Value));
+				.GetValue<float>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -1227,10 +718,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = 123f
-				}
+				Value = 123f
 			};
 
 			var fixture = CreateClass();
@@ -1240,36 +728,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = float.Parse(
-				fixture.Object.GetSection(nameof(value.Key))[nameof(value.Key.Value)]);
+				fixture.Object[nameof(value.Value)]);
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Fact]
-		public void SetupClassWithFloatBracketsFull()
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = 123f
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var result = float.Parse(
-				fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"]);
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -1279,10 +742,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -1292,12 +752,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<float?>(nameof(value.Key.Value));
+				.GetValue<float?>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -1307,10 +766,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -1319,8 +775,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.SetupConfiguration()
 				.Returns(value);
 
-			var stringResult = fixture.Object
-				.GetSection(nameof(value.Key))[nameof(value.Key.Value)];
+			var stringResult = fixture.Object[nameof(value.Value)];
 
 			var result = input switch
 			{
@@ -1330,39 +785,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData(123f)]
-		public void SetupClassWithNullableFloatBracketsFull(float? input)
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = input
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var stringResult = fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"];
-
-			var result = input switch
-			{
-				null => string.IsNullOrEmpty(stringResult) ? (float?)null : throw new Exception(),
-				_ => float.Parse(stringResult)
-			};
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -1370,10 +793,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = 123
-				}
+				Value = 123
 			};
 
 			var fixture = CreateClass();
@@ -1383,12 +803,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<int>(nameof(value.Key.Value));
+				.GetValue<int>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -1396,10 +815,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = 123
-				}
+				Value = 123
 			};
 
 			var fixture = CreateClass();
@@ -1409,36 +825,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = int.Parse(
-				fixture.Object.GetSection(nameof(value.Key))[nameof(value.Key.Value)]);
+				fixture.Object[nameof(value.Value)]);
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Fact]
-		public void SetupClassWithIntBracketsFull()
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = 123
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var result = int.Parse(
-				fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"]);
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -1448,10 +839,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -1461,12 +849,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<int?>(nameof(value.Key.Value));
+				.GetValue<int?>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -1476,10 +863,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -1488,8 +872,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.SetupConfiguration()
 				.Returns(value);
 
-			var stringResult = fixture.Object
-				.GetSection(nameof(value.Key))[nameof(value.Key.Value)];
+			var stringResult = fixture.Object[nameof(value.Value)];
 
 			var result = input switch
 			{
@@ -1499,39 +882,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData(123)]
-		public void SetupClassWithNullableIntBracketsFull(int? input)
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = input
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var stringResult = fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"];
-
-			var result = input switch
-			{
-				null => string.IsNullOrEmpty(stringResult) ? (int?)null : throw new Exception(),
-				_ => int.Parse(stringResult)
-			};
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -1539,10 +890,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = 123u
-				}
+				Value = 123u
 			};
 
 			var fixture = CreateClass();
@@ -1552,12 +900,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<uint>(nameof(value.Key.Value));
+				.GetValue<uint>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -1565,10 +912,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = 123u
-				}
+				Value = 123u
 			};
 
 			var fixture = CreateClass();
@@ -1578,36 +922,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = uint.Parse(
-				fixture.Object.GetSection(nameof(value.Key))[nameof(value.Key.Value)]);
+				fixture.Object[nameof(value.Value)]);
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Fact]
-		public void SetupClassWithUintBracketsFull()
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = 123u
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var result = uint.Parse(
-				fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"]);
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -1617,10 +936,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -1630,12 +946,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<uint?>(nameof(value.Key.Value));
+				.GetValue<uint?>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -1645,10 +960,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -1657,8 +969,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.SetupConfiguration()
 				.Returns(value);
 
-			var stringResult = fixture.Object
-				.GetSection(nameof(value.Key))[nameof(value.Key.Value)];
+			var stringResult = fixture.Object[nameof(value.Value)];
 
 			var result = input switch
 			{
@@ -1668,39 +979,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData(123u)]
-		public void SetupClassWithNullableUintBracketsFull(uint? input)
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = input
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var stringResult = fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"];
-
-			var result = input switch
-			{
-				null => string.IsNullOrEmpty(stringResult) ? (uint?)null : throw new Exception(),
-				_ => uint.Parse(stringResult)
-			};
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -1708,10 +987,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = 123L
-				}
+				Value = 123L
 			};
 
 			var fixture = CreateClass();
@@ -1721,12 +997,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<long>(nameof(value.Key.Value));
+				.GetValue<long>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -1734,10 +1009,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = 123L
-				}
+				Value = 123L
 			};
 
 			var fixture = CreateClass();
@@ -1747,36 +1019,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = long.Parse(
-				fixture.Object.GetSection(nameof(value.Key))[nameof(value.Key.Value)]);
+				fixture.Object[nameof(value.Value)]);
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Fact]
-		public void SetupClassWithLongBracketsFull()
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = 123L
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var result = long.Parse(
-				fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"]);
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -1786,10 +1033,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -1799,12 +1043,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<long?>(nameof(value.Key.Value));
+				.GetValue<long?>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -1814,10 +1057,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -1826,8 +1066,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.SetupConfiguration()
 				.Returns(value);
 
-			var stringResult = fixture.Object
-				.GetSection(nameof(value.Key))[nameof(value.Key.Value)];
+			var stringResult = fixture.Object[nameof(value.Value)];
 
 			var result = input switch
 			{
@@ -1837,39 +1076,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData(123L)]
-		public void SetupClassWithNullableLongBracketsFull(long? input)
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = input
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var stringResult = fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"];
-
-			var result = input switch
-			{
-				null => string.IsNullOrEmpty(stringResult) ? (long?)null : throw new Exception(),
-				_ => long.Parse(stringResult)
-			};
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -1877,10 +1084,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = 123UL
-				}
+				Value = 123UL
 			};
 
 			var fixture = CreateClass();
@@ -1890,12 +1094,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<ulong>(nameof(value.Key.Value));
+				.GetValue<ulong>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -1903,10 +1106,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = 123UL
-				}
+				Value = 123UL
 			};
 
 			var fixture = CreateClass();
@@ -1916,36 +1116,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = ulong.Parse(
-				fixture.Object.GetSection(nameof(value.Key))[nameof(value.Key.Value)]);
+				fixture.Object[nameof(value.Value)]);
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Fact]
-		public void SetupClassWithUlongBracketsFull()
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = 123UL
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var result = ulong.Parse(
-				fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"]);
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -1955,10 +1130,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -1968,12 +1140,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<ulong?>(nameof(value.Key.Value));
+				.GetValue<ulong?>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -1983,10 +1154,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -1995,8 +1163,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.SetupConfiguration()
 				.Returns(value);
 
-			var stringResult = fixture.Object
-				.GetSection(nameof(value.Key))[nameof(value.Key.Value)];
+			var stringResult = fixture.Object[nameof(value.Value)];
 
 			var result = input switch
 			{
@@ -2006,39 +1173,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData(123UL)]
-		public void SetupClassWithNullableUlongBracketsFull(ulong? input)
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = input
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var stringResult = fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"];
-
-			var result = input switch
-			{
-				null => string.IsNullOrEmpty(stringResult) ? (ulong?)null : throw new Exception(),
-				_ => ulong.Parse(stringResult)
-			};
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -2046,10 +1181,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = (short)123
-				}
+				Value = (short)123
 			};
 
 			var fixture = CreateClass();
@@ -2059,12 +1191,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<short>(nameof(value.Key.Value));
+				.GetValue<short>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -2072,10 +1203,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = (short)123
-				}
+				Value = (short)123
 			};
 
 			var fixture = CreateClass();
@@ -2085,36 +1213,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = short.Parse(
-				fixture.Object.GetSection(nameof(value.Key))[nameof(value.Key.Value)]);
+				fixture.Object[nameof(value.Value)]);
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Fact]
-		public void SetupClassWithShortBracketsFull()
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = (short)123
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var result = short.Parse(
-				fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"]);
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -2124,10 +1227,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -2137,12 +1237,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<short?>(nameof(value.Key.Value));
+				.GetValue<short?>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -2152,10 +1251,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -2164,8 +1260,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.SetupConfiguration()
 				.Returns(value);
 
-			var stringResult = fixture.Object
-				.GetSection(nameof(value.Key))[nameof(value.Key.Value)];
+			var stringResult = fixture.Object[nameof(value.Value)];
 
 			var result = input switch
 			{
@@ -2175,39 +1270,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData((short)123)]
-		public void SetupClassWithNullableShortBracketsFull(short? input)
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = input
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var stringResult = fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"];
-
-			var result = input switch
-			{
-				null => string.IsNullOrEmpty(stringResult) ? (short?)null : throw new Exception(),
-				_ => short.Parse(stringResult)
-			};
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -2215,10 +1278,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = (ushort)123
-				}
+				Value = (ushort)123
 			};
 
 			var fixture = CreateClass();
@@ -2228,12 +1288,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<ushort>(nameof(value.Key.Value));
+				.GetValue<ushort>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Fact]
@@ -2241,10 +1300,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = (ushort)123
-				}
+				Value = (ushort)123
 			};
 
 			var fixture = CreateClass();
@@ -2254,36 +1310,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = ushort.Parse(
-				fixture.Object.GetSection(nameof(value.Key))[nameof(value.Key.Value)]);
+				fixture.Object[nameof(value.Value)]);
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Fact]
-		public void SetupClassWithUshortBracketsFull()
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = (ushort)123
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var result = ushort.Parse(
-				fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"]);
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -2293,10 +1324,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -2306,12 +1334,11 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Returns(value);
 
 			var result = fixture.Object
-				.GetSection(nameof(value.Key))
-				.GetValue<ushort?>(nameof(value.Key.Value));
+				.GetValue<ushort?>(nameof(value.Value));
 
 			result
 				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 
 		[Theory]
@@ -2321,10 +1348,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 		{
 			var value = new
 			{
-				Key = new
-				{
-					Value = input
-				}
+				Value = input
 			};
 
 			var fixture = CreateClass();
@@ -2333,8 +1357,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.SetupConfiguration()
 				.Returns(value);
 
-			var stringResult = fixture.Object
-				.GetSection(nameof(value.Key))[nameof(value.Key.Value)];
+			var stringResult = fixture.Object[nameof(value.Value)];
 
 			var result = input switch
 			{
@@ -2344,39 +1367,7 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 
 			result
 				.Should()
-				.Be(value.Key.Value);
-		}
-
-		[Theory]
-		[InlineData(null)]
-		[InlineData((ushort)123)]
-		public void SetupClassWithNullableUshortBracketsFull(ushort? input)
-		{
-			var value = new
-			{
-				Key = new
-				{
-					Value = input
-				}
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var stringResult = fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"];
-
-			var result = input switch
-			{
-				null => string.IsNullOrEmpty(stringResult) ? (ushort?)null : throw new Exception(),
-				_ => ushort.Parse(stringResult)
-			};
-
-			result
-				.Should()
-				.Be(value.Key.Value);
+				.Be(value.Value);
 		}
 	}
 }
