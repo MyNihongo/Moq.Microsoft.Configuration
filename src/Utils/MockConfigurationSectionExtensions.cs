@@ -45,6 +45,17 @@ namespace Moq.Microsoft.Configuration
 			@this.SetupPathAccess(relativePath, configurationSection.Value);
 		}
 
+		public static IConfigurationSection SetupEmptySection(this Mock<IConfigurationSection> @this, string relativePath)
+		{
+			var section = Mock.Of<IConfigurationSection>();
+
+			@this
+				.Setup(x => x.GetSection(relativePath))
+				.Returns(section);
+
+			return section;
+		}
+
 		private static void SetupPathAccess<T>(this Mock<T> @this, string relativePath, string value)
 			where T : class, IConfiguration
 		{

@@ -56,8 +56,18 @@ namespace Moq.Microsoft.Configuration
 				var i = 0;
 				foreach (var item in (IEnumerable)sectionInfo.Value)
 				{
+					var itemName = i.ToString();
+					
+					if (item == null)
+					{
+						var emptySection = mockSection.SetupEmptySection(itemName);
+						children.Add(emptySection);
+						
+						goto Continue;
+					}
+					
 					var nestedBasePath = PathUtils.Append(basePath, sectionInfo.Name);
-					var nestedSectionInfo = new SectionInfo(i.ToString(), item, item.GetType());
+					var nestedSectionInfo = new SectionInfo(itemName, item, item.GetType());
 
 					// TODO: looks like copy-paste?
 					foreach (var nestedValueConfig in SetupSection(nestedSectionInfo, nestedBasePath))
@@ -71,6 +81,7 @@ namespace Moq.Microsoft.Configuration
 							children.Add(nestedValueConfig.Value);
 					}
 
+					Continue:
 					i++;
 				}
 
