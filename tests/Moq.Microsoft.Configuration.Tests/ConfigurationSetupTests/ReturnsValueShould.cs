@@ -1,6 +1,5 @@
 ﻿using System;
 using FluentAssertions;
-using Microsoft.Extensions.Configuration;
 using Xunit;
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
 
@@ -8,26 +7,6 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 {
 	public sealed class ReturnsValueShould : MockTestsBase
 	{
-		[Fact]
-		public void NotSetupIfObjectNull()
-		{
-			const string key = nameof(key);
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(null);
-
-			var result = fixture.Object
-				.GetSection(key)
-				.Exists();
-
-			result
-				.Should()
-				.BeFalse();
-		}
-
 		[Fact]
 		public void ThrowForBool()
 		{
