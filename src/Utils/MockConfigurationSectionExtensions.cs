@@ -35,20 +35,22 @@ namespace Moq.Microsoft.Configuration
 				.Returns(children);
 		}
 
-		public static void SetupPathAccess<T>(this Mock<T> @this, string path, string value)
+		public static void SetupSection<T>(this Mock<T> @this, IConfigurationSection configurationSection, string relativePath)
 			where T : class, IConfiguration
 		{
 			@this
-				.Setup(x => x[path])
-				.Returns(value);
+				.Setup(x => x.GetSection(relativePath))
+				.Returns(configurationSection);
+
+			@this.SetupPathAccess(relativePath, configurationSection.Value);
 		}
 
-		public static void SetupSection<T>(this Mock<T> @this, IConfigurationSection configurationSection, string name)
+		private static void SetupPathAccess<T>(this Mock<T> @this, string relativePath, string value)
 			where T : class, IConfiguration
 		{
 			@this
-				.Setup(x => x.GetSection(name))
-				.Returns(configurationSection);
+				.Setup(x => x[relativePath])
+				.Returns(value);
 		}
 	}
 }

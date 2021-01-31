@@ -25,8 +25,6 @@ namespace Moq.Microsoft.Configuration
 			{
 				foreach (var nestedValueConfig in SetupSection(props[i], configuration, string.Empty))
 				{
-					// TODO: combine
-					@this.MockConfiguration.SetupPathAccess(nestedValueConfig.Key, nestedValueConfig.Value.Value);
 					@this.MockConfiguration.SetupSection(nestedValueConfig.Value, nestedValueConfig.Key);
 
 					if (nestedValueConfig.Value.Path == props[i].Name)
@@ -73,7 +71,6 @@ namespace Moq.Microsoft.Configuration
 
 					foreach (var nestedValueConfig in SetupSection(nestedProps[i], value, nestedBasePath))
 					{
-						mockSection.SetupPathAccess(nestedValueConfig.Key, nestedValueConfig.Value.Value);
 						mockSection.SetupSection(nestedValueConfig.Value, nestedValueConfig.Key);
 
 						var pathToNestedValue = PathUtils.Append(prop.Name, nestedValueConfig.Key);
