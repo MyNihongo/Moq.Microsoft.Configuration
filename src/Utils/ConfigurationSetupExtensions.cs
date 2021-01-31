@@ -27,7 +27,7 @@ namespace Moq.Microsoft.Configuration
 				{
 					// TODO: combine
 					@this.MockConfiguration.SetupPathAccess(nestedValueConfig.Key, nestedValueConfig.Value.Value);
-					@this.MockConfiguration.SetupSection(nestedValueConfig.Value, nestedValueConfig.Value.Path);
+					@this.MockConfiguration.SetupSection(nestedValueConfig.Value, nestedValueConfig.Key);
 
 					if (nestedValueConfig.Value.Path == props[i].Name)
 						children[i] = nestedValueConfig.Value;
