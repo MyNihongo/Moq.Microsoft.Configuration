@@ -5,7 +5,7 @@ namespace Moq.Microsoft.Configuration
 {
 	internal static class MockConfigurationSectionExtensions
 	{
-		public static void SetupValue(this Mock<IConfigurationSection> @this, object value, string key, string basePath)
+		public static void SetupValue(this Mock<IConfigurationSection> @this, object value, string key)
 		{
 			var stringValue = value.SerialiseValue()!;
 

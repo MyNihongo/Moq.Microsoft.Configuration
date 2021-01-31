@@ -50,7 +50,7 @@ namespace Moq.Microsoft.Configuration
 
 			if (IsPrimitive(prop.PropertyType))
 			{
-				mockSection.SetupValue(value, prop.Name, basePath);
+				mockSection.SetupValue(value, prop.Name);
 			}
 			else if (typeof(IEnumerable).IsAssignableFrom(prop.PropertyType))
 			{
