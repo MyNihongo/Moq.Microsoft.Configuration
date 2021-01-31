@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using Microsoft.Extensions.Configuration;
 
 namespace Moq.Microsoft.Configuration
@@ -23,7 +22,7 @@ namespace Moq.Microsoft.Configuration
 			var children = new IConfigurationSection[props.Length];
 			for (var i = 0; i < props.Length; i++)
 			{
-				foreach (var nestedValueConfig in SetupSection(props[i], configuration, string.Empty))
+				foreach (var nestedValueConfig in SetupSection(props[i].ToSectionInfo(configuration), string.Empty))
 				{
 					@this.MockConfiguration.SetupSection(nestedValueConfig.Value, nestedValueConfig.Key);
 
@@ -36,29 +35,27 @@ namespace Moq.Microsoft.Configuration
 		}
 
 		// TODO: cache types in a dictionary
-		private static IReadOnlyDictionary<string, IConfigurationSection> SetupSection(PropertyInfo prop, object configObject, string basePath)
+		private static IReadOnlyDictionary<string, IConfigurationSection> SetupSection(SectionInfo sectionInfo, string basePath)
 		{
 			var mockSection = new Mock<IConfigurationSection>();
-			mockSection.SetupKeyAndPath(prop.Name, basePath);
+			mockSection.SetupKeyAndPath(sectionInfo.Name, basePath);
 
 			var valueConfigs = new Dictionary<string, IConfigurationSection>
 			{
-				{prop.Name, mockSection.Object}
+				{sectionInfo.Name, mockSection.Object}
 			};
 
-			var value = prop.GetValue(configObject)!;
-
-			if (IsPrimitive(prop.PropertyType))
+			if (IsPrimitive(sectionInfo.SectionType))
 			{
-				mockSection.SetupValue(value, prop.Name);
+				mockSection.SetupValue(sectionInfo.Value, sectionInfo.Name);
 			}
-			else if (typeof(IEnumerable).IsAssignableFrom(prop.PropertyType))
+			else if (typeof(IEnumerable).IsAssignableFrom(sectionInfo.SectionType))
 			{
 				throw new NotImplementedException();
 			}
 			else
 			{
-				var nestedProps = prop.PropertyType
+				var nestedProps = sectionInfo.SectionType
 					.GetProperties();
 
 				if (nestedProps.Length == 0)
@@ -67,13 +64,13 @@ namespace Moq.Microsoft.Configuration
 				var children = new IConfigurationSection[nestedProps.Length];
 				for (var i = 0; i < nestedProps.Length; i++)
 				{
-					var nestedBasePath = PathUtils.Append(basePath, prop.Name);
+					var nestedBasePath = PathUtils.Append(basePath, sectionInfo.Name);
 
-					foreach (var nestedValueConfig in SetupSection(nestedProps[i], value, nestedBasePath))
+					foreach (var nestedValueConfig in SetupSection(nestedProps[i].ToSectionInfo(sectionInfo.Value), nestedBasePath))
 					{
 						mockSection.SetupSection(nestedValueConfig.Value, nestedValueConfig.Key);
 
-						var pathToNestedValue = PathUtils.Append(prop.Name, nestedValueConfig.Key);
+						var pathToNestedValue = PathUtils.Append(sectionInfo.Name, nestedValueConfig.Key);
 						valueConfigs.Add(pathToNestedValue, nestedValueConfig.Value);
 
 						if (nestedValueConfig.Value.Path == PathUtils.Append(nestedBasePath, nestedValueConfig.Value.Key))
