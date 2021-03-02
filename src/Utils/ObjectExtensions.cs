@@ -9,6 +9,7 @@ namespace Moq.Microsoft.Configuration
 			@this switch
 			{
 				null => null,
+				Enum x => x.ToString(),
 				string x => x,
 				bool x => x ? "true" : "false",
 				char or byte or sbyte or int or uint or long or ulong or short or ushort => @this.ToString(),

@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
+using Moq.Microsoft.Configuration.Tests.Resources;
 using Xunit;
 
 namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
@@ -1852,6 +1853,35 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 					.Should()
 					.Be(value.Key.Values[i]);
 			}
+		}
+
+		[Fact]
+		public void SetupClassWithEnumLongArrays()
+		{
+			var value = new
+			{
+				Key = new
+				{
+					Values = new[] { LongEnum.Val1, LongEnum.Val2 }
+				}
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupConfiguration()
+				.Returns(value);
+
+			var section = fixture.Object
+				.GetSection(nameof(value.Key));
+
+			var result = section
+				.GetSection(nameof(value.Key.Values))
+				.Get<LongEnum[]>();
+
+			result
+				.Should()
+				.BeEquivalentTo(value.Key.Values);
 		}
 
 		[Fact]

@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
+using Moq.Microsoft.Configuration.Tests.Resources;
 using Xunit;
 
 namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
@@ -1773,6 +1774,32 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 
 			var result = long.Parse(
 				fixture.Object[$"{nameof(value.Key)}:{nameof(value.Key.Value)}"]);
+
+			result
+				.Should()
+				.Be(value.Key.Value);
+		}
+
+		[Fact]
+		public void SetupClassWithEnumLong()
+		{
+			var value = new
+			{
+				Key = new
+				{
+					Value = LongEnum.Val1
+				}
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupConfiguration()
+				.Returns(value);
+
+			var result = fixture.Object
+				.GetSection(nameof(value.Key))
+				.GetValue<LongEnum>(nameof(value.Key.Value));
 
 			result
 				.Should()
