@@ -1,4 +1,5 @@
-[![Version](https://img.shields.io/nuget/v/MoqMicrosoftConfiguration?style=plastic)](https://www.nuget.org/packages/MoqMicrosoftConfiguration/)  
+[![Version](https://img.shields.io/nuget/v/MoqMicrosoftConfiguration?style=plastic)](https://www.nuget.org/packages/MoqMicrosoftConfiguration/)
+[![Nuget downloads](https://img.shields.io/nuget/dt/MoqMicrosoftConfiguration?label=nuget%20downloads&logo=nuget&style=plastic)](https://www.nuget.org/packages/MoqMicrosoftConfiguration/)   
 Moq for Microsoft.Extensions.Configuration
 ***
 Access values by specifying a path to the value in `[]` and with `:`.
