@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 
@@ -22,7 +23,7 @@ namespace Moq.Microsoft.Configuration
 			throw new System.NotImplementedException();
 
 		public IEnumerable<IConfigurationSection> GetChildren() =>
-			throw new System.NotImplementedException();
+			Enumerable.Empty<IConfigurationSection>();
 
 		public IChangeToken GetReloadToken() =>
 			throw new System.NotImplementedException();
