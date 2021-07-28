@@ -6,7 +6,7 @@
 		<LangVersion>latest</LangVersion>
 		<PackageId>MoqMicrosoftConfiguration</PackageId>
 		<ApplicationIcon>favico.ico</ApplicationIcon>
-		<Version>1.0.4.1</Version>
+		<Version>1.0.4.2</Version>
 		<Authors>Moq contributors</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/moq</PackageProjectUrl>
