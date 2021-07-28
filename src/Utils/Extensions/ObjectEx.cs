@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Moq.Microsoft.Configuration
 {
-	internal static class ObjectExtensions
+	internal static class ObjectEx
 	{
 		public static string? SerialiseValue<T>(this T @this) =>
 			@this switch

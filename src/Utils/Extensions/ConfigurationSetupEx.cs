@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Moq.Microsoft.Configuration
 {
-	internal static class ConfigurationSetupExtensions
+	internal static class ConfigurationSetupEx
 	{
 		private static readonly SectionInfoProvider SectionInfoProvider = new();
 
