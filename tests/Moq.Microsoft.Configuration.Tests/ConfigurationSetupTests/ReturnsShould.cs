@@ -203,5 +203,42 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Should()
 				.Be(fallbackValue);
 		}
+
+		[Fact]
+		public void NotThrowNullRefForUnspecifiedSectionsChildSections()
+		{
+			const int intValue = 123, fallbackValue = -1234;
+
+			var value = new
+			{
+				Section = new
+				{
+					Set = intValue
+				}
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupConfiguration()
+				.Returns(value);
+
+			var section = fixture.Object.GetSection(nameof(value.Section));
+
+			section
+				.GetValue<int>(nameof(value.Section.Set))
+				.Should()
+				.Be(intValue);
+
+			section
+				.GetValue<int>("NotSet")
+				.Should()
+				.Be(0);
+
+			section
+				.GetValue("NotSet", fallbackValue)
+				.Should()
+				.Be(fallbackValue);
+		}
 	}
 }

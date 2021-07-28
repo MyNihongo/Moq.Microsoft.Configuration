@@ -21,10 +21,7 @@ namespace Moq.Microsoft.Configuration
 			if (props.Count == 0)
 				throw new InvalidOperationException("The root element has no properties");
 
-			// When a section is not found, a default section is returned instead
-			@this.MockConfiguration
-				.Setup(x => x.GetSection(It.IsAny<string>()))
-				.Returns((string x) => new ConfigurationSection(x));
+			@this.MockConfiguration.SetupDefaultSection();
 
 			var children = new IConfigurationSection[props.Count];
 			for (var i = 0; i < props.Count; i++)
@@ -44,6 +41,7 @@ namespace Moq.Microsoft.Configuration
 		private static IReadOnlyDictionary<string, IConfigurationSection> SetupSection(SectionInfo sectionInfo, string basePath)
 		{
 			var mockSection = new Mock<IConfigurationSection>();
+			mockSection.SetupDefaultSection();
 			mockSection.SetupKeyAndPath(sectionInfo.Name, basePath);
 
 			var valueConfigs = new Dictionary<string, IConfigurationSection>
