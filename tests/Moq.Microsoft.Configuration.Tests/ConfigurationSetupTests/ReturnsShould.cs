@@ -171,5 +171,37 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 					.BeEquivalentTo(value.Items[i]);
 			}
 		}
+
+		[Fact]
+		public void NotThrowNullRefForUnspecifiedSections()
+		{
+			const int intValue = 123, fallbackValue = -1234;
+
+			var value = new
+			{
+				Set = intValue
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupConfiguration()
+				.Returns(value);
+
+			fixture.Object
+				.GetValue<int>(nameof(value.Set))
+				.Should()
+				.Be(intValue);
+
+			fixture.Object
+				.GetValue<int>("NotSet")
+				.Should()
+				.Be(0);
+
+			fixture.Object
+				.GetValue("NotSet", fallbackValue)
+				.Should()
+				.Be(fallbackValue);
+		}
 	}
 }

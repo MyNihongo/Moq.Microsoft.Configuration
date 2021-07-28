@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Moq.Microsoft.Configuration
 {
-	internal static class MockConfigurationSectionExtensions
+	internal static class MockConfigurationSectionEx
 	{
 		public static void SetupValue(this Mock<IConfigurationSection> @this, object value, string key)
 		{
