@@ -5,6 +5,17 @@ namespace Moq.Microsoft.Configuration
 {
 	internal static class MockConfigurationSectionEx
 	{
+		/// <summary>
+		/// When a section is not found, a default section is returned instead
+		/// </summary>
+		public static void SetupDefaultSection<T>(this Mock<T> @this)
+			where T : class, IConfiguration
+		{
+			@this
+				.Setup(x => x.GetSection(It.IsAny<string>()))
+				.Returns((string x) => new ConfigurationSection(x));
+		}
+
 		public static void SetupValue(this Mock<IConfigurationSection> @this, object value, string key)
 		{
 			var stringValue = value.SerialiseValue()!;
