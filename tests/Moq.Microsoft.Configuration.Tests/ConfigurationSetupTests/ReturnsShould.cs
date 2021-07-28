@@ -240,5 +240,80 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 				.Should()
 				.Be(fallbackValue);
 		}
+
+		[Fact]
+		public void NotThrowNullRefForUnspecifiedSectionsChildSectionsAccessor()
+		{
+			const int intValue = 123, fallbackValue = -1234;
+
+			var value = new
+			{
+				Section = new
+				{
+					Set = intValue
+				}
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupConfiguration()
+				.Returns(value);
+
+			fixture.Object
+				.GetValue<int>($"{nameof(value.Section)}:{nameof(value.Section.Set)}")
+				.Should()
+				.Be(intValue);
+
+			fixture.Object
+				.GetValue<int>($"{nameof(value.Section)}:NotSet")
+				.Should()
+				.Be(0);
+
+			fixture.Object
+				.GetValue($"{nameof(value.Section)}:NotSet", fallbackValue)
+				.Should()
+				.Be(fallbackValue);
+		}
+
+		[Fact]
+		public void NotThrowNullRefForUnspecifiedRootChildSectionsAccessor()
+		{
+			const int intValue = 123, fallbackValue = -1234;
+
+			var value = new
+			{
+				Section = new
+				{
+					Set = intValue
+				}
+			};
+
+			var fixture = CreateClass();
+
+			fixture
+				.SetupConfiguration()
+				.Returns(value);
+
+			fixture.Object
+				.GetValue<int>($"NotExists:{nameof(value.Section.Set)}")
+				.Should()
+				.Be(0);
+
+			fixture.Object
+				.GetValue($"NotExists:{nameof(value.Section.Set)}", fallbackValue)
+				.Should()
+				.Be(fallbackValue);
+
+			fixture.Object
+				.GetValue<int>("NotExists:NotSet")
+				.Should()
+				.Be(0);
+
+			fixture.Object
+				.GetValue("NotExists:NotSet", fallbackValue)
+				.Should()
+				.Be(fallbackValue);
+		}
 	}
 }
