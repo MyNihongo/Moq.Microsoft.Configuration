@@ -8,7 +8,6 @@ namespace Moq.Microsoft.Configuration
 	internal static class ConfigurationSetupExtensions
 	{
 		private static readonly SectionInfoProvider SectionInfoProvider = new();
-		//private static readonly IConfigurationRoot
 
 		public static void SetupConfigurationTree(this ConfigurationSetup @this, object configuration)
 		{
