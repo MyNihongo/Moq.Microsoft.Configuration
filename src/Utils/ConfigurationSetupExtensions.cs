@@ -8,6 +8,7 @@ namespace Moq.Microsoft.Configuration
 	internal static class ConfigurationSetupExtensions
 	{
 		private static readonly SectionInfoProvider SectionInfoProvider = new();
+		//private static readonly IConfigurationRoot
 
 		public static void SetupConfigurationTree(this ConfigurationSetup @this, object configuration)
 		{
@@ -20,6 +21,11 @@ namespace Moq.Microsoft.Configuration
 
 			if (props.Count == 0)
 				throw new InvalidOperationException("The root element has no properties");
+
+			// When a section is not found, a default section is returned instead
+			@this.MockConfiguration
+				.Setup(x => x.GetSection(It.IsAny<string>()))
+				.Returns((string x) => new ConfigurationSection(x));
 
 			var children = new IConfigurationSection[props.Count];
 			for (var i = 0; i < props.Count; i++)
