@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Moq.Microsoft.Configuration.Tests.EmptyMockConfigurationTests
 {
-	public sealed class EmptyMockConfigurationShould : MockEmptyTestsBase
+	public sealed class EmptyMockConfigurationShould : EmptyConfigurationRootTestsBase
 	{
 		[Fact]
 		public void ReturnDefaultValue()

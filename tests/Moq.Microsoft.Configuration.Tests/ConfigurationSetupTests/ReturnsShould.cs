@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 {
-	public sealed class ReturnsShould : MockTestsBase
+	public sealed class ReturnsShould : ConfigurationTestsBase
 	{
 		[Fact]
 		public void SetupChildrenRoot()
