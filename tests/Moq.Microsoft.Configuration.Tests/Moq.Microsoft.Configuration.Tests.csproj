@@ -24,6 +24,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\src\Moq.Microsoft.Configuration.csproj" />
+	  <ProjectReference Include="..\Moq.Microsoft.Configuration.Tests.SourceGenerators\Moq.Microsoft.Configuration.Tests.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
 </Project>
