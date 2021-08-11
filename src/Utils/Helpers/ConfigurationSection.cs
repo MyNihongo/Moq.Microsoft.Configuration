@@ -20,7 +20,7 @@ namespace Moq.Microsoft.Configuration
 		public string? Value { get; set; }
 
 		public IConfigurationSection GetSection(string key) =>
-			throw new System.NotImplementedException();
+			new ConfigurationSection(key);
 
 		public IEnumerable<IConfigurationSection> GetChildren() =>
 			Enumerable.Empty<IConfigurationSection>();

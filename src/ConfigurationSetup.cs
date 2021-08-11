@@ -19,5 +19,8 @@ namespace Moq.Microsoft.Configuration
 			
 			this.SetupConfigurationTree(param);
 		}
+
+		void ISetup<object>.ReturnsEmpty() =>
+			this.SetupConfigurationTree(EmptyModel.Instance);
 	}
 }
