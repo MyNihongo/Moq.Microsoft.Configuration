@@ -2,14 +2,15 @@
 
 namespace Moq.Microsoft.Configuration
 {
-	internal sealed class ConfigurationSetup : ISetup<object>
+	internal sealed class ConfigurationSetup<T> : ISetup<object>
+		where T : class, IConfiguration
 	{
-		public ConfigurationSetup(Mock<IConfiguration> mockConfiguration)
+		public ConfigurationSetup(Mock<T> mockConfiguration)
 		{
 			MockConfiguration = mockConfiguration;
 		}
 
-		internal Mock<IConfiguration> MockConfiguration { get; }
+		internal Mock<T> MockConfiguration { get; }
 
 		public void Returns(object? param)
 		{
@@ -18,5 +19,8 @@ namespace Moq.Microsoft.Configuration
 			
 			this.SetupConfigurationTree(param);
 		}
+
+		void ISetup<object>.ReturnsEmpty() =>
+			this.SetupConfigurationTree(EmptyModel.Instance);
 	}
 }

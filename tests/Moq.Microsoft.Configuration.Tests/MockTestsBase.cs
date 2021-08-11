@@ -4,7 +4,7 @@ namespace Moq.Microsoft.Configuration.Tests
 {
 	public abstract class MockTestsBase
 	{
-		protected Mock<IConfiguration> CreateClass() =>
-			new Mock<IConfiguration>();
+		protected static Mock<IConfiguration> CreateClass() =>
+			new();
 	}
 }

@@ -7,10 +7,12 @@ namespace Moq.Microsoft.Configuration
 {
 	internal sealed class ConfigurationSection : IConfigurationSection
 	{
-		public ConfigurationSection(string key)
+		public ConfigurationSection(string key, string? path = null)
 		{
+			path ??= "Unknown";
+
 			Key = key;
-			Path = $"Unknown:{key}";
+			Path = $"{path}:{key}";
 		}
 
 		public string Key { get; }
@@ -20,7 +22,7 @@ namespace Moq.Microsoft.Configuration
 		public string? Value { get; set; }
 
 		public IConfigurationSection GetSection(string key) =>
-			throw new System.NotImplementedException();
+			new ConfigurationSection(key, Path);
 
 		public IEnumerable<IConfigurationSection> GetChildren() =>
 			Enumerable.Empty<IConfigurationSection>();

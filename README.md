@@ -2,6 +2,11 @@
 [![Nuget downloads](https://img.shields.io/nuget/dt/MoqMicrosoftConfiguration?label=nuget%20downloads&logo=nuget&style=plastic)](https://www.nuget.org/packages/MoqMicrosoftConfiguration/)   
 Moq for Microsoft.Extensions.Configuration
 ***
+Create empty Configuration sections or `Mock<IConfiguration>`. The latter way will not initialise any configuration sections.
+```cs
+var mockConfiguration = new EmptyMockConfiguration<IConfiguration>();
+var mockConfiguration = new EmptyMockConfiguration<IConfigurationRoot>();
+```
 Access values by specifying a path to the value in `[]` and with `:`.
 ```cs
 [Fact]
