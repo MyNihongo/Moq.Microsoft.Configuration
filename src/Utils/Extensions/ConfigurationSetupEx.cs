@@ -9,19 +9,20 @@ namespace Moq.Microsoft.Configuration
 	{
 		private static readonly SectionInfoProvider SectionInfoProvider = new();
 
-		public static void SetupConfigurationTree(this ConfigurationSetup @this, object configuration)
+		public static void SetupConfigurationTree<T>(this ConfigurationSetup<T> @this, object configuration)
+			where T : class, IConfiguration
 		{
 			var type = configuration.GetType();
 
 			if (IsPrimitive(type) || typeof(IEnumerable).IsAssignableFrom(type))
 				throw new InvalidOperationException($"A {type.FullName} cannot be set as the root because it does not have a root property");
 
+			@this.MockConfiguration.SetupDefaultSection();
+
 			var props = SectionInfoProvider.Resolve(type, configuration);
 
 			if (props.Count == 0)
-				throw new InvalidOperationException("The root element has no properties");
-
-			@this.MockConfiguration.SetupDefaultSection();
+				return;
 
 			var children = new IConfigurationSection[props.Count];
 			for (var i = 0; i < props.Count; i++)
