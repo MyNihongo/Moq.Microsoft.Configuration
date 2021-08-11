@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 {
-	public sealed class ReturnsClassValueShould : MockTestsBase
+	public sealed class ReturnsClassValueShould : ConfigurationTestsBase
 	{
 		[Fact]
 		public void ExistValueNode()

@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 {
-	public sealed class ReturnsEnumerableShould : MockTestsBase
+	public sealed class ReturnsEnumerableShould : ConfigurationTestsBase
 	{
 		[Fact]
 		public void ThrowForBoolEnumerable()

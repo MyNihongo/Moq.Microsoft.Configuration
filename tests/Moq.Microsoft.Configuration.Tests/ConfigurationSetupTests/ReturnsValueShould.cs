@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 {
-	public sealed class ReturnsValueShould : MockTestsBase
+	public sealed class ReturnsValueShould : ConfigurationTestsBase
 	{
 		[Fact]
 		public void ThrowForBool()

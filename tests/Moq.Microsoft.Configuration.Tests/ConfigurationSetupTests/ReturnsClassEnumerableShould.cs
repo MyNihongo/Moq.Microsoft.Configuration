@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 {
-	public sealed class ReturnsClassEnumerableShould : MockTestsBase
+	public sealed class ReturnsClassEnumerableShould : ConfigurationTestsBase
 	{
 		[Fact]
 		public void ExistEnumerableNode()

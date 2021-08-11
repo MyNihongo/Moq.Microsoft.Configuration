@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 {
-	public sealed class ReturnModelShould : MockTestsBase
+	public sealed class ReturnModelShould : ConfigurationTestsBase
 	{
 		[Fact]
 		public void BindModel()
