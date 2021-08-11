@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
-using Microsoft.Extensions.ObjectPool;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Extensions;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Interfaces;
@@ -15,8 +14,8 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators
 		public void Initialize(GeneratorInitializationContext context)
 		{
 #if DEBUG
-			if (!System.Diagnostics.Debugger.IsAttached)
-				System.Diagnostics.Debugger.Launch();
+			//if (!System.Diagnostics.Debugger.IsAttached)
+			//	System.Diagnostics.Debugger.Launch();
 #endif
 		}
 
@@ -32,16 +31,13 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators
 				typeof(bool)
 			};
 
-			var stringBuilderPool = new DefaultObjectPoolProvider()
-				.CreateStringBuilderPool();
-
 			foreach (var baseClass in CreateBaseClasses())
 			{
 				context.AddSource(in baseClass);
 
 				for (var i = 0; i < generators.Length; i++)
 				{
-					var testClass = generators[i].Generate(baseClass.ClassName, types, stringBuilderPool);
+					var testClass = generators[i].Generate(baseClass.ClassName, types);
 					context.AddSource(testClass);
 				}
 			}

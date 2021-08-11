@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Extensions.ObjectPool;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Interfaces;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Models;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Resources;
@@ -17,15 +16,15 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators.Base
 			_testCase = testCase;
 		}
 
-		public ClassDeclaration Generate(string baseClass, Type[] types, ObjectPool<StringBuilder> stringBuilderPool)
+		public ClassDeclaration Generate(string baseClass, Type[] types)
 		{
-			var stringBuilder = stringBuilderPool.Get();
+			var stringBuilder = new StringBuilder();
 
 			// Using statements
 			foreach (var @using in GetUsings())
 			{
 				stringBuilder
-					.AppendFormat("{0};", @using)
+					.AppendFormat("using {0};", @using)
 					.AppendLine();
 			}
 
@@ -33,7 +32,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators.Base
 			var className = $"{baseClass}_{_testCase}";
 
 			stringBuilder
-				.AppendFormat("namespace {0}", GeneratorConst.Namespace)
+				.AppendFormat("namespace {0}", GeneratorConst.Namespace).AppendLine()
 				.AppendLine("{")
 				.AppendFormat("\tpublic sealed class {0} : {1}", className, baseClass).AppendLine()
 				.AppendLine("\t{");
