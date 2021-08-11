@@ -11,11 +11,5 @@
 		public string ClassName { get; }
 
 		public string Declaration { get; }
-
-		public void Deconstruct(out string className, out string declaration)
-		{
-			className = ClassName;
-			declaration = Declaration;
-		}
 	}
 }

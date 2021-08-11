@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
+using Microsoft.Extensions.ObjectPool;
+using Moq.Microsoft.Configuration.Tests.SourceGenerators.Extensions;
+using Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators;
+using Moq.Microsoft.Configuration.Tests.SourceGenerators.Interfaces;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Models;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Resources;
 
@@ -11,15 +15,36 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators
 		public void Initialize(GeneratorInitializationContext context)
 		{
 #if DEBUG
-			//if (!System.Diagnostics.Debugger.IsAttached)
-			//	System.Diagnostics.Debugger.Launch();
+			if (!System.Diagnostics.Debugger.IsAttached)
+				System.Diagnostics.Debugger.Launch();
 #endif
 		}
 
 		public void Execute(GeneratorExecutionContext context)
 		{
-			foreach (var (className, declaration) in CreateBaseClasses())
-				context.AddSource(className, declaration);
+			var generators = new ITestGenerator[]
+			{
+				new ReturnsValueGenerator()
+			};
+
+			var types = new[]
+			{
+				typeof(bool)
+			};
+
+			var stringBuilderPool = new DefaultObjectPoolProvider()
+				.CreateStringBuilderPool();
+
+			foreach (var baseClass in CreateBaseClasses())
+			{
+				context.AddSource(in baseClass);
+
+				for (var i = 0; i < generators.Length; i++)
+				{
+					var testClass = generators[i].Generate(baseClass.ClassName, types, stringBuilderPool);
+					context.AddSource(testClass);
+				}
+			}
 
 			const string src =
 @"using System;
@@ -55,7 +80,7 @@ namespace Moq.Microsoft.Configuration.Tests
 			}
 
 			static ClassDeclaration CreateBaseClass(string interfaceType, bool isEmpty)
-			{	
+			{
 				var className = $"{interfaceType.Substring(1)}TestsBase";
 				if (isEmpty)
 					className = "Empty" + className;
