@@ -6,7 +6,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Models
 {
 	internal sealed record TypeDetails
 	{
-		public TypeDetails(TestType testType, string declarationName, bool isNullable = false, bool isConst = true)
+		public TypeDetails(in TestType testType, in string declarationName, in bool isNullable = false, in bool isConst = true)
 		{
 			TestType = testType;
 			BasicDeclarationName = declarationName;
