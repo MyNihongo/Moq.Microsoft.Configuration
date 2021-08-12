@@ -18,7 +18,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 
 			stringBuilder
 				.AppendLine("[Fact]")
-				.AppendFormat("public void ThrowException{0}()", type.TestType).AppendLine()
+				.AppendFormat("public void ThrowException_{0}()", type.TestType).AppendLine()
 				.AppendLine("{")
 				.AppendFormat("\t{0} value = {1};", declaration, type.ValueTexts[0]).AppendLine()
 				.AppendFormat("\tAction action = () => {0}().SetupConfiguration().Returns(value);", GeneratorConst.CreateFixtureMethodName).AppendLine()
