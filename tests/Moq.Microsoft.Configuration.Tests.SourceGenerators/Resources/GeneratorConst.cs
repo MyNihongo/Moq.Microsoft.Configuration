@@ -3,5 +3,6 @@
 	internal static class GeneratorConst
 	{
 		public const string Namespace = "Moq.Microsoft.Configuration.Tests";
+		public const string CreateFixtureMethodName = "CreateClass";
 	}
 }

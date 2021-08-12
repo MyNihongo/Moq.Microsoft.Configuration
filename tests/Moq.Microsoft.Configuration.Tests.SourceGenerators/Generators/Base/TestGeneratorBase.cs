@@ -16,7 +16,9 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators.Base
 			_testCase = testCase;
 		}
 
-		public ClassDeclaration Generate(string baseClass, Type[] types)
+		protected abstract void CreateTestsForType(TypeDetails type, StringBuilder stringBuilder);
+
+		public ClassDeclaration Generate(string baseClass, TypeDetails[] types)
 		{
 			var stringBuilder = new StringBuilder();
 
@@ -36,6 +38,9 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators.Base
 				.AppendLine("{")
 				.AppendFormat("\tpublic sealed class {0} : {1}", className, baseClass).AppendLine()
 				.AppendLine("\t{");
+
+			for (var i = 0; i < types.Length; i++)
+				CreateTestsForType(types[i], stringBuilder);
 
 			var declaration = stringBuilder
 				.AppendLine("\t}")

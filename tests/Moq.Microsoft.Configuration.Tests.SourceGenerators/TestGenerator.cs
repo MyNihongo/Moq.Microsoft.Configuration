@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
+using Moq.Microsoft.Configuration.Tests.SourceGenerators.Enums;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Extensions;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Interfaces;
@@ -26,10 +28,10 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators
 				new ReturnsValueGenerator()
 			};
 
-			var types = new[]
-			{
-				typeof(bool)
-			};
+			
+
+			var types = Enum.GetValues(typeof(TestType))
+				.CreateDetails();
 
 			foreach (var baseClass in CreateBaseClasses())
 			{
@@ -89,7 +91,7 @@ namespace {GeneratorConst.Namespace}
 {{
 	public abstract class {className}
 	{{
-		protected static {mockClass}<{interfaceType}> CreateClass() => new();
+		protected static {mockClass}<{interfaceType}> {GeneratorConst.CreateFixtureMethodName}() => new();
 	}}
 }}";
 
