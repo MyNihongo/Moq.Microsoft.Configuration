@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Microsoft.CodeAnalysis;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Enums;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators;
@@ -23,6 +24,11 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators
 
 		public void Execute(GeneratorExecutionContext context)
 		{
+			{
+				var enumsSource = CreateTestEnums();
+				context.AddSource("TestEnums", enumsSource);
+			}
+
 			var generators = new ITestGenerator[]
 			{
 				new ReturnsValueGenerator(),
@@ -61,6 +67,44 @@ namespace Moq.Microsoft.Configuration.Tests
 }";
 
 			context.AddSource("TestGen", src);
+		}
+
+		private static string CreateTestEnums()
+		{
+			var enums = new[]
+			{
+				new { Type = "int", Suffix = string.Empty },
+				new { Type = "uint", Suffix = "u" },
+				new { Type = "byte", Suffix = string.Empty },
+				new { Type = "sbyte", Suffix = string.Empty },
+				new { Type = "short", Suffix = string.Empty },
+				new { Type = "ushort", Suffix = string.Empty },
+				new { Type = "long", Suffix = "L" },
+				new { Type = "ulong", Suffix = "UL" }
+			};
+
+			var stringBuilder = new StringBuilder()
+				.AppendFormat("namespace {0}", GeneratorConst.Namespace).AppendLine()
+				.AppendLine("{");
+
+			for (var i = 0; i < enums.Length; i++)
+			{
+				stringBuilder
+					.Append("\tpublic enum ")
+					.Append(char.ToUpper(enums[i].Type[0]))
+					.Append(enums[i].Type.Substring(1))
+					.AppendFormat("Enum : {0}", enums[i].Type).AppendLine();
+
+				stringBuilder
+					.AppendLine("\t{")
+					.AppendFormat("\t\tVal1 = 1{0},", enums[i].Suffix).AppendLine()
+					.AppendFormat("\t\tVal2 = 2{0}", enums[i].Suffix).AppendLine()
+					.AppendLine("\t}");
+			}
+
+			return stringBuilder
+				.Append("}")
+				.ToString();
 		}
 
 		private static IEnumerable<ClassDeclaration> CreateBaseClasses()
