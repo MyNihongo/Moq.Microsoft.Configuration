@@ -25,5 +25,39 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 				.AppendLine("\tresult.Should().BeTrue();")
 				.AppendLine("}");
 		}
+
+		protected override void CreateTestForGetValue(TypeDetails type, StringBuilder stringBuilder)
+		{
+			AppendTestInitialisation(type, stringBuilder, "GetValue", out var valueInput);
+		}
+
+		private static void AppendTestInitialisation(TypeDetails type, StringBuilder stringBuilder, string methodName, out string valueInput)
+		{
+			valueInput = type.ValueTexts[0];
+
+			if (type.IsNullable)
+			{
+				stringBuilder
+					.AppendLine("[Theory]")
+					.AppendLine("[InlineData(null)]")
+					.AppendFormat("[InlineData(({0}){1})]", type.DeclarationName, valueInput).AppendLine()
+					.AppendFormat("public void {0}_{1}(object input)", methodName, type.TestType);
+
+				valueInput = "input";
+			}
+			else
+			{
+				stringBuilder
+					.AppendLine("[Fact]")
+					.AppendFormat("public void {0}_{1}()", methodName, type.ValueTexts);
+			}
+
+			stringBuilder
+				.AppendLine("{");
+
+
+
+			stringBuilder.AppendLine("}");
+		}
 	}
 }

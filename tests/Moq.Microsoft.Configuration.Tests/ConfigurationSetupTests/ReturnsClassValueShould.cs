@@ -8,29 +8,6 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 {
 	public sealed class ReturnsClassValueShould : ConfigurationTestsBase
 	{
-		[Fact]
-		public void ExistValueNode()
-		{
-			var value = new
-			{
-				Value = "value"
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var result = fixture.Object
-				.GetSection(nameof(value.Value))
-				.Exists();
-
-			result
-				.Should()
-				.BeTrue();
-		}
-
 		[Theory]
 		[InlineData(null)]
 		[InlineData("value")]

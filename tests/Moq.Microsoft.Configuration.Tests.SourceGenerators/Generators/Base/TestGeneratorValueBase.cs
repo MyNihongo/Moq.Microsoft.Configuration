@@ -13,9 +13,12 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators.Base
 
 		protected abstract void CreateTestForExists(TypeDetails type, StringBuilder stringBuilder);
 
+		protected abstract void CreateTestForGetValue(TypeDetails type, StringBuilder stringBuilder);
+
 		protected sealed override void CreateTestsForType(TypeDetails type, StringBuilder stringBuilder)
 		{
 			CreateTestForExists(type, stringBuilder);
+			CreateTestForGetValue(type, stringBuilder);
 		}
 
 		protected override IEnumerable<string> GetAdditionalUsings()
