@@ -2,6 +2,7 @@
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators.Base;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Models;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Resources;
+using Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.Extensions;
 
 namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 {
@@ -34,16 +35,18 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 		private static void AppendTestInitialisation(TypeDetails type, StringBuilder stringBuilder, string methodName, out string valueInput)
 		{
 			valueInput = type.ValueTexts[0];
+			var conversionFunc = string.Empty;
 
 			if (type.IsNullable)
 			{
+				var attributeValue = type.GetAttributeValue(valueInput);
+
 				stringBuilder
 					.AppendLine("[Theory]")
-					.AppendLine("[InlineData(null)]")
-					.AppendFormat("[InlineData(({0}){1})]", type.DeclarationName, valueInput).AppendLine()
-					.AppendFormat("public void {0}_{1}(object input)", methodName, type.TestType);
+					.AppendLine("[InlineData(null)]");
 
 				valueInput = "input";
+				conversionFunc = attributeValue.ConversionFunc;
 			}
 			else
 			{

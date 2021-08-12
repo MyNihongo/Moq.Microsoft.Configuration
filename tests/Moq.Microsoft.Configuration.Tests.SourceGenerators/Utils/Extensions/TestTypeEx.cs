@@ -1,8 +1,10 @@
 ﻿using System;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Enums;
+using Moq.Microsoft.Configuration.Tests.SourceGenerators.Interfaces;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Models;
+using Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.AttributeValueConverters;
 
-namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Extensions
+namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.Extensions
 {
 	internal static class TestTypeEx
 	{
@@ -22,6 +24,9 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Extensions
 			FloatValueTexts = { "-123.456f", "123.456f" },
 			StringValueTexts = { "\"abc\"", "\"cba\"" };
 
+		private static readonly IAttributeValueConverter
+			CastAttributeValueConverter = new CastAttributeValueConverter();
+
 		public static TypeDetails[] CreateDetails(this Array @this)
 		{
 			var array = new TypeDetails[@this.Length];
@@ -39,11 +44,11 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Extensions
 					TestType.IntNullable => new TypeDetails(val, "int", true) { ValueTexts = IntValueTexts },
 					TestType.IntUnsigned => new TypeDetails(val, "uint") { ValueTexts = UintValueTexts },
 					TestType.IntUnsignedNullable => new TypeDetails(val, "uint", true) { ValueTexts = UintValueTexts },
-					TestType.Byte => new TypeDetails(val, "byte") { ValueTexts = ByteValueTexts },
-					TestType.ByteNullable => new TypeDetails(val, "byte", true) { ValueTexts = ByteValueTexts },
-					TestType.SignedByte => new TypeDetails(val, "sbyte") { ValueTexts = SbyteValueTexts },
-					TestType.ByteSignedNullable => new TypeDetails(val, "sbyte", true) { ValueTexts = SbyteValueTexts },
-					TestType.Short => new TypeDetails(val, "short") { ValueTexts = ShortValueTexts },
+					TestType.Byte => new TypeDetails(val, "byte") { ValueTexts = ByteValueTexts, AttributeValueConverter = CastAttributeValueConverter },
+					TestType.ByteNullable => new TypeDetails(val, "byte", true) { ValueTexts = ByteValueTexts, AttributeValueConverter = CastAttributeValueConverter },
+					TestType.SignedByte => new TypeDetails(val, "sbyte") { ValueTexts = SbyteValueTexts, AttributeValueConverter = CastAttributeValueConverter },
+					TestType.ByteSignedNullable => new TypeDetails(val, "sbyte", true) { ValueTexts = SbyteValueTexts, AttributeValueConverter = CastAttributeValueConverter },
+					TestType.Short => new TypeDetails(val, "short") { ValueTexts = ShortValueTexts, AttributeValueConverter = CastAttributeValueConverter },
 					TestType.ShortNullable => new TypeDetails(val, "short", true) { ValueTexts = SbyteValueTexts },
 					TestType.ShortUnsigned => new TypeDetails(val, "ushort") { ValueTexts = UshortValueTexts },
 					TestType.ShortUnsignedNullable => new TypeDetails(val, "ushort", true) { ValueTexts = UshortValueTexts },

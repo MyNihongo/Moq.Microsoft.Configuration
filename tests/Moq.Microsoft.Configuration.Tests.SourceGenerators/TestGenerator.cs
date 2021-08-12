@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Enums;
-using Moq.Microsoft.Configuration.Tests.SourceGenerators.Extensions;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Interfaces;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Models;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Resources;
+using Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.Extensions;
 
 namespace Moq.Microsoft.Configuration.Tests.SourceGenerators
 {

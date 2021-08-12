@@ -1,5 +1,6 @@
 ﻿using System;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Enums;
+using Moq.Microsoft.Configuration.Tests.SourceGenerators.Interfaces;
 
 namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Models
 {
@@ -25,5 +26,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Models
 		public bool IsConst { get; }
 
 		public string[] ValueTexts { get; set; } = Array.Empty<string>();
+
+		public IAttributeValueConverter? AttributeValueConverter { get; set; }
 	}
 }
