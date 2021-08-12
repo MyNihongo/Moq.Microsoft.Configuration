@@ -8,7 +8,11 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.AttributeValu
 		public AttributeValue Convert(TypeDetails typeDetails, string value)
 		{
 			value = value.Replace('m', 'd');
-			return new AttributeValue(value, "double", "Convert.ToDecimal");
+			var parameterType = "double";
+			if (typeDetails.IsNullable)
+				parameterType += '?';
+
+			return new AttributeValue(value, parameterType, "Convert.ToDecimal");
 		}
 	}
 }

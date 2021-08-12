@@ -96,7 +96,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 					.Append("\tvar value = new {Value=");
 
 				if (!string.IsNullOrEmpty(attributeValue.ConversionFunc))
-					stringBuilder.AppendFormat("{0}(input)", attributeValue.ConversionFunc);
+					stringBuilder.AppendFormat("input == null ? ({0})null : {1}(input)", type.DeclarationName, attributeValue.ConversionFunc);
 				else
 					stringBuilder.Append("input");
 
