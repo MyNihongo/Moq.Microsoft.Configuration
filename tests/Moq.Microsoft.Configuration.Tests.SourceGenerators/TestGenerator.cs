@@ -17,8 +17,8 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators
 		public void Initialize(GeneratorInitializationContext context)
 		{
 #if DEBUG
-			//if (!System.Diagnostics.Debugger.IsAttached)
-			//	System.Diagnostics.Debugger.Launch();
+			if (!System.Diagnostics.Debugger.IsAttached)
+				System.Diagnostics.Debugger.Launch();
 #endif
 		}
 
@@ -31,9 +31,10 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators
 
 			var generators = new ITestGenerator[]
 			{
-				new ReturnsValueGenerator(),
-				new ReturnsEnumerableOfValuesGenerator(),
-				new ReturnsClassOfValueGenerator()
+				//new ReturnsValueGenerator(),
+				//new ReturnsEnumerableGenerator(),
+				//new ReturnsClassOfValueGenerator(),
+				new ReturnsClassOfEnumerableGenerator()
 			};
 
 			var types = Enum.GetValues(typeof(TestType))

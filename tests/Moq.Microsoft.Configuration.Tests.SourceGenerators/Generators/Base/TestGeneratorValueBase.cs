@@ -11,13 +11,13 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators.Base
 		{
 		}
 
-		protected abstract void CreateTestForExists(TypeDetails type, StringBuilder stringBuilder);
+		protected abstract void CreateTestForExists(in TypeDetails type, in StringBuilder stringBuilder);
 
-		protected abstract void CreateTestForGetValue(TypeDetails type, StringBuilder stringBuilder);
+		protected abstract void CreateTestForGetValue(in TypeDetails type, in StringBuilder stringBuilder);
 
-		protected abstract void CreateTestsForGetSectionGet(TypeDetails type, StringBuilder stringBuilder);
+		protected abstract void CreateTestsForGetSectionGet(in TypeDetails type, in StringBuilder stringBuilder);
 
-		protected abstract void CreateTestsForBrackets(TypeDetails type, StringBuilder stringBuilder);
+		protected abstract void CreateTestsForBrackets(in TypeDetails type, in StringBuilder stringBuilder);
 
 		protected sealed override void CreateTestsForType(TypeDetails type, StringBuilder stringBuilder)
 		{

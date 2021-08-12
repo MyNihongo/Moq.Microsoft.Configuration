@@ -14,7 +14,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 		{
 		}
 
-		protected override void CreateTestForExists(TypeDetails type, StringBuilder stringBuilder)
+		protected override void CreateTestForExists(in TypeDetails type, in StringBuilder stringBuilder)
 		{
 			stringBuilder
 				.AppendLine("[Fact]")
@@ -28,7 +28,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 				.AppendLine("}");
 		}
 
-		protected override void CreateTestForGetValue(TypeDetails type, StringBuilder stringBuilder)
+		protected override void CreateTestForGetValue(in TypeDetails type, in StringBuilder stringBuilder)
 		{
 			AppendTestInitialisation(type, stringBuilder, "GetValue", GenerateTestResult);
 
@@ -38,7 +38,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 					.AppendLine("\tresult.Should().Be(value.Value);");
 		}
 
-		protected override void CreateTestsForGetSectionGet(TypeDetails type, StringBuilder stringBuilder)
+		protected override void CreateTestsForGetSectionGet(in TypeDetails type, in StringBuilder stringBuilder)
 		{
 			AppendTestInitialisation(type, stringBuilder, "GetSection_Get", GenerateTestResult);
 
@@ -48,7 +48,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 					.AppendLine("\tresult.Should().Be(value.Value);");
 		}
 
-		protected override void CreateTestsForBrackets(TypeDetails type, StringBuilder stringBuilder)
+		protected override void CreateTestsForBrackets(in TypeDetails type, in StringBuilder stringBuilder)
 		{
 			AppendTestInitialisation(type, stringBuilder, "Brackets", GenerateTestResult);
 
