@@ -8,5 +8,10 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.Extensions
 			@this.AttributeValueConverter != null
 				? @this.AttributeValueConverter.Convert(@this, value)
 				: new AttributeValue(value, @this.DeclarationName, string.Empty);
+
+		public static string GetParseMethod(this TypeDetails @this, in string value) =>
+			@this.ParseMethodConverter != null
+				? @this.ParseMethodConverter.Create(@this, value)
+				: $"{@this.BasicDeclarationName}.Parse({value})";
 	}
 }

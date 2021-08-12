@@ -3,6 +3,7 @@ using Moq.Microsoft.Configuration.Tests.SourceGenerators.Enums;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Interfaces;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Models;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.AttributeValueConverters;
+using Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.ParseMethodConverters;
 
 namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.Extensions
 {
@@ -36,6 +37,9 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.Extensions
 			CastAttributeValueConverter = new CastAttributeValueConverter(),
 			DecimalAttributeValueConverter = new DecimalAttributeValueConverter();
 
+		private static readonly IParseMethodConverter
+			EnumParseMethodConverter = new EnumParseMethodConverter();
+
 		public static TypeDetails[] CreateDetails(this Array @this)
 		{
 			var array = new TypeDetails[@this.Length];
@@ -51,28 +55,28 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.Extensions
 					TestType.CharNullable => new TypeDetails(val, "char", true) { ValueTexts = CharValueTexts },
 					TestType.Int => new TypeDetails(val, "int") { ValueTexts = IntValueTexts },
 					TestType.IntNullable => new TypeDetails(val, "int", true) { ValueTexts = IntValueTexts },
-					TestType.IntEnum => new TypeDetails(val, "IntEnum") { ValueTexts = IntEnumValueTexts },
+					TestType.IntEnum => new TypeDetails(val, "IntEnum") { ValueTexts = IntEnumValueTexts, ParseMethodConverter = EnumParseMethodConverter },
 					TestType.Uint => new TypeDetails(val, "uint") { ValueTexts = UintValueTexts },
 					TestType.UintNullable => new TypeDetails(val, "uint", true) { ValueTexts = UintValueTexts },
-					TestType.UintEnum => new TypeDetails(val, "UintEnum") { ValueTexts = UintEnumValueTexts },
+					TestType.UintEnum => new TypeDetails(val, "UintEnum") { ValueTexts = UintEnumValueTexts, ParseMethodConverter = EnumParseMethodConverter },
 					TestType.Byte => new TypeDetails(val, "byte") { ValueTexts = ByteValueTexts, AttributeValueConverter = CastAttributeValueConverter },
 					TestType.ByteNullable => new TypeDetails(val, "byte", true) { ValueTexts = ByteValueTexts, AttributeValueConverter = CastAttributeValueConverter },
-					TestType.ByteEnum => new TypeDetails(val, "ByteEnum") { ValueTexts = ByteEnumValueTexts },
+					TestType.ByteEnum => new TypeDetails(val, "ByteEnum") { ValueTexts = ByteEnumValueTexts, ParseMethodConverter = EnumParseMethodConverter },
 					TestType.Sbyte => new TypeDetails(val, "sbyte") { ValueTexts = SbyteValueTexts, AttributeValueConverter = CastAttributeValueConverter },
 					TestType.SbyteNullable => new TypeDetails(val, "sbyte", true) { ValueTexts = SbyteValueTexts, AttributeValueConverter = CastAttributeValueConverter },
-					TestType.SbyteEnum => new TypeDetails(val, "SbyteEnum") { ValueTexts = SbyteEnumValueTexts },
+					TestType.SbyteEnum => new TypeDetails(val, "SbyteEnum") { ValueTexts = SbyteEnumValueTexts, ParseMethodConverter = EnumParseMethodConverter },
 					TestType.Short => new TypeDetails(val, "short") { ValueTexts = ShortValueTexts, AttributeValueConverter = CastAttributeValueConverter },
 					TestType.ShortNullable => new TypeDetails(val, "short", true) { ValueTexts = SbyteValueTexts, AttributeValueConverter = CastAttributeValueConverter },
-					TestType.ShortEnum => new TypeDetails(val, "ShortEnum") { ValueTexts = ShortEnumValueTexts },
+					TestType.ShortEnum => new TypeDetails(val, "ShortEnum") { ValueTexts = ShortEnumValueTexts, ParseMethodConverter = EnumParseMethodConverter },
 					TestType.Ushort => new TypeDetails(val, "ushort") { ValueTexts = UshortValueTexts, AttributeValueConverter = CastAttributeValueConverter },
 					TestType.UshortNullable => new TypeDetails(val, "ushort", true) { ValueTexts = UshortValueTexts, AttributeValueConverter = CastAttributeValueConverter },
-					TestType.UshortEnum => new TypeDetails(val, "UshortEnum") { ValueTexts = UshortEnumValueTexts },
+					TestType.UshortEnum => new TypeDetails(val, "UshortEnum") { ValueTexts = UshortEnumValueTexts, ParseMethodConverter = EnumParseMethodConverter },
 					TestType.Long => new TypeDetails(val, "long") { ValueTexts = LongValueTexts },
 					TestType.LongNullable => new TypeDetails(val, "long", true) { ValueTexts = LongValueTexts },
-					TestType.LongEnum => new TypeDetails(val, "LongEnum") { ValueTexts = LongEnumValueTexts },
+					TestType.LongEnum => new TypeDetails(val, "LongEnum") { ValueTexts = LongEnumValueTexts, ParseMethodConverter = EnumParseMethodConverter },
 					TestType.Ulong => new TypeDetails(val, "ulong") { ValueTexts = UlongValueTexts },
 					TestType.UlongNullable => new TypeDetails(val, "ulong", true) { ValueTexts = UlongValueTexts },
-					TestType.UlongEnum => new TypeDetails(val, "UlongEnum") { ValueTexts = UlongEnumValueTexts },
+					TestType.UlongEnum => new TypeDetails(val, "UlongEnum") { ValueTexts = UlongEnumValueTexts, ParseMethodConverter = EnumParseMethodConverter },
 					TestType.Decimal => new TypeDetails(val, "decimal") { ValueTexts = DecimalValueTexts, AttributeValueConverter = DecimalAttributeValueConverter },
 					TestType.DecimalNullable => new TypeDetails(val, "decimal", true) { ValueTexts = DecimalValueTexts, AttributeValueConverter = DecimalAttributeValueConverter },
 					TestType.Double => new TypeDetails(val, "double") { ValueTexts = DoubleValueTexts },

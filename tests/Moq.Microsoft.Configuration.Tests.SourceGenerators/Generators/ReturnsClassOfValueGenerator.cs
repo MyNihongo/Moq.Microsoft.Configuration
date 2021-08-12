@@ -60,7 +60,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 					{
 						stringBuilder
 							.AppendLine("\tvar strResult = fixture.Object[nameof(value.Value)];")
-							.AppendFormat("\t{0} result = input == null ? null : {1}.Parse(strResult);", type.DeclarationName, type.BasicDeclarationName)
+							.AppendFormat("\t{0} result = input == null ? null : {1};", type.DeclarationName, type.GetParseMethod("strResult"))
 							.AppendLine();
 					}
 					else
@@ -72,7 +72,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 				else
 				{
 					stringBuilder
-						.AppendFormat("\tvar result = {0}.Parse(fixture.Object[nameof(value.Value)]);", type.DeclarationName)
+						.AppendFormat("\tvar result = {0};", type.GetParseMethod("fixture.Object[nameof(value.Value)]"))
 						.AppendLine();
 				}
 

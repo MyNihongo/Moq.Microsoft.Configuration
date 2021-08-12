@@ -30,5 +30,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Models
 		public string[] ValueTexts { get; set; } = Array.Empty<string>();
 
 		public IAttributeValueConverter? AttributeValueConverter { get; set; }
+
+		public IParseMethodConverter? ParseMethodConverter { get; set; }
 	}
 }
