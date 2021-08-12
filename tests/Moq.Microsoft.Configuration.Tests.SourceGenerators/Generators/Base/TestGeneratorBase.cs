@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Interfaces;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Models;
@@ -18,12 +18,17 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators.Base
 
 		protected abstract void CreateTestsForType(TypeDetails type, StringBuilder stringBuilder);
 
+		protected virtual IEnumerable<string> GetAdditionalUsings()
+		{
+			yield break;
+		}
+
 		public ClassDeclaration Generate(string baseClass, TypeDetails[] types)
 		{
 			var stringBuilder = new StringBuilder();
 
 			// Using statements
-			foreach (var @using in GetUsings())
+			foreach (var @using in GetUsings().Concat(GetAdditionalUsings()))
 			{
 				stringBuilder
 					.AppendFormat("using {0};", @using)
