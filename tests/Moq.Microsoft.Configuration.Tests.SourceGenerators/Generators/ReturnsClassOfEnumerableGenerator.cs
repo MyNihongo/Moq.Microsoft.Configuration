@@ -15,15 +15,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 
 		protected override void CreateTestsForExists(in TypeDetails type, in StringBuilder stringBuilder)
 		{
-			stringBuilder
-				.AppendLine("[Fact]")
-				.AppendFormat("public void Exist_{0}()", type.TestType).AppendLine()
-				.AppendLine("{")
-				.Append("\tvar value = new {Values=")
-				.AppendAllValues(type)
-				.AppendLine("};")
-				.AppendFormat("\tvar fixture = {0}();", GeneratorConst.CreateFixtureMethodName).AppendLine()
-				.AppendLine("\tfixture.SetupConfiguration().Returns(value);")
+			CreateInitialSetup(type, stringBuilder, "Exists", true)
 				.AppendLine("\tvar result = fixture.Object.GetSection(nameof(value.Values)).Exists();")
 				.AppendLine("\tresult.Should().BeTrue();")
 				.AppendLine("}");
@@ -31,15 +23,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 
 		protected override void CreateTestsForExistsSection(in TypeDetails type, in StringBuilder stringBuilder)
 		{
-			stringBuilder
-				.AppendLine("[Fact]")
-				.AppendFormat("public void ExistSections_{0}()", type.TestType).AppendLine()
-				.AppendLine("{")
-				.Append("\tvar value = new {Values=")
-				.AppendAllValues(type, false)
-				.AppendLine("};")
-				.AppendFormat("\tvar fixture = {0}();", GeneratorConst.CreateFixtureMethodName).AppendLine()
-				.AppendLine("\tfixture.SetupConfiguration().Returns(value);")
+			CreateInitialSetup(type, stringBuilder, "ExistSections", false)
 				.AppendLine("\tvar section = fixture.Object.GetSection(nameof(value.Values));")
 				.AppendLine("\tfor (var i = 0; i < value.Values.Length; i++)")
 				.AppendLine("\t{")
@@ -48,5 +32,24 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 				.AppendLine("\t}")
 				.AppendLine("}");
 		}
+
+		protected override void CreateTestsForGet(in TypeDetails type, in StringBuilder stringBuilder)
+		{
+			CreateInitialSetup(type, stringBuilder, "Get", true)
+				.AppendFormat("\tvar result = fixture.Object.GetSection(nameof(value.Values)).Get<{0}[]>();", type.DeclarationName)
+				.AppendLine("\tresult.Should().BeEquivalentTo(value.Values);")
+				.AppendLine("}");
+		}
+
+		private static StringBuilder CreateInitialSetup(in TypeDetails type, in StringBuilder stringBuilder, string methodName, bool appendNull) =>
+			stringBuilder
+				.AppendLine("[Fact]")
+				.AppendFormat("public void {0}_{1}()", methodName, type.TestType).AppendLine()
+				.AppendLine("{")
+				.Append("\tvar value = new {Values=")
+				.AppendAllValues(type, appendNull)
+				.AppendLine("};")
+				.AppendFormat("\tvar fixture = {0}();", GeneratorConst.CreateFixtureMethodName).AppendLine()
+				.AppendLine("\tfixture.SetupConfiguration().Returns(value);");
 	}
 }

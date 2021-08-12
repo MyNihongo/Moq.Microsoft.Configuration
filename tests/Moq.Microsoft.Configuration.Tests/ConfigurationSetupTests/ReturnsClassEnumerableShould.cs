@@ -8,57 +8,6 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 {
 	public sealed class ReturnsClassEnumerableShould : ConfigurationTestsBase
 	{
-		[Fact]
-		public void ExistEnumerableNode()
-		{
-			var value = new
-			{
-				Values = new[] { true, false }
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var result = fixture.Object
-				.GetSection(nameof(value.Values))
-				.Exists();
-
-			result
-				.Should()
-				.BeTrue();
-		}
-		
-		[Fact]
-		public void ExistItemNodes()
-		{
-			var value = new
-			{
-				Values = new[] { true, false }
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var section = fixture.Object
-				.GetSection(nameof(value.Values));
-
-			for (var i = 0; i < value.Values.Length; i++)
-			{
-				var result = section
-					.GetSection(i.ToString())
-					.Exists();
-
-				result
-					.Should()
-					.BeTrue();
-			}
-		}
 		
 		[Fact]
 		public void SetupClassWithBoolArrays()
