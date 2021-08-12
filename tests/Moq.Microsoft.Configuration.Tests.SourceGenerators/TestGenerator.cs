@@ -25,10 +25,9 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators
 		{
 			var generators = new ITestGenerator[]
 			{
-				new ReturnsValueGenerator()
+				new ReturnsValueGenerator(),
+				new ReturnsEnumerableOfValuesGenerator()
 			};
-
-			
 
 			var types = Enum.GetValues(typeof(TestType))
 				.CreateDetails();
