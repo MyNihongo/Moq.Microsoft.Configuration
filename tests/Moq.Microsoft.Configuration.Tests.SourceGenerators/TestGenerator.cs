@@ -31,9 +31,9 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators
 
 			var generators = new ITestGenerator[]
 			{
-				//new ReturnsValueGenerator(),
-				//new ReturnsEnumerableGenerator(),
-				//new ReturnsClassOfValueGenerator(),
+				new ReturnsValueGenerator(),
+				new ReturnsEnumerableGenerator(),
+				new ReturnsClassOfValueGenerator(),
 				new ReturnsClassOfEnumerableGenerator()
 			};
 
@@ -50,24 +50,6 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators
 					context.AddSource(testClass);
 				}
 			}
-
-			const string src =
-@"using System;
-using Xunit;
-
-namespace Moq.Microsoft.Configuration.Tests
-{
-	public sealed class TestGen
-	{
-		[Fact]
-		public void ThrowEx()
-		{
-			throw new Exception(""aaaaaa"");
-		}
-	}
-}";
-
-			context.AddSource("TestGen", src);
 		}
 
 		private static string CreateTestEnums()
