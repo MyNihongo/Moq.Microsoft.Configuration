@@ -52,33 +52,11 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 		{
 			AppendTestInitialisation(type, stringBuilder, "Brackets", GenerateTestResult);
 
-			static void GenerateTestResult(TypeDetails type, StringBuilder stringBuilder)
-			{
-				if (type.IsNullable)
-				{
-					if (type.CanParse)
-					{
-						stringBuilder
-							.AppendLine("\tvar strResult = fixture.Object[nameof(value.Value)];")
-							.AppendFormat("\t{0} result = input == null ? null : {1};", type.DeclarationName, type.GetParseMethod("strResult"))
-							.AppendLine();
-					}
-					else
-					{
-						stringBuilder
-							.AppendLine("\tvar result = fixture.Object[nameof(value.Value)];");
-					}
-				}
-				else
-				{
-					stringBuilder
-						.AppendFormat("\tvar result = {0};", type.GetParseMethod("fixture.Object[nameof(value.Value)]"))
-						.AppendLine();
-				}
-
+			static void GenerateTestResult(TypeDetails type, StringBuilder stringBuilder) =>
 				stringBuilder
+					.AppendLine("\tvar strResult = fixture.Object[nameof(value.Value)];")
+					.AppendParse(type, "input", "\t")
 					.AppendLine("\tresult.Should().Be(value.Value);");
-			}
 		}
 
 		private static void AppendTestInitialisation(TypeDetails type, StringBuilder stringBuilder, string methodName, Action<TypeDetails, StringBuilder> testFunc)

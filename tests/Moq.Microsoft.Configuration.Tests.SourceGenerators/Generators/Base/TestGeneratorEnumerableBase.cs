@@ -20,6 +20,8 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators.Base
 		protected abstract void CreateTestsForBind(in TypeDetails type, in StringBuilder stringBuilder);
 		
 		protected abstract void CreateTestsItemGetValue(in TypeDetails type, in StringBuilder stringBuilder);
+		
+		protected abstract void CreateTestsItemBrackets(in TypeDetails type, in StringBuilder stringBuilder);
 
 		protected sealed override void CreateTestsForType(TypeDetails type, StringBuilder stringBuilder)
 		{
@@ -28,6 +30,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators.Base
 			CreateTestsForGet(type, stringBuilder);
 			CreateTestsForBind(type, stringBuilder);
 			CreateTestsItemGetValue(type, stringBuilder);
+			CreateTestsItemBrackets(type, stringBuilder);
 		}
 
 		protected override IEnumerable<string> GetAdditionalUsings()

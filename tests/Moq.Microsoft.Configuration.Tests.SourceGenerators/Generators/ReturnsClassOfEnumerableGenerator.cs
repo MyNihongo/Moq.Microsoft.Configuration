@@ -65,6 +65,18 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 				.AppendLine("}");
 		}
 
+		protected override void CreateTestsItemBrackets(in TypeDetails type, in StringBuilder stringBuilder)
+		{
+			CreateInitialSetup(type, stringBuilder, "Items_Brackets", true)
+				.AppendLine("\tfor (var i = 0; i < value.Values.Length; i++)")
+				.AppendLine("\t{")
+				.AppendLine("\t\tvar strResult = fixture.Object[$\"{nameof(value.Values)}:{i}\"];")
+				.AppendParse(type, "value.Values[i]", "\t\t")
+				.AppendLine("\t\tresult.Should().Be(value.Values[i]);")
+				.AppendLine("\t}")
+				.AppendLine("}");
+		}
+
 		private static StringBuilder CreateInitialSetup(in TypeDetails type, in StringBuilder stringBuilder, string methodName, bool appendNull) =>
 			stringBuilder
 				.AppendLine("[Fact]")

@@ -25,8 +25,6 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Models
 
 		public bool IsConst { get; }
 
-		public bool CanParse { get; set; } = true;
-
 		public string[] ValueTexts { get; set; } = Array.Empty<string>();
 
 		public IAttributeValueConverter? AttributeValueConverter { get; set; }

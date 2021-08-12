@@ -24,5 +24,25 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.Extensions
 
 			return @this.Append("}");
 		}
+
+		public static StringBuilder AppendParse(this StringBuilder @this, TypeDetails type, string itemVariable, string indent)
+		{
+			var parseMethod = type.GetParseMethod("strResult");
+
+			if (type.IsNullable)
+			{
+				@this
+					.AppendFormat("{0}{1} result = {2} == null ? null : {3};", indent, type.DeclarationName, itemVariable, parseMethod)
+					.AppendLine();
+			}
+			else
+			{
+				@this
+					.AppendFormat("{0}var result = {1};", indent, parseMethod)
+					.AppendLine();
+			}
+
+			return @this;
+		}
 	}
 }

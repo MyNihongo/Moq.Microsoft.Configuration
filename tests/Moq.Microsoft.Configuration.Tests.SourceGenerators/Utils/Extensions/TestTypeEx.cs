@@ -38,7 +38,8 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.Extensions
 			DecimalAttributeValueConverter = new DecimalAttributeValueConverter();
 
 		private static readonly IParseMethodConverter
-			EnumParseMethodConverter = new EnumParseMethodConverter();
+			EnumParseMethodConverter = new EnumParseMethodConverter(),
+			StringParseMethodConverter = new StringParseMethodConverter();
 
 		public static TypeDetails[] CreateDetails(this Array @this)
 		{
@@ -91,7 +92,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.Extensions
 					TestType.DoubleNullable => new TypeDetails(val, "double", true) { ValueTexts = DoubleValueTexts },
 					TestType.Float => new TypeDetails(val, "float") { ValueTexts = FloatValueTexts },
 					TestType.FloatNullable => new TypeDetails(val, "float", true) { ValueTexts = FloatValueTexts },
-					TestType.String => new TypeDetails(val, "string", true) { ValueTexts = StringValueTexts, CanParse = false },
+					TestType.String => new TypeDetails(val, "string", true) { ValueTexts = StringValueTexts, ParseMethodConverter = StringParseMethodConverter },
 					_ => throw new ArgumentOutOfRangeException(nameof(@this), $"Unknown {nameof(TestType)}: {val}")
 				};
 			}
