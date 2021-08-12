@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators.Base;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Models;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Resources;
@@ -29,39 +30,49 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 
 		protected override void CreateTestForGetValue(TypeDetails type, StringBuilder stringBuilder)
 		{
-			AppendTestInitialisation(type, stringBuilder, "GetValue", out var valueInput);
+			AppendTestInitialisation(type, stringBuilder, "GetValue", GenerateTestResult);
+
+			static void GenerateTestResult(TypeDetails type, StringBuilder stringBuilder) =>
+				stringBuilder
+					.AppendFormat("\tvar result = fixture.Object.GetValue<{0}>(nameof(value.Value));", type.DeclarationName).AppendLine()
+					.AppendLine("\tresult.Should().Be(value.Value);");
 		}
 
-		private static void AppendTestInitialisation(TypeDetails type, StringBuilder stringBuilder, string methodName, out string valueInput)
+		private static void AppendTestInitialisation(TypeDetails type, StringBuilder stringBuilder, string methodName, Action<TypeDetails, StringBuilder> testFunc)
 		{
-			valueInput = type.ValueTexts[0];
-			var conversionFunc = string.Empty;
-
 			if (type.IsNullable)
 			{
-				var attributeValue = type.GetAttributeValue(valueInput);
+				var attributeValue = type.GetAttributeValue(type.ValueTexts[0]);
 
 				stringBuilder
 					.AppendLine("[Theory]")
 					.AppendLine("[InlineData(null)]")
 					.AppendFormat("[InlineData({0})]", attributeValue.Value).AppendLine()
-					.AppendFormat("public void {0}_{1}({2} input)", methodName, type.TestType, attributeValue.ParameterType).AppendLine();
+					.AppendFormat("public void {0}_{1}({2} input)", methodName, type.TestType, attributeValue.ParameterType).AppendLine()
+					.AppendLine("{")
+					.Append("\tvar value = new {Value=");
 
-				valueInput = "input";
-				conversionFunc = attributeValue.ConversionFunc;
+				if (!string.IsNullOrEmpty(attributeValue.ConversionFunc))
+					stringBuilder.AppendFormat("{0}(input)", attributeValue.ConversionFunc);
+				else
+					stringBuilder.Append("input");
+
+				stringBuilder.AppendLine("};");
 			}
 			else
 			{
 				stringBuilder
 					.AppendLine("[Fact]")
-					.AppendFormat("public void {0}_{1}()", methodName, type.TestType).AppendLine();
+					.AppendFormat("public void {0}_{1}()", methodName, type.TestType).AppendLine()
+					.AppendLine("{")
+					.AppendFormat("\tvar value = new {{Value=({0}){1}}};", type.DeclarationName, type.ValueTexts[0]).AppendLine();
 			}
 
 			stringBuilder
-				.AppendLine("{");
+				.AppendFormat("\tvar fixture = {0}();", GeneratorConst.CreateFixtureMethodName).AppendLine()
+				.AppendLine("\tfixture.SetupConfiguration().Returns(value);");
 
-
-
+			testFunc(type, stringBuilder);
 			stringBuilder.AppendLine("}");
 		}
 	}
