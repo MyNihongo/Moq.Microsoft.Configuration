@@ -25,7 +25,8 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.Extensions
 			StringValueTexts = { "\"abc\"", "\"cba\"" };
 
 		private static readonly IAttributeValueConverter
-			CastAttributeValueConverter = new CastAttributeValueConverter();
+			CastAttributeValueConverter = new CastAttributeValueConverter(),
+			DecimalAttributeValueConverter = new DecimalAttributeValueConverter();
 
 		public static TypeDetails[] CreateDetails(this Array @this)
 		{
@@ -49,15 +50,15 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.Extensions
 					TestType.SignedByte => new TypeDetails(val, "sbyte") { ValueTexts = SbyteValueTexts, AttributeValueConverter = CastAttributeValueConverter },
 					TestType.ByteSignedNullable => new TypeDetails(val, "sbyte", true) { ValueTexts = SbyteValueTexts, AttributeValueConverter = CastAttributeValueConverter },
 					TestType.Short => new TypeDetails(val, "short") { ValueTexts = ShortValueTexts, AttributeValueConverter = CastAttributeValueConverter },
-					TestType.ShortNullable => new TypeDetails(val, "short", true) { ValueTexts = SbyteValueTexts },
-					TestType.ShortUnsigned => new TypeDetails(val, "ushort") { ValueTexts = UshortValueTexts },
-					TestType.ShortUnsignedNullable => new TypeDetails(val, "ushort", true) { ValueTexts = UshortValueTexts },
+					TestType.ShortNullable => new TypeDetails(val, "short", true) { ValueTexts = SbyteValueTexts, AttributeValueConverter = CastAttributeValueConverter },
+					TestType.ShortUnsigned => new TypeDetails(val, "ushort") { ValueTexts = UshortValueTexts, AttributeValueConverter = CastAttributeValueConverter },
+					TestType.ShortUnsignedNullable => new TypeDetails(val, "ushort", true) { ValueTexts = UshortValueTexts, AttributeValueConverter = CastAttributeValueConverter },
 					TestType.Long => new TypeDetails(val, "long") { ValueTexts = LongValueTexts },
 					TestType.LongNullable => new TypeDetails(val, "long", true) { ValueTexts = LongValueTexts },
 					TestType.LongUnsigned => new TypeDetails(val, "ulong") { ValueTexts = UlongValueTexts },
 					TestType.LongUnsignedNullable => new TypeDetails(val, "ulong", true) { ValueTexts = UlongValueTexts },
-					TestType.Decimal => new TypeDetails(val, "decimal") { ValueTexts = DecimalValueTexts },
-					TestType.DecimalNullable => new TypeDetails(val, "decimal", true) { ValueTexts = DecimalValueTexts },
+					TestType.Decimal => new TypeDetails(val, "decimal") { ValueTexts = DecimalValueTexts, AttributeValueConverter = DecimalAttributeValueConverter },
+					TestType.DecimalNullable => new TypeDetails(val, "decimal", true) { ValueTexts = DecimalValueTexts, AttributeValueConverter = DecimalAttributeValueConverter },
 					TestType.Double => new TypeDetails(val, "double") { ValueTexts = DoubleValueTexts },
 					TestType.DoubleNullable => new TypeDetails(val, "double", true) { ValueTexts = DoubleValueTexts },
 					TestType.Float => new TypeDetails(val, "float") { ValueTexts = FloatValueTexts },

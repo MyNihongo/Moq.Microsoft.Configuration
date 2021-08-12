@@ -43,7 +43,9 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 
 				stringBuilder
 					.AppendLine("[Theory]")
-					.AppendLine("[InlineData(null)]");
+					.AppendLine("[InlineData(null)]")
+					.AppendFormat("[InlineData({0})]", attributeValue.Value).AppendLine()
+					.AppendFormat("public void {0}_{1}({2} input)", methodName, type.TestType, attributeValue.ParameterType).AppendLine();
 
 				valueInput = "input";
 				conversionFunc = attributeValue.ConversionFunc;
@@ -52,7 +54,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 			{
 				stringBuilder
 					.AppendLine("[Fact]")
-					.AppendFormat("public void {0}_{1}()", methodName, type.ValueTexts);
+					.AppendFormat("public void {0}_{1}()", methodName, type.TestType).AppendLine();
 			}
 
 			stringBuilder
