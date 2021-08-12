@@ -38,6 +38,16 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 					.AppendLine("\tresult.Should().Be(value.Value);");
 		}
 
+		protected override void CreateTestsForGetSectionGet(TypeDetails type, StringBuilder stringBuilder)
+		{
+			AppendTestInitialisation(type, stringBuilder, "GetSection_Get", GenerateTestResult);
+
+			static void GenerateTestResult(TypeDetails type, StringBuilder stringBuilder) =>
+				stringBuilder
+					.AppendFormat("\tvar result = fixture.Object.GetSection(nameof(value.Value)).Get<{0}>();", type.DeclarationName).AppendLine()
+					.AppendLine("\tresult.Should().Be(value.Value);");
+		}
+
 		private static void AppendTestInitialisation(TypeDetails type, StringBuilder stringBuilder, string methodName, Action<TypeDetails, StringBuilder> testFunc)
 		{
 			if (type.IsNullable)
