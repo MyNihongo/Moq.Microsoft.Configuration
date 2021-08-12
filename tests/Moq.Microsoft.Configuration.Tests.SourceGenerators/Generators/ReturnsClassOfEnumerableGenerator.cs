@@ -41,6 +41,19 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 				.AppendLine("}");
 		}
 
+		protected override void CreateTestsForBind(in TypeDetails type, in StringBuilder stringBuilder)
+		{
+			var expectedResult = type.IsNullable
+				? "value.Values.Where(x => x != null)"
+				: "value.Values";
+
+			CreateInitialSetup(type, stringBuilder, "Bind", true)
+				.AppendFormat("\tvar result = new List<{0}>({1});", type.DeclarationName, type.ValueTexts.Length).AppendLine()
+				.AppendLine("\tfixture.Object.GetSection(nameof(value.Values)).Bind(result);")
+				.AppendFormat("\tresult.Should().BeEquivalentTo({0});", expectedResult).AppendLine()
+				.AppendLine("}");
+		}
+
 		private static StringBuilder CreateInitialSetup(in TypeDetails type, in StringBuilder stringBuilder, string methodName, bool appendNull) =>
 			stringBuilder
 				.AppendLine("[Fact]")
