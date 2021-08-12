@@ -10,29 +10,6 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 	{
 		
 		[Fact]
-		public void SetupClassWithBoolArrays()
-		{
-			var value = new
-			{
-				Values = new[] { true, false }
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			var result = fixture.Object
-				.GetSection(nameof(value.Values))
-				.Get<bool[]>();
-
-			result
-				.Should()
-				.BeEquivalentTo(value.Values);
-		}
-
-		[Fact]
 		public void SetupClassWithBoolArraysBrackets()
 		{
 			var value = new
@@ -50,30 +27,6 @@ namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests
 			{
 				var result = bool.Parse(
 					fixture.Object[$"{nameof(value.Values)}:{i}"]);
-
-				result
-					.Should()
-					.Be(value.Values[i]);
-			}
-		}
-
-		[Fact]
-		public void SetupClassWithBoolArraysGetValue()
-		{
-			var value = new
-			{
-				Values = new[] { true, false }
-			};
-
-			var fixture = CreateClass();
-
-			fixture
-				.SetupConfiguration()
-				.Returns(value);
-
-			for (var i = 0; i < value.Values.Length; i++)
-			{
-				var result = fixture.Object.GetValue<bool>($"{nameof(value.Values)}:{i}");
 
 				result
 					.Should()

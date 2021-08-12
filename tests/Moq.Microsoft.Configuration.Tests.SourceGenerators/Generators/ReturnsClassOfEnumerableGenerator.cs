@@ -54,6 +54,17 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 				.AppendLine("}");
 		}
 
+		protected override void CreateTestsItemGetValue(in TypeDetails type, in StringBuilder stringBuilder)
+		{
+			CreateInitialSetup(type, stringBuilder, "Items_GetValue", true)
+				.AppendLine("\tfor (var i = 0; i < value.Values.Length; i++)")
+				.AppendLine("\t{")
+				.AppendFormat("\t\tvar result = fixture.Object.GetValue<{0}>($\"{{nameof(value.Values)}}:{{i}}\");", type.DeclarationName).AppendLine()
+				.AppendLine("\t\tresult.Should().Be(value.Values[i]);")
+				.AppendLine("\t}")
+				.AppendLine("}");
+		}
+
 		private static StringBuilder CreateInitialSetup(in TypeDetails type, in StringBuilder stringBuilder, string methodName, bool appendNull) =>
 			stringBuilder
 				.AppendLine("[Fact]")

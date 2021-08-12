@@ -18,6 +18,8 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators.Base
 		protected abstract void CreateTestsForGet(in TypeDetails type, in StringBuilder stringBuilder);
 		
 		protected abstract void CreateTestsForBind(in TypeDetails type, in StringBuilder stringBuilder);
+		
+		protected abstract void CreateTestsItemGetValue(in TypeDetails type, in StringBuilder stringBuilder);
 
 		protected sealed override void CreateTestsForType(TypeDetails type, StringBuilder stringBuilder)
 		{
@@ -25,6 +27,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators.Base
 			CreateTestsForExistsSection(type, stringBuilder);
 			CreateTestsForGet(type, stringBuilder);
 			CreateTestsForBind(type, stringBuilder);
+			CreateTestsItemGetValue(type, stringBuilder);
 		}
 
 		protected override IEnumerable<string> GetAdditionalUsings()
