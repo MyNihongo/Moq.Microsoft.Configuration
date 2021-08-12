@@ -48,6 +48,39 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 					.AppendLine("\tresult.Should().Be(value.Value);");
 		}
 
+		protected override void CreateTestsForBrackets(TypeDetails type, StringBuilder stringBuilder)
+		{
+			AppendTestInitialisation(type, stringBuilder, "Brackets", GenerateTestResult);
+
+			static void GenerateTestResult(TypeDetails type, StringBuilder stringBuilder)
+			{
+				if (type.IsNullable)
+				{
+					if (type.CanParse)
+					{
+						stringBuilder
+							.AppendLine("\tvar strResult = fixture.Object[nameof(value.Value)];")
+							.AppendFormat("\t{0} result = input == null ? null : {1}.Parse(strResult);", type.DeclarationName, type.BasicDeclarationName)
+							.AppendLine();
+					}
+					else
+					{
+						stringBuilder
+							.AppendLine("\tvar result = fixture.Object[nameof(value.Value)];");
+					}
+				}
+				else
+				{
+					stringBuilder
+						.AppendFormat("\tvar result = {0}.Parse(fixture.Object[nameof(value.Value)]);", type.DeclarationName)
+						.AppendLine();
+				}
+
+				stringBuilder
+					.AppendLine("\tresult.Should().Be(value.Value);");
+			}
+		}
+
 		private static void AppendTestInitialisation(TypeDetails type, StringBuilder stringBuilder, string methodName, Action<TypeDetails, StringBuilder> testFunc)
 		{
 			if (type.IsNullable)

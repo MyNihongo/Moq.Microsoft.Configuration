@@ -63,7 +63,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.Extensions
 					TestType.DoubleNullable => new TypeDetails(val, "double", true) { ValueTexts = DoubleValueTexts },
 					TestType.Float => new TypeDetails(val, "float") { ValueTexts = FloatValueTexts },
 					TestType.FloatNullable => new TypeDetails(val, "float", true) { ValueTexts = FloatValueTexts },
-					TestType.String => new TypeDetails(val, "string", true) { ValueTexts = StringValueTexts },
+					TestType.String => new TypeDetails(val, "string", true) { ValueTexts = StringValueTexts, CanParse = false },
 					_ => throw new ArgumentOutOfRangeException(nameof(@this), $"Unknown {nameof(TestType)}: {val}")
 				};
 			}
