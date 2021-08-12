@@ -28,5 +28,25 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Generators
 				.AppendLine("\tresult.Should().BeTrue();")
 				.AppendLine("}");
 		}
+
+		protected override void CreateTestsForExistsSection(in TypeDetails type, in StringBuilder stringBuilder)
+		{
+			stringBuilder
+				.AppendLine("[Fact]")
+				.AppendFormat("public void ExistSections_{0}()", type.TestType).AppendLine()
+				.AppendLine("{")
+				.Append("\tvar value = new {Values=")
+				.AppendAllValues(type, false)
+				.AppendLine("};")
+				.AppendFormat("\tvar fixture = {0}();", GeneratorConst.CreateFixtureMethodName).AppendLine()
+				.AppendLine("\tfixture.SetupConfiguration().Returns(value);")
+				.AppendLine("\tvar section = fixture.Object.GetSection(nameof(value.Values));")
+				.AppendLine("\tfor (var i = 0; i < value.Values.Length; i++)")
+				.AppendLine("\t{")
+				.AppendLine("\t\tvar result = section.GetSection(i.ToString()).Exists();")
+				.AppendLine("\t\tresult.Should().BeTrue();")
+				.AppendLine("\t}")
+				.AppendLine("}");
+		}
 	}
 }

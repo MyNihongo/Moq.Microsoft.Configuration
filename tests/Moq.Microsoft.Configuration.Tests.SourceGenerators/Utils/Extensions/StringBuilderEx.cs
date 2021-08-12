@@ -5,7 +5,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.Extensions
 {
 	internal static class StringBuilderEx
 	{
-		public static StringBuilder AppendAllValues(this StringBuilder @this, TypeDetails type)
+		public static StringBuilder AppendAllValues(this StringBuilder @this, TypeDetails type, bool appendNull = true)
 		{
 			@this.AppendFormat("new {0}[] {{", type.DeclarationName);
 
@@ -17,7 +17,7 @@ namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.Extensions
 				@this.Append(type.ValueTexts[i]);
 			}
 
-			if (type.IsNullable)
+			if (appendNull && type.IsNullable)
 			{
 				@this.Append(",null");
 			}
