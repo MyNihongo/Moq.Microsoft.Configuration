@@ -1,7 +1,6 @@
-﻿namespace Moq.Microsoft.Configuration
+﻿namespace Moq.Microsoft.Configuration;
+
+internal sealed class EmptyModel
 {
-	internal sealed class EmptyModel
-	{
-		public static readonly EmptyModel Instance = new();
-	}
+	public static readonly EmptyModel Instance = new();
 }
