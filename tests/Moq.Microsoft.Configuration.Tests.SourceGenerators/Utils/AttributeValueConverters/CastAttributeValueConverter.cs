@@ -1,11 +1,10 @@
 ﻿using Moq.Microsoft.Configuration.Tests.SourceGenerators.Interfaces;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Models;
 
-namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.AttributeValueConverters
+namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Utils.AttributeValueConverters;
+
+internal sealed class CastAttributeValueConverter : IAttributeValueConverter
 {
-	internal sealed class CastAttributeValueConverter : IAttributeValueConverter
-	{
-		public AttributeValue Convert(TypeDetails typeDetails, string value) =>
-			new($"({typeDetails.BasicDeclarationName}){value}", typeDetails.DeclarationName, string.Empty);
-	}
+	public AttributeValue Convert(TypeDetails typeDetails, string value) =>
+		new($"({typeDetails.BasicDeclarationName}){value}", typeDetails.DeclarationName, string.Empty);
 }

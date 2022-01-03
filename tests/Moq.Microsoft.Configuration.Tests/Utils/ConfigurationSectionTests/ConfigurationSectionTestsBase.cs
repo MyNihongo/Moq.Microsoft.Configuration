@@ -1,8 +1,7 @@
-﻿namespace Moq.Microsoft.Configuration.Tests.Utils.ConfigurationSectionTests
+﻿namespace Moq.Microsoft.Configuration.Tests.Utils.ConfigurationSectionTests;
+
+public abstract class ConfigurationSectionTestsBase
 {
-	public abstract class ConfigurationSectionTestsBase
-	{
-		internal static ConfigurationSection CreateClass() =>
-			new("any");
-	}
+	internal static ConfigurationSection CreateClass() =>
+		new("any");
 }

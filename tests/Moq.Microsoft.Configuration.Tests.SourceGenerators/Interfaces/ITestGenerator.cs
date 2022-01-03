@@ -1,9 +1,8 @@
 ﻿using Moq.Microsoft.Configuration.Tests.SourceGenerators.Models;
 
-namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Interfaces
+namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Interfaces;
+
+internal interface ITestGenerator
 {
-	internal interface ITestGenerator
-	{
-		ClassDeclaration Generate(string baseClass, TypeDetails[] types);
-	}
+	ClassDeclaration Generate(string baseClass, TypeDetails[] types);
 }

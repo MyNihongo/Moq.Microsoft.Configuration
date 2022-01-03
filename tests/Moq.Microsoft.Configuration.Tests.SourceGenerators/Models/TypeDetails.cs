@@ -2,33 +2,23 @@
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Enums;
 using Moq.Microsoft.Configuration.Tests.SourceGenerators.Interfaces;
 
-namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Models
+namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Models;
+
+internal sealed record TypeDetails(in TestType TestType, in string BasicDeclarationName, in bool IsNullable = false, in bool IsConst = true)
 {
-	internal sealed record TypeDetails
-	{
-		public TypeDetails(in TestType testType, in string declarationName, in bool isNullable = false, in bool isConst = true)
-		{
-			TestType = testType;
-			BasicDeclarationName = declarationName;
-			DeclarationName = isNullable ? declarationName + '?' : declarationName;
-			IsNullable = isNullable;
-			IsConst = isConst;
-		}
+	public TestType TestType { get; } = TestType;
 
-		public TestType TestType { get; }
+	public string BasicDeclarationName { get; } = BasicDeclarationName;
 
-		public string BasicDeclarationName { get; }
+	public string DeclarationName { get; } = IsNullable ? BasicDeclarationName + '?' : BasicDeclarationName;
 
-		public string DeclarationName { get; }
+	public bool IsNullable { get; } = IsNullable;
 
-		public bool IsNullable { get; }
+	public bool IsConst { get; } = IsConst;
 
-		public bool IsConst { get; }
+	public string[] ValueTexts { get; set; } = Array.Empty<string>();
 
-		public string[] ValueTexts { get; set; } = Array.Empty<string>();
+	public IAttributeValueConverter? AttributeValueConverter { get; set; }
 
-		public IAttributeValueConverter? AttributeValueConverter { get; set; }
-
-		public IParseMethodConverter? ParseMethodConverter { get; set; }
-	}
+	public IParseMethodConverter? ParseMethodConverter { get; set; }
 }
