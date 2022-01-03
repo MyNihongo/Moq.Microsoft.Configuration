@@ -1,9 +1,8 @@
 ﻿using Moq.Microsoft.Configuration.Tests.SourceGenerators.Models;
 
-namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Interfaces
+namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Interfaces;
+
+internal interface IParseMethodConverter
 {
-	internal interface IParseMethodConverter
-	{
-		string Create(TypeDetails type, string value);
-	}
+	string Create(TypeDetails type, string value);
 }

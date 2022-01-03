@@ -1,15 +1,14 @@
-﻿namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Models
+﻿namespace Moq.Microsoft.Configuration.Tests.SourceGenerators.Models;
+
+internal readonly struct ClassDeclaration
 {
-	internal readonly struct ClassDeclaration
+	public ClassDeclaration(string className, string declaration)
 	{
-		public ClassDeclaration(string className, string declaration)
-		{
-			ClassName = className;
-			Declaration = declaration;
-		}
-
-		public string ClassName { get; }
-
-		public string Declaration { get; }
+		ClassName = className;
+		Declaration = declaration;
 	}
+
+	public string ClassName { get; }
+
+	public string Declaration { get; }
 }

@@ -1,9 +1,8 @@
-﻿namespace Moq.Microsoft.Configuration.Tests.Resources
-{
-	public sealed record TestRecord
-	{
-		public byte Number { get; set; }
+﻿namespace Moq.Microsoft.Configuration.Tests.Resources;
 
-		public string Name { get; set; } = string.Empty;
-	}
+public sealed record TestRecord
+{
+	public byte Number { get; set; }
+
+	public string Name { get; set; } = string.Empty;
 }
