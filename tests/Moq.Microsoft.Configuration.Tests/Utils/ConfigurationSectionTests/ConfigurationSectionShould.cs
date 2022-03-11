@@ -1,8 +1,4 @@
-﻿using FluentAssertions;
-using Microsoft.Extensions.Configuration;
-using Xunit;
-
-namespace Moq.Microsoft.Configuration.Tests.Utils.ConfigurationSectionTests;
+﻿namespace Moq.Microsoft.Configuration.Tests.Utils.ConfigurationSectionTests;
 
 public sealed class ConfigurationSectionShould : ConfigurationSectionTestsBase
 {

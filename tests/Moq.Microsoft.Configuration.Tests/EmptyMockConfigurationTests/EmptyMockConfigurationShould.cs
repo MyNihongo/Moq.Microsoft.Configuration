@@ -1,8 +1,4 @@
-﻿using FluentAssertions;
-using Microsoft.Extensions.Configuration;
-using Xunit;
-
-namespace Moq.Microsoft.Configuration.Tests.EmptyMockConfigurationTests;
+﻿namespace Moq.Microsoft.Configuration.Tests.EmptyMockConfigurationTests;
 
 public sealed class EmptyMockConfigurationShould : EmptyConfigurationRootTestsBase
 {
