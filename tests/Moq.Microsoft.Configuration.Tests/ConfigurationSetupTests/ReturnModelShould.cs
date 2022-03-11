@@ -1,11 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
-using FluentAssertions;
-using Microsoft.Extensions.Configuration;
-using Moq.Microsoft.Configuration.Tests.Resources;
-using Xunit;
-
-namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests;
+﻿namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests;
 
 public sealed class ReturnModelShould : ConfigurationTestsBase
 {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
-
-namespace Moq.Microsoft.Configuration;
+﻿namespace Moq.Microsoft.Configuration;
 
 internal static class ConfigurationSetupEx
 {
@@ -54,6 +49,19 @@ internal static class ConfigurationSetupEx
 		{
 			mockSection.SetupValue(sectionInfo.Value, sectionInfo.Name);
 		}
+		else if (typeof(IDictionary).IsAssignableFrom(sectionInfo.SectionType))
+		{
+			var children = new List<IConfigurationSection>();
+			foreach (DictionaryEntry keyValue in (IDictionary)sectionInfo.Value)
+			{
+				var itemName = keyValue.Key.ToString();
+				var item = keyValue.Value;
+
+				SetupCollectionItem(item, itemName, children);
+			}
+
+			mockSection.SetupChildren(children);
+		}
 		else if (typeof(IEnumerable).IsAssignableFrom(sectionInfo.SectionType))
 		{
 			var children = new List<IConfigurationSection>();
@@ -67,25 +75,12 @@ internal static class ConfigurationSetupEx
 				{
 					var emptySection = mockSection.SetupEmptySection(itemName);
 					children.Add(emptySection);
-
-					goto Continue;
 				}
-
-				var nestedBasePath = PathUtils.Append(basePath, sectionInfo.Name);
-				var nestedSectionInfo = new SectionInfo(itemName, item, item.GetType());
-
-				foreach (var nestedValueConfig in SetupSection(nestedSectionInfo, nestedBasePath))
+				else
 				{
-					mockSection.SetupSection(nestedValueConfig.Value, nestedValueConfig.Key);
-
-					var pathToNestedValue = PathUtils.Append(sectionInfo.Name, nestedValueConfig.Key);
-					valueConfigs.Add(pathToNestedValue, nestedValueConfig.Value);
-
-					if (nestedValueConfig.IsChild(nestedBasePath))
-						children.Add(nestedValueConfig.Value);
+					SetupCollectionItem(item, itemName, children);
 				}
 
-				Continue:
 				i++;
 			}
 
@@ -119,6 +114,23 @@ internal static class ConfigurationSetupEx
 		}
 
 		return valueConfigs;
+
+		void SetupCollectionItem(object item, string itemName, ICollection<IConfigurationSection> children)
+		{
+			var nestedBasePath = PathUtils.Append(basePath, sectionInfo.Name);
+			var nestedSectionInfo = new SectionInfo(itemName, item, item.GetType());
+
+			foreach (var nestedValueConfig in SetupSection(nestedSectionInfo, nestedBasePath))
+			{
+				mockSection.SetupSection(nestedValueConfig.Value, nestedValueConfig.Key);
+
+				var pathToNestedValue = PathUtils.Append(sectionInfo.Name, nestedValueConfig.Key);
+				valueConfigs.Add(pathToNestedValue, nestedValueConfig.Value);
+
+				if (nestedValueConfig.IsChild(nestedBasePath))
+					children.Add(nestedValueConfig.Value);
+			}
+		}
 	}
 
 	private static bool IsPrimitive(Type type)

@@ -1,9 +1,4 @@
-﻿using System.Linq;
-using FluentAssertions;
-using Microsoft.Extensions.Configuration;
-using Xunit;
-
-namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests;
+﻿namespace Moq.Microsoft.Configuration.Tests.ConfigurationSetupTests;
 
 public sealed class ReturnsShould : ConfigurationTestsBase
 {
