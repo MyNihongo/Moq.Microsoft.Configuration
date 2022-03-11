@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Microsoft.Extensions.Primitives;
+﻿using Microsoft.Extensions.Primitives;
 
 namespace Moq.Microsoft.Configuration;
 
@@ -26,11 +25,11 @@ internal sealed class ConfigurationSection : IConfigurationSection
 		Enumerable.Empty<IConfigurationSection>();
 
 	public IChangeToken GetReloadToken() =>
-		throw new System.NotImplementedException();
+		throw new NotImplementedException();
 
 	public string this[string key]
 	{
-		get => throw new System.NotImplementedException();
-		set => throw new System.NotImplementedException();
+		get => throw new NotImplementedException();
+		set => throw new NotImplementedException();
 	}
 }
