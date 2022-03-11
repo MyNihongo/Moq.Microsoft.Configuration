@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Moq.Microsoft.Configuration;
+﻿namespace Moq.Microsoft.Configuration;
 
 internal sealed record SectionInfo(
 	string Name,

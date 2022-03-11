@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
-
-namespace Moq.Microsoft.Configuration;
+﻿namespace Moq.Microsoft.Configuration;
 
 internal static class ConfigurationSetupEx
 {

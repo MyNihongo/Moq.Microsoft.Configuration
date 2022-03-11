@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-
-namespace Moq.Microsoft.Configuration;
+﻿namespace Moq.Microsoft.Configuration;
 
 internal sealed class ConfigurationSetup<T> : ISetup<object>
 	where T : class, IConfiguration
