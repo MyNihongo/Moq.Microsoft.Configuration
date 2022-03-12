@@ -10,7 +10,7 @@ internal static class ConfigurationSetupEx
 		var type = configuration.GetType();
 
 		if (IsPrimitive(type) || typeof(IEnumerable).IsAssignableFrom(type))
-			throw new InvalidOperationException($"A {type.FullName} cannot be set as the root because it does not have a root property");
+			throw new InvalidOperationException($"`{type.FullName}` must not be a primitive type or enumerable");
 
 		@this.MockConfiguration.SetupDefaultSection();
 
