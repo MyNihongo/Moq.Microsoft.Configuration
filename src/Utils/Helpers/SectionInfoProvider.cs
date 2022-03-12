@@ -22,7 +22,7 @@ internal class SectionInfoProvider
 		else
 		{
 			var props = _propertyMap
-				.GetOrAdd(type, x => x.GetProperties());
+				.GetOrAdd(type, static x => x.GetProperties());
 
 			var sectionInfos = new SectionInfo[props.Length];
 
