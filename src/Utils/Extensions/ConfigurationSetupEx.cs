@@ -1,4 +1,6 @@
-﻿namespace Moq.Microsoft.Configuration;
+﻿using System.Dynamic;
+
+namespace Moq.Microsoft.Configuration;
 
 internal static class ConfigurationSetupEx
 {
@@ -9,8 +11,8 @@ internal static class ConfigurationSetupEx
 	{
 		var type = configuration.GetType();
 
-		if (IsPrimitive(type) || typeof(IEnumerable).IsAssignableFrom(type))
-			throw new InvalidOperationException($"A {type.FullName} cannot be set as the root because it does not have a root property");
+		if (IsPrimitive(type) || configuration is IEnumerable and not ExpandoObject)
+			throw new InvalidOperationException($"`{type.FullName}` must not be a primitive type or enumerable");
 
 		@this.MockConfiguration.SetupDefaultSection();
 
