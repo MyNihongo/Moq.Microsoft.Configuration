@@ -6,7 +6,7 @@ internal sealed class ExpandoObjectBuilder
 {
 	private readonly ExpandoObject _instance = new();
 
-	private IDictionary<string, object> Dictionary => _instance;
+	private IDictionary<string, object?> Dictionary => _instance;
 
 	public ExpandoObjectBuilder Set(string property, object data)
 	{

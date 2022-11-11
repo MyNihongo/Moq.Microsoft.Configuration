@@ -26,6 +26,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Remove="*.csproj.DotSettings" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Include="..\images\favico.png">
 			<Pack>True</Pack>
 			<PackagePath />
