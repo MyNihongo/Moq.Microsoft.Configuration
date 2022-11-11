@@ -1,4 +1,4 @@
-﻿namespace Moq.Microsoft.Configuration;
+﻿namespace Moq;
 
 internal static class PathUtils
 {

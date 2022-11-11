@@ -54,7 +54,7 @@ internal sealed class ReturnsClassOfValueGenerator : TestGeneratorValueBase
 
 		static void GenerateTestResult(TypeDetails type, StringBuilder stringBuilder) =>
 			stringBuilder
-				.AppendLine("\tvar strResult = fixture.Object[nameof(value.Value)];")
+				.AppendLine("\tvar strResult = fixture.Object[nameof(value.Value)]!;")
 				.AppendParse(type, "input", "\t")
 				.AppendLine("\tresult.Should().Be(value.Value);");
 	}

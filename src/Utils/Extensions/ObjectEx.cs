@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Moq.Microsoft.Configuration;
+namespace Moq;
 
 internal static class ObjectEx
 {

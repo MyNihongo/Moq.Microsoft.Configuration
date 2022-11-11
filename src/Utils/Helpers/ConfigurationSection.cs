@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Primitives;
 
-namespace Moq.Microsoft.Configuration;
+namespace Moq;
 
 internal sealed class ConfigurationSection : IConfigurationSection
 {
@@ -27,7 +27,7 @@ internal sealed class ConfigurationSection : IConfigurationSection
 	public IChangeToken GetReloadToken() =>
 		throw new NotImplementedException();
 
-	public string this[string key]
+	public string? this[string key]
 	{
 		get => throw new NotImplementedException();
 		set => throw new NotImplementedException();
