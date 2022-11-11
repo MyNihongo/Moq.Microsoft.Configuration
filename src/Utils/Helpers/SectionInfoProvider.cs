@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Reflection;
 
-namespace Moq.Microsoft.Configuration;
+namespace Moq;
 
 internal class SectionInfoProvider
 {

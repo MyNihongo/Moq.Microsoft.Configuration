@@ -4,6 +4,7 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<LangVersion>latest</LangVersion>
+		<RootNamespace>Moq</RootNamespace>
 		<PackageId>MoqMicrosoftConfiguration</PackageId>
 		<ApplicationIcon>favico.ico</ApplicationIcon>
 		<Version>1.0.6-rc2</Version>

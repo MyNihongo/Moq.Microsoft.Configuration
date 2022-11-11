@@ -1,4 +1,4 @@
-﻿namespace Moq.Microsoft.Configuration;
+﻿namespace Moq;
 
 public sealed class EmptyMockConfiguration<T> : Mock<T>
 	where T : class, IConfiguration

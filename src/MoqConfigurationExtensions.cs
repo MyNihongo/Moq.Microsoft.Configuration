@@ -1,4 +1,4 @@
-﻿namespace Moq.Microsoft.Configuration;
+﻿namespace Moq;
 
 public static class MoqConfigurationEx
 {

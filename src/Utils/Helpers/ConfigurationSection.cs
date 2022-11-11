@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Primitives;
 
-namespace Moq.Microsoft.Configuration;
+namespace Moq;
 
 internal sealed class ConfigurationSection : IConfigurationSection
 {
