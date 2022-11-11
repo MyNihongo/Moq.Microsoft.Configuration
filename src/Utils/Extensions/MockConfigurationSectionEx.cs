@@ -9,7 +9,7 @@ internal static class MockConfigurationSectionEx
 		where T : class, IConfiguration
 	{
 		@this
-			.Setup(x => x.GetSection(It.IsAny<string>()))
+			.Setup(static x => x.GetSection(It.IsAny<string>()))
 			.Returns((string x) => new ConfigurationSection(x));
 	}
 
@@ -18,7 +18,7 @@ internal static class MockConfigurationSectionEx
 		var stringValue = value.SerialiseValue()!;
 
 		@this
-			.SetupGet(x => x.Value)
+			.SetupGet(static x => x.Value)
 			.Returns(stringValue);
 
 		@this.SetupPathAccess(key, stringValue);
@@ -27,11 +27,11 @@ internal static class MockConfigurationSectionEx
 	public static void SetupKeyAndPath(this Mock<IConfigurationSection> @this, string key, string basePath)
 	{
 		@this
-			.SetupGet(x => x.Key)
+			.SetupGet(static x => x.Key)
 			.Returns(key);
 
 		@this
-			.SetupGet(x => x.Path)
+			.SetupGet(static x => x.Path)
 			.Returns(PathUtils.Append(basePath, key));
 	}
 
@@ -39,7 +39,7 @@ internal static class MockConfigurationSectionEx
 		where T : class, IConfiguration
 	{
 		@this
-			.Setup(x => x.GetChildren())
+			.Setup(static x => x.GetChildren())
 			.Returns(children);
 	}
 
@@ -64,7 +64,7 @@ internal static class MockConfigurationSectionEx
 		return section;
 	}
 
-	private static void SetupPathAccess<T>(this Mock<T> @this, string relativePath, string value)
+	private static void SetupPathAccess<T>(this Mock<T> @this, string relativePath, string? value)
 		where T : class, IConfiguration
 	{
 		@this
